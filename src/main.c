@@ -6,7 +6,7 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 14:19:38 by ekantane          #+#    #+#             */
-/*   Updated: 2022/10/31 15:59:16 by ekantane         ###   ########.fr       */
+/*   Updated: 2022/10/31 16:30:42 by ekantane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,7 +154,7 @@ int init_sdl(t_rtv	*rtv)
 	SDL_SetRenderDrawColor(rtv->ren, 0xFF, 0xFF, 0xFF, 0xFF);
 	SDL_RenderClear(rtv->ren);
 	/* Draw the Image on rendering surface */
-	init_sdl(rtv);
+	loop(rtv);
 	return 0;
 }
 
