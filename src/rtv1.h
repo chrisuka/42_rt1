@@ -6,7 +6,7 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 14:20:34 by ekantane          #+#    #+#             */
-/*   Updated: 2022/11/02 15:40:24 by ekantane         ###   ########.fr       */
+/*   Updated: 2022/11/02 16:53:50 by ekantane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ typedef struct{
 	float red, green, blue;
 }colour;
 
-/* Material Definition */
+/* Material definition */
 typedef struct{
 	colour diffuse;
 	float reflection;
@@ -65,5 +65,10 @@ typedef struct{
 	vector pos;
 	colour intensity;
 }light;
+
+/* Camera definition */
+typedef struct{
+	vector pos;
+}camera;
 
 #endif

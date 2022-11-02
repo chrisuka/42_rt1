@@ -1,8 +1,11 @@
 spheres.pos.x 300
 spheres.pos.y 300
 spheres.pos.z 0
-spheres.radius 100
+spheres.radius 200
 lights.pos.x 0
 lights.pos.y 240
 lights.pos.z -100
 lights.intensity.red 1
+cam.pos.x 50
+cam.pos.y 50
+cam.pos.z 1500

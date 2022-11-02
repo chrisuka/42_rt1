@@ -6,7 +6,7 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 14:19:38 by ekantane          #+#    #+#             */
-/*   Updated: 2022/11/02 15:37:20 by ekantane         ###   ########.fr       */
+/*   Updated: 2022/11/02 16:53:41 by ekantane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,6 @@ vector vectorAdd(vector *v1, vector *v2)
 	vector result = {v1->x + v2->x, v1->y + v2->y, v1->z + v2->z };
 	return result;
 }
-
-
-
 
 
 
@@ -108,7 +105,6 @@ int min(int a, int b)
 	return (0);
 }
 
-
 void loop(char *arg, t_rtv	*rtv)
 {
 	int x;
@@ -120,7 +116,10 @@ void loop(char *arg, t_rtv	*rtv)
 
 	sphere spheres;
 	light lights;
+	camera cam;
 
+	y = 0;
+	x = 0;
 	char	*line;
 	int		fd;
 	int		ix;
@@ -130,8 +129,7 @@ void loop(char *arg, t_rtv	*rtv)
 	fd = 0;
 	line = NULL;
 	quit = 0;
-	y = 0;
-	x = 0;	
+
 	
 	if ((fd = open(arg, O_RDONLY)) < 0)
 		exit(1);
@@ -154,6 +152,12 @@ void loop(char *arg, t_rtv	*rtv)
 		lights.pos.z = (double)(atoi(spl_res[1]));
 	else if (ft_strequ(spl_res[0], "lights.intensity.red"))
 		lights.intensity.red = (double)(atoi(spl_res[1]));
+	else if (ft_strequ(spl_res[0], "cam.pos.x"))
+		cam.pos.x = (double)(atoi(spl_res[1]));
+	else if (ft_strequ(spl_res[0], "cam.pos.y"))
+		cam.pos.y = (double)(atoi(spl_res[1]));
+	else if (ft_strequ(spl_res[0], "cam.pos.z"))
+		cam.pos.z = (double)(atoi(spl_res[1]));
 		ft_strdel(&line);
 	}
 	ft_strdel(&line);
@@ -171,9 +175,9 @@ void loop(char *arg, t_rtv	*rtv)
 			int level = 0;
 			float coef = 1.0;
 			
-			r.start.x = x;
-			r.start.y = y;
-			r.start.z = -2000;
+			r.start.x = x + cam.pos.x;
+			r.start.y = y + cam.pos.y;
+			r.start.z = -2000 + cam.pos.z;
 			
 			r.dir.x = 0;
 			r.dir.y = 0;
