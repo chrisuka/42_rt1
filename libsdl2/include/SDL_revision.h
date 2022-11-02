@@ -1,2 +1,2 @@
-#define SDL_REVISION "git@vogsphere-v2.hive.fi:vogsphere/intra-uuid-0700b086-4560-49f8-9b16-986be896d712-4305538-ekantane@"
+#define SDL_REVISION "git@github.com:EmmaKantanen/RTv1.git@4d71319f70d35c523613d0d26bfb039c01bed97a"
 #define SDL_REVISION_NUMBER 0

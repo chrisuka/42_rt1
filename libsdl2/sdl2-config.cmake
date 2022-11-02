@@ -1,6 +1,6 @@
 # sdl2 cmake project-config input for ./configure scripts
 
-set(prefix "/Users/ekantane/ekantane_rtv1/build/libsdl2") 
+set(prefix "/Users/ekantane/github_rtv1/build/libsdl2") 
 set(exec_prefix "${prefix}")
 set(libdir "${exec_prefix}/lib")
 set(includedir "${prefix}/include")

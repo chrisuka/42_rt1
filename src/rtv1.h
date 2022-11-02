@@ -6,7 +6,7 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 14:20:34 by ekantane          #+#    #+#             */
-/*   Updated: 2022/10/31 15:57:49 by ekantane         ###   ########.fr       */
+/*   Updated: 2022/11/02 15:40:24 by ekantane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,12 @@
 # include "../libft/libft.h"
 #include <SDL2/SDL.h>
 #include <stdio.h>
+#include <fcntl.h>
 # include <math.h>
 
 # define WIDTH 1920
 # define HEIGHT 1080
+# define SPL spl_res[0]
 
 typedef struct s_rtv
 {
@@ -37,7 +39,7 @@ typedef struct{
 /* The sphere */
 typedef struct{
 	vector pos;
-	float radius;
+	float  radius;
 	int material;
 }sphere; 
 
