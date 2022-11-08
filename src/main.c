@@ -6,7 +6,7 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 14:19:38 by ekantane          #+#    #+#             */
-/*   Updated: 2022/11/02 16:53:41 by ekantane         ###   ########.fr       */
+/*   Updated: 2022/11/08 16:06:34 by ekantane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -215,7 +215,7 @@ void loop(char *arg, t_rtv	*rtv)
 				
 				/* Find the value of the light at this point */
 				j = 0;
-				while (j < 3)
+				while (j < 1)
 				{
 					light currentLight = lights;
 						j++;					
