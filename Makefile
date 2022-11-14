@@ -6,7 +6,7 @@
 #    By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/07 18:36:31 by jjuntune          #+#    #+#              #
-#    Updated: 2022/10/31 16:00:41 by ekantane         ###   ########.fr        #
+#    Updated: 2022/11/10 14:11:55 by ekantane         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,8 @@ libsdl2_ldflags = `$(BUILD_DIR)libsdl2/bin/sdl2-config --libs`
 
 FT_LIBRERY = libft/libft.a
 
-SRC_FILES = $(addprefix $(SRC_DIR), main.c)
+SRC_FILES = $(addprefix $(SRC_DIR), main.c \
+					vector.c)
 
 OBJCT_FILES = $(subst $(SRC_DIR), $(BUILD_DIR), $(SRC_FILES:.c=.o))
 
