@@ -12,11 +12,3 @@
 
 !include/
 !include/*.h
-
-!libft
-!libft/
-!libft/**
-
-!libsdl2
-!libsdl2/
-!libsdl2/**
