@@ -6,24 +6,11 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 14:19:38 by ekantane          #+#    #+#             */
-/*   Updated: 2022/11/14 16:12:15 by ekantane         ###   ########.fr       */
+/*   Updated: 2022/11/17 15:17:13 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <rtv1.h>
-
-void	set_color(t_sdl *sdl, int x, int y)
-{
-	double	p;
-
-	p = sdl->light.new_inten;
-	if (sdl->light.new_inten > 1)
-		sdl->light.new_inten = 1;
-	if (p > 1)
-		p = 1;
-	SDL_SetRenderDrawColor(sdl->rend, sdl->obj[0].col.rgb[0] * p, sdl->obj[0].col.rgb[1] * p, sdl->obj[0].col.rgb[2] * p, 255);
-	SDL_RenderDrawPoint(sdl->rend, x, y);
-}
+#include "../include/rtv1.h"
 
 int		shadow_init(t_light *light, t_sdl *sdl)
 {
