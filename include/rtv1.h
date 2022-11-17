@@ -6,18 +6,21 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 14:20:34 by ekantane          #+#    #+#             */
-/*   Updated: 2022/11/17 19:14:06 by ekantane         ###   ########.fr       */
+/*   Updated: 2022/11/17 20:06:40 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef RTV1_H
 # define RTV1_H
 
-# include "../libft/libft.h"
 # include <SDL2/SDL.h>
 # include <stdio.h>
 # include <fcntl.h>
 # include <math.h>
+
+// TODO: fix Makefile and replace relative paths with just names
+# include "../libft/libft.h"
+# include "../include/vector.h"
 
 # define DWIDTH		800
 # define DHEIGHT	800
@@ -30,14 +33,6 @@
 # define OBJ sdl->obj[0]
 # define SPL spl_res[0]
 // =======================
-
-// vector.h
-typedef struct s_vec
-{
-	double		x;
-	double		y;
-	double		z;
-}	t_vec;
 
 // render.h
 typedef struct s_rgb
@@ -110,16 +105,5 @@ void	init_sdl(t_sdl *sdl);
 int		main(int argc, char **argv);
 void	light(t_sdl *sdl, t_ray *ray);
 void	intersection_check(t_ray *ray, t_sdl *sdl, int x, int y);
-
-t_vec	vec_sum(t_vec v1, t_vec v2);
-double	vec_dot(t_vec v1, t_vec v2);
-double	vec_len(t_vec v1);
-t_vec	vec_scale(t_vec v1, double t);
-t_vec	vec_norm(t_vec v1);
-t_vec	vec_sub(t_vec v1, t_vec v2);
-t_vec	vec_rot(t_vec d, t_vec r);
-t_vec	vec_rotx(t_vec d, double a);
-t_vec	vec_roty(t_vec d, double a);
-t_vec	vec_rotz(t_vec d, double a);
 
 #endif
