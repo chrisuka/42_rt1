@@ -6,7 +6,7 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 14:20:34 by ekantane          #+#    #+#             */
-/*   Updated: 2022/11/17 20:06:40 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/11/17 20:58:11 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 // TODO: fix Makefile and replace relative paths with just names
 # include "../libft/libft.h"
 # include "../include/vector.h"
+# include "../include/scene.h"
 
 # define DWIDTH		800
 # define DHEIGHT	800
@@ -42,39 +43,6 @@ typedef struct s_rgb
 	float	b;
 }	t_rgb;
 
-// scene.h
-typedef struct s_light
-{
-	t_vec	pos;
-	t_vec	p;
-	t_vec	n;
-	double	inten;
-	double	new_inten;
-}	t_light;
-
-typedef struct s_object
-{
-	t_vec			pos;
-	t_rgb			col;
-	t_vec			rot;
-	double			r;
-	double			t;
-	int				name;
-	double			specular;
-}					t_object;
-
-typedef struct s_cam
-{
-	t_vec	pos;
-	t_vec	rot;
-}	t_cam;
-
-typedef struct s_ray
-{
-	t_vec	orig;
-	t_vec	dir;
-}	t_ray;
-
 // rtv1.h
 typedef struct s_sdl
 {
@@ -88,6 +56,11 @@ typedef struct s_sdl
 	t_light			light;
 }	t_sdl;
 
+void	ft_parse(char *arg, t_sdl *sdl);
+
+void	init_sdl(t_sdl *sdl);
+int		main(int argc, char **argv);
+
 int		shadow_init(t_light *light, t_sdl *sdl);
 void	get_intensity(t_sdl *sdl, t_light *light, t_vec v, double s);
 void	get_dir(double x, double y, t_ray *ray, t_sdl *sdl);
@@ -100,9 +73,6 @@ void	sphere(t_sdl *sdl, t_ray *ray, int i, t_object *obj);
 void	cylinder(t_sdl *sdl, t_ray *ray, int i, t_object *obj);
 double	cylinder_intersect(t_vec o, t_vec dir, t_object *obj);
 t_vec	cylinder_normal(t_ray *ray, t_object *obj);
-void	ft_parse(char *arg, t_sdl *sdl);
-void	init_sdl(t_sdl *sdl);
-int		main(int argc, char **argv);
 void	light(t_sdl *sdl, t_ray *ray);
 void	intersection_check(t_ray *ray, t_sdl *sdl, int x, int y);
 
