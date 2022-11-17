@@ -6,11 +6,11 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 14:19:38 by ekantane          #+#    #+#             */
-/*   Updated: 2022/11/10 13:54:40 by ekantane         ###   ########.fr       */
+/*   Updated: 2022/11/16 19:20:19 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <rtv1.h>
+#include "../include/rtv1.h"
 
 double	vec_dot(t_vec v1, t_vec v2)
 {
