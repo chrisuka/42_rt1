@@ -6,7 +6,7 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 14:20:34 by ekantane          #+#    #+#             */
-/*   Updated: 2022/11/17 20:58:11 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/11/17 21:16:11 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,9 @@
 
 // TODO: fix Makefile and replace relative paths with just names
 # include "../libft/libft.h"
-# include "../include/vector.h"
-# include "../include/scene.h"
+# include "vector.h"
+# include "scene.h"
+# include "render.h"
 
 # define DWIDTH		800
 # define DHEIGHT	800
@@ -35,15 +36,6 @@
 # define SPL spl_res[0]
 // =======================
 
-// render.h
-typedef struct s_rgb
-{
-	float	r;
-	float	g;
-	float	b;
-}	t_rgb;
-
-// rtv1.h
 typedef struct s_sdl
 {
 	SDL_Window		*wind;

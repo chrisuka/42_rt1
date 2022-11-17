@@ -1,51 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   scene.h                                            :+:      :+:    :+:   */
+/*   render.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/17 20:57:29 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/11/17 21:14:29 by ikarjala         ###   ########.fr       */
+/*   Created: 2022/11/17 21:15:40 by ikarjala          #+#    #+#             */
+/*   Updated: 2022/11/17 21:18:30 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SCENE_H
-# define SCENE_H
+#ifndef RENDER_H
+# define RENDER_H
 
-# include "render.h"
+// NOTE: if we find no further use for this header file, just move s_rgb to scene.h
+// or back to rtv1.h instead
 
-typedef struct s_light
+typedef struct s_rgb
 {
-	t_vec	pos;
-	t_vec	p;
-	t_vec	n;
-	double	inten;
-	double	new_inten;
-}	t_light;
-
-typedef struct s_object
-{
-	t_vec	pos;
-	t_rgb	col;
-	t_vec	rot;
-	double	r;
-	double	t;
-	int		name;
-	double	specular;
-}	t_object;
-
-typedef struct s_cam
-{
-	t_vec	pos;
-	t_vec	rot;
-}	t_cam;
-
-typedef struct s_ray
-{
-	t_vec	orig;
-	t_vec	dir;
-}	t_ray;
-
+	float	r;
+	float	g;
+	float	b;
+}	t_rgb;
 
 #endif
