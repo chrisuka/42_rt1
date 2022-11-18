@@ -3,15 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   vector.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 20:03:10 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/11/17 20:09:18 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/11/18 15:08:36 by ekantane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef VECTOR_H
 # define VECTOR_H
+
+# include <math.h>
+
+// WARN: get rid of these macros ASAP! they are forbidden!
+# define DTR(a)	((double)a * (M_PI / 180))
 
 typedef struct s_vec
 {

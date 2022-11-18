@@ -6,7 +6,7 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 14:20:34 by ekantane          #+#    #+#             */
-/*   Updated: 2022/11/17 21:16:11 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/11/18 15:08:17 by ekantane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,6 @@
 # define EPS		0.000001
 
 // WARN: get rid of these macros ASAP! they are forbidden!
-# define DTR(a)	((double)a * (M_PI / 180))
-# define OBJ sdl->obj[0]
 # define SPL spl_res[0]
 // =======================
 
@@ -61,7 +59,7 @@ void	ray_trace_init(t_sdl *sdl, t_ray *ray);
 t_vec	sphere_normal(t_ray *ray, t_object *obj);
 double	get_t(double a, double b, double d);
 double	sphere_intersect(t_vec o, t_vec dir, t_object *obj);
-void	sphere(t_sdl *sdl, t_ray *ray, int i, t_object *obj);
+void	object_init(t_sdl *sdl, t_ray *ray, int i, t_object *obj);
 void	cylinder(t_sdl *sdl, t_ray *ray, int i, t_object *obj);
 double	cylinder_intersect(t_vec o, t_vec dir, t_object *obj);
 t_vec	cylinder_normal(t_ray *ray, t_object *obj);

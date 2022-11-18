@@ -6,7 +6,7 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 14:19:38 by ekantane          #+#    #+#             */
-/*   Updated: 2022/11/17 20:43:48 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/11/18 15:23:37 by ekantane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int		shadow_init(t_light *light, t_sdl *sdl)
 	max_t = vec_len(vec_sub(light->pos, light->p));
 	dir = vec_norm(vec_sub(light->pos, light->p));
 	light->p = vec_sum(light->p, vec_scale(dir, EPS));
-	t = sphere_intersect(light->p, dir, &sdl->obj[0]);
+	t = sphere_intersect(light->p, dir, &sdl->obj);
 		if (t > 0.00001 && t < max_t)
 			return (1);
 	return (0);
@@ -98,14 +98,15 @@ double	sphere_intersect(t_vec o, t_vec dir, t_object *obj)
 	return (get_t(a, b, d));
 }
 
-//	a = vec_dot(dir, dir) - (1 + obj->r * obj->r);
-//	b = 2 * (vec_dot(dir, oc) - (1 + obj->r * obj->r) * vec_dot(dir, obj->rot) * vec_dot(oc, obj->rot));
-//	c = vec_dot(oc, oc) - (1 + obj->r * obj->r) * pow(vec_dot(oc, obj->rot), 2);
-
-void	sphere(t_ray *ray, t_object *obj)
+void	object_init(t_sdl *sdl, t_ray *ray, int i, t_object *obj)
 {
 	obj->t = sphere_intersect(ray->orig, ray->dir, obj);
 	obj->rot = vec_norm(obj->rot);
+	if (obj->t > 0 && obj->t < sdl->min_t)
+	{
+		sdl->min_t = obj->t;
+		sdl->clos_obj = i;
+	}
 }
 
 void	get_dir(double x, double y, t_ray *ray, t_sdl *sdl)
@@ -122,8 +123,11 @@ void	ray_trace_init(t_sdl *sdl, t_ray *ray)
 	int		y;
 	double	n_x;
 	double	n_y;
+	int i;
 
 	x = 0;
+	i = 1;
+
 	while (x <= DWIDTH)
 	{
 		y = 0;
@@ -135,11 +139,12 @@ void	ray_trace_init(t_sdl *sdl, t_ray *ray)
 			n_y = 1 - (2 * n_y);
 			get_dir(n_x, n_y, ray, sdl);
 			sdl->min_t = INFINITY;
-			sphere(ray, &sdl->obj[0]);
-			sdl->light.p = vec_sum(ray->orig, vec_scale(ray->dir, OBJ.t));
-			sdl->light.n = sphere_normal(ray, &OBJ);
-			get_intensity(sdl, &sdl->light, vec_scale(ray->dir, -1), OBJ.specular);
-			set_color(sdl, x, y);
+			sdl->clos_obj = 0;
+			object_init(sdl, ray, i, &sdl->obj);
+			sdl->light.p = vec_sum(ray->orig, vec_scale(ray->dir, sdl->obj.t));
+			sdl->light.n = sphere_normal(ray, &sdl->obj);
+			get_intensity(sdl, &sdl->light, vec_scale(ray->dir, -1), sdl->obj.specular);
+			set_color(sdl, sdl->clos_obj, x, y);
 			y++;
 		}
 		x++;

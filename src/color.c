@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   color.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 15:16:12 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/11/17 19:33:34 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/11/18 15:10:24 by ekantane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 /* Return a copy of floating-point color c, converted to unsigned integer 32
  * in format: A R G B   (8 bits / channel)
 */
+/*
 unsigned int	to_rgb(t_color c)
 {
 	return (
@@ -24,3 +25,4 @@ unsigned int	to_rgb(t_color c)
 		& (0xFF << (__CHAR_BIT__ * 3))
 	);
 }
+*/

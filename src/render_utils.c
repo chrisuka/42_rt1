@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 15:16:56 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/11/17 19:58:58 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/11/18 15:10:59 by ekantane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,18 +28,26 @@ void	set_pixel(t_sdl *sdl, int x, int y, unsigned int color)
 }
 #endif
 
-void	set_color(t_sdl *sdl, int x, int y)
+void	set_color(t_sdl *sdl, int i, int x, int y)
 {
 	double	p;
 
 	if (sdl->light.new_inten > 1)
 		sdl->light.new_inten = 1;
 	p = sdl->light.new_inten;
+	if (i == 1)
+	{
 	SDL_SetRenderDrawColor(sdl->rend,
-			sdl->obj[0].col.rgb[0] * p,
-			sdl->obj[0].col.rgb[1] * p,
-			sdl->obj[0].col.rgb[2] * p, 255);
+			sdl->obj.col.r * p,
+			sdl->obj.col.g * p,
+			sdl->obj.col.b * p, 255);
 	SDL_RenderDrawPoint(sdl->rend, x, y);
+	}
+	else
+	{
+		SDL_SetRenderDrawColor(sdl->rend, 0, 0, 0, 255);
+		SDL_RenderDrawPoint(sdl->rend, x, y);
+	}
 }
 
 // SDL_RenderClear == mlx_clear_window
