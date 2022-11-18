@@ -6,7 +6,7 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 14:20:34 by ekantane          #+#    #+#             */
-/*   Updated: 2022/11/18 15:08:17 by ekantane         ###   ########.fr       */
+/*   Updated: 2022/11/18 16:01:17 by ekantane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,6 @@
 # define V_H		40
 # define EPS		0.000001
 
-// WARN: get rid of these macros ASAP! they are forbidden!
-# define SPL spl_res[0]
 // =======================
 
 typedef struct s_sdl
@@ -44,6 +42,7 @@ typedef struct s_sdl
 	int				clos_obj;
 	double			ambient;
 	t_light			light;
+	int				spl_res[0];
 }	t_sdl;
 
 void	ft_parse(char *arg, t_sdl *sdl);
