@@ -6,13 +6,13 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 14:19:38 by ekantane          #+#    #+#             */
-/*   Updated: 2022/11/19 02:30:54 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/11/19 18:22:50 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rtv1.h"
 
-int		shadow_init(t_light *light, t_sdl *sdl)
+static int	shadow_init(t_light *light, t_sdl *sdl)
 {
 	double	max_t;
 	double	t;
@@ -28,7 +28,7 @@ int		shadow_init(t_light *light, t_sdl *sdl)
 	return (0);
 }
 
-void	get_intensity(t_sdl *sdl, t_light *light, t_vec v, double s)
+static void	get_intensity(t_sdl *sdl, t_light *light, t_vec v, double s)
 {
 	double	n_dot_l;
 	double	r_dot_v;
@@ -151,16 +151,21 @@ void	ray_trace_init(t_sdl *sdl, t_ray *ray)
 	}
 }
 
-void	init_sdl(t_sdl *sdl)
+static inline int	init_sdl(t_sdl *sdl)
 {
-	if (SDL_Init(SDL_INIT_EVERYTHING) >= 0)
-		if ((sdl->wind = SDL_CreateWindow("RTv1", SDL_WINDOWPOS_UNDEFINED,
-						SDL_WINDOWPOS_UNDEFINED, DWIDTH,
-						DHEIGHT, SDL_WINDOW_SHOWN)))
-			if ((sdl->rend = SDL_CreateRenderer(sdl->wind, -1,
-							SDL_RENDERER_ACCELERATED)))
-				return ;
-	exit(0);
+	const char	error_msg[] = "Failed to initialize SDL.";
+	const void	(*errhook) = NULL;
+
+	sdl->pstatus = ECONTINUE;
+	if (SDL_Init(esdl_dev) != 0)
+		return (panic (error_msg, errhook));
+	sdl->wind = SDL_CreateWindow ( WIN_TITLE,
+		SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
+		DWIDTH, DHEIGHT, SDL_WINDOW_SHOWN);
+	sdl->rend = SDL_CreateRenderer (sdl->wind, -1, SDL_RENDERER_ACCELERATED);
+	if (sdl->wind == NULL || sdl->rend == NULL)
+		return (panic (error_msg, errhook));
+	return (0);
 }
 
 int		main(int argc, char **argv)
@@ -169,7 +174,8 @@ int		main(int argc, char **argv)
 	t_ray		ray;
 	SDL_Event	event;
 
-	init_sdl(&sdl);
+	if (init_sdl(&sdl) == -1)
+		return (-1);
 	ft_parse(argv[1], &sdl);
 	if (argc != 2 || !argv[1])
 		exit (1);
@@ -178,10 +184,15 @@ int		main(int argc, char **argv)
 	ray.orig.z = sdl.cam.pos.z;
 	ray_trace_init(&sdl, &ray);
 	SDL_RenderPresent(sdl.rend);
-	while (1)
-		while (SDL_PollEvent(&event))
-			if ((SDL_QUIT == event.type) || (SDL_KEYDOWN == event.type &&
-				SDL_SCANCODE_ESCAPE == event.key.keysym.scancode))
-				exit(0);
+	while (sdl.pstatus == ECONTINUE)
+	{
+		if (SDL_PollEvent(&event))
+		{
+			if ((SDL_QUIT == event.type) || (SDL_KEYDOWN == event.type
+				&& SDL_SCANCODE_ESCAPE == event.key.keysym.scancode))
+					sdl.pstatus = EEXIT;
+		}
+	}
+	// free everything here, then exit with main return
 	return (0);
 }

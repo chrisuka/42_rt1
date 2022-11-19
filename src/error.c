@@ -1,30 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   render.h                                           :+:      :+:    :+:   */
+/*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/17 21:15:40 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/11/19 17:58:57 by ikarjala         ###   ########.fr       */
+/*   Created: 2022/11/19 17:45:23 by ikarjala          #+#    #+#             */
+/*   Updated: 2022/11/19 18:09:37 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef RENDER_H
-# define RENDER_H
+#include "rtv1.h"
 
-// NOTE: if we find no further use for this header file, just move s_rgb to scene.h
-// or back to rtv1.h instead
-
-typedef struct s_rgb
+/* Write a message to STDERROR, optionally call a function and return -1.
+ * This function can be i.e. something that frees all malloced program data.
+ * Intended for easy "panic" shutdowns of the program in case of internal error.
+*/
+int	panic(const char *msg, void (*hook)(void))
 {
-	float	r;
-	float	g;
-	float	b;
-}	t_rgb;
-
-enum e_sdl_init_flags {
-	esdl_dev = SDL_INIT_VIDEO
-};
-
-#endif
+	ft_putendl_fd (msg, 2);
+	hook ();
+	return (-1);
+}

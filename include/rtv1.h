@@ -6,7 +6,7 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 14:20:34 by ekantane          #+#    #+#             */
-/*   Updated: 2022/11/19 02:44:39 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/11/19 18:22:56 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,17 @@
 # include "scene.h"
 # include "render.h"
 
+# define BIN_NAME	"rtv1"
+# define WIN_TITLE	"RT (v1)"
+
 # define DWIDTH		800
 # define DHEIGHT	800
 # define V_W		40
 # define V_H		40
 # define EPS		0.000001
+
+# define ECONTINUE	0
+# define EEXIT		1
 
 // =======================
 
@@ -42,15 +48,12 @@ typedef struct s_sdl
 	double			ambient;
 	t_light			light;
 	int				spl_res[0];
+
+	unsigned int	pstatus;
 }	t_sdl;
 
 void	ft_parse(char *arg, t_sdl *sdl);
 
-void	init_sdl(t_sdl *sdl);
-int		main(int argc, char **argv);
-
-int		shadow_init(t_light *light, t_sdl *sdl);
-void	get_intensity(t_sdl *sdl, t_light *light, t_vec v, double s);
 void	get_dir(double x, double y, t_ray *ray, t_sdl *sdl);
 void	set_color(t_sdl *sdl, int i, int x, int y);
 void	ray_trace_init(t_sdl *sdl, t_ray *ray);
@@ -63,5 +66,8 @@ double	cylinder_intersect(t_vec o, t_vec dir, t_object *obj);
 t_vec	cylinder_normal(t_ray *ray, t_object *obj);
 void	light(t_sdl *sdl, t_ray *ray);
 void	intersection_check(t_ray *ray, t_sdl *sdl, int x, int y);
+
+/*/ error.c /// */
+int		panic(const char *msg, void (*hook)(void));
 
 #endif
