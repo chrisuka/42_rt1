@@ -6,11 +6,11 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 14:19:38 by ekantane          #+#    #+#             */
-/*   Updated: 2022/11/18 15:23:37 by ekantane         ###   ########.fr       */
+/*   Updated: 2022/11/19 02:30:54 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/rtv1.h"
+#include "rtv1.h"
 
 int		shadow_init(t_light *light, t_sdl *sdl)
 {

@@ -6,20 +6,19 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 14:20:34 by ekantane          #+#    #+#             */
-/*   Updated: 2022/11/18 16:01:17 by ekantane         ###   ########.fr       */
+/*   Updated: 2022/11/19 02:44:39 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef RTV1_H
 # define RTV1_H
 
-# include <SDL2/SDL.h>
+# include <SDL.h>
 # include <stdio.h>
 # include <fcntl.h>
 # include <math.h>
 
-// TODO: fix Makefile and replace relative paths with just names
-# include "../libft/libft.h"
+# include "libft.h"
 # include "vector.h"
 # include "scene.h"
 # include "render.h"

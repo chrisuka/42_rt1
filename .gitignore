@@ -3,6 +3,7 @@
 !.gitmodules
 !author
 !Makefile
+!config.mk
 
 !eval_tests/
 !eval_tests/*.test
