@@ -6,7 +6,7 @@
 !config.mk
 
 !eval_tests/
-!eval_tests/*.test
+!eval_tests/*.scene
 
 !src/
 !src/*.c
