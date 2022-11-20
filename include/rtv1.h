@@ -6,7 +6,7 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 14:20:34 by ekantane          #+#    #+#             */
-/*   Updated: 2022/11/20 20:34:00 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/11/20 21:01:08 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ void	get_dir(double x, double y, t_ray *ray, t_sdl *sdl);
 
 double	sphere_intersect(t_vec o, t_vec dir, t_object *obj);
 double	cylinder_intersect(t_vec o, t_vec dir, t_object *obj);
+double	cone_intersect(t_vec o, t_vec dir, t_object *obj);
 void	intersection_check(t_ray *ray, t_sdl *sdl, int x, int y);
 /*/ error.c ============================================================| ///*/
 
