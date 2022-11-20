@@ -6,13 +6,13 @@
 #    By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/18 22:41:30 by ikarjala          #+#    #+#              #
-#    Updated: 2022/11/19 02:42:13 by ikarjala         ###   ########.fr        #
+#    Updated: 2022/11/20 17:13:30 by ikarjala         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 OS	:= $(shell uname -s)
 
-MAKEFLAGS	:= --load-average 2.5
+MAKEARGS	:= --load-average=2.5 --jobs=4
 
 ECHO 	:= echo
 TOUCH	:= touch

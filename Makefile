@@ -6,7 +6,7 @@
 #    By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/19 01:31:36 by ikarjala          #+#    #+#              #
-#    Updated: 2022/11/19 02:40:01 by ikarjala         ###   ########.fr        #
+#    Updated: 2022/11/20 17:13:05 by ikarjala         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -52,7 +52,7 @@ $(OBJ_DIR):
 	@$(MKDIR) $(@)
 	
 $(LIB_NAME):
-	@$(MAKE) --directory=$(@D) $(MAKEFLAGS) all
+	$(MAKE) --directory=$(@D) $(MAKEARGS) all
 #-- CLEANUP ---------------------------|----//--||
 clean:
 	@$(ECHO)	"Cleaning objects..."
