@@ -6,7 +6,7 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 14:19:38 by ekantane          #+#    #+#             */
-/*   Updated: 2022/11/19 18:22:50 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/11/20 19:11:14 by ekantane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int	shadow_init(t_light *light, t_sdl *sdl)
 	max_t = vec_len(vec_sub(light->pos, light->p));
 	dir = vec_norm(vec_sub(light->pos, light->p));
 	light->p = vec_sum(light->p, vec_scale(dir, EPS));
-	t = sphere_intersect(light->p, dir, &sdl->obj);
+	t = cone_intersect(light->p, dir, &sdl->obj);
 		if (t > 0.00001 && t < max_t)
 			return (1);
 	return (0);
@@ -53,6 +53,76 @@ static void	get_intensity(t_sdl *sdl, t_light *light, t_vec v, double s)
 		if (r_dot_v > EPS)
 			light->new_inten += inten * pow((r_dot_v / (vec_len(r) * vec_len(v))), s);
 	}
+}
+
+t_vec	cone_normal(t_ray *ray, t_object *obj)
+{
+	double	m;
+	t_vec	n;
+	t_vec	p;
+
+	m = obj->t * vec_dot(ray->dir, obj->rot) +
+	vec_dot(vec_sub(ray->orig, obj->pos), obj->rot);
+	p = vec_sum(ray->orig, vec_scale(ray->dir, obj->t));
+	n = vec_scale(vec_scale(obj->rot, m), (1 + obj->r * obj->r));
+	n = vec_norm(vec_sub(vec_sub(p, obj->pos), n));
+	if (vec_dot(ray->dir, n) > EPS)
+		n = vec_scale(n, -1);
+	return (n);
+}
+
+t_vec	cylinder_normal(t_ray *ray, t_object *obj)
+{
+	double	m;
+	t_vec	n;
+	t_vec	p;
+
+	m = obj->t * vec_dot(ray->dir, obj->rot) +
+	vec_dot(vec_sub(ray->orig, obj->pos), obj->rot);
+	p = vec_sum(ray->orig, vec_scale(ray->dir, obj->t));
+	n = vec_norm(vec_sub(vec_sub(p, obj->pos), vec_scale(obj->rot, m)));
+	if (vec_dot(ray->dir, n) > EPS)
+		n = vec_scale(n, -1);
+	return (n);
+}
+
+double	cone_intersect(t_vec o, t_vec dir, t_object *obj)
+{
+	double	a;
+	double	b;
+	double	c;
+	double	d;
+	t_vec	x;
+	double	m;
+
+	m = pow(obj->r, 2) / vec_dot(dir, dir);
+	x = vec_sub(o, obj->pos);
+	
+	a = vec_dot(dir, dir) - m * pow(vec_dot(dir, obj->rot), 2) - pow(vec_dot(dir, obj->rot), 2);
+	b = 2 * ((vec_dot(dir, x) - (m * vec_dot(dir, obj->rot)) * vec_dot(x, obj->rot) - vec_dot(dir, obj->rot) * vec_dot(x, obj->rot)));
+	c = vec_dot(x, x) - (m * pow(vec_dot(x, obj->rot), 2)) - pow(vec_dot(x, obj->rot), 2);
+	d = b * b - 4 * a * c;
+	if (d < 0)
+		return (-1);
+	return (get_t(a, b, d));
+}
+
+double	cylinder_intersect(t_vec o, t_vec dir, t_object *obj)
+{
+	double	a;
+	double	b;
+	double	c;
+	double	d;
+	t_vec	x;
+
+	x = vec_sub(o, obj->pos);
+	a = vec_dot(dir, dir) - pow(vec_dot(dir, obj->rot), 2);
+	b = 2 * (vec_dot(dir, x) - (vec_dot(dir, obj->rot) * vec_dot(x, obj->rot)));
+	c = vec_dot(x, x) - pow(vec_dot(x, obj->rot), 2) - pow(obj->r, 2);
+	d = b * b - 4 * a * c;
+	if (d < 0)
+		return (-1);
+	return (get_t(a, b, d));
 }
 
 t_vec	sphere_normal(t_ray *ray, t_object *obj)
@@ -100,7 +170,7 @@ double	sphere_intersect(t_vec o, t_vec dir, t_object *obj)
 
 void	object_init(t_sdl *sdl, t_ray *ray, int i, t_object *obj)
 {
-	obj->t = sphere_intersect(ray->orig, ray->dir, obj);
+	obj->t = cone_intersect(ray->orig, ray->dir, obj);
 	obj->rot = vec_norm(obj->rot);
 	if (obj->t > 0 && obj->t < sdl->min_t)
 	{
@@ -142,7 +212,7 @@ void	ray_trace_init(t_sdl *sdl, t_ray *ray)
 			sdl->clos_obj = 0;
 			object_init(sdl, ray, i, &sdl->obj);
 			sdl->light.p = vec_sum(ray->orig, vec_scale(ray->dir, sdl->obj.t));
-			sdl->light.n = sphere_normal(ray, &sdl->obj);
+			sdl->light.n = cone_normal(ray, &sdl->obj);
 			get_intensity(sdl, &sdl->light, vec_scale(ray->dir, -1), sdl->obj.specular);
 			set_color(sdl, sdl->clos_obj, x, y);
 			y++;

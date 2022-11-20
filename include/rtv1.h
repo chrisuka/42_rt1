@@ -6,7 +6,7 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 14:20:34 by ekantane          #+#    #+#             */
-/*   Updated: 2022/11/19 18:22:56 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/11/20 19:01:18 by ekantane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,11 @@ double	cylinder_intersect(t_vec o, t_vec dir, t_object *obj);
 t_vec	cylinder_normal(t_ray *ray, t_object *obj);
 void	light(t_sdl *sdl, t_ray *ray);
 void	intersection_check(t_ray *ray, t_sdl *sdl, int x, int y);
+
+double	cone_intersect(t_vec o, t_vec dir, t_object *obj);
+t_vec	cone_normal(t_ray *ray, t_object *obj);
+double	cylinder_intersect(t_vec o, t_vec dir, t_object *obj);
+t_vec	cylinder_normal(t_ray *ray, t_object *obj);
 
 /*/ error.c /// */
 int		panic(const char *msg, void (*hook)(void));
