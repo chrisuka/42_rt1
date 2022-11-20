@@ -6,7 +6,7 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 14:19:38 by ekantane          #+#    #+#             */
-/*   Updated: 2022/11/19 18:22:50 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/11/20 20:16:04 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,18 +153,19 @@ void	ray_trace_init(t_sdl *sdl, t_ray *ray)
 
 static inline int	init_sdl(t_sdl *sdl)
 {
-	const char	error_msg[] = "Failed to initialize SDL.";
+	const char	error_msg[] = "Unable to initialize SDL.";
 	const void	(*errhook) = NULL;
 
 	sdl->pstatus = ECONTINUE;
 	if (SDL_Init(esdl_dev) != 0)
-		return (panic (error_msg, errhook));
+		return (ft_panic (error_msg, errhook));
 	sdl->wind = SDL_CreateWindow ( WIN_TITLE,
 		SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
 		DWIDTH, DHEIGHT, SDL_WINDOW_SHOWN);
 	sdl->rend = SDL_CreateRenderer (sdl->wind, -1, SDL_RENDERER_ACCELERATED);
-	if (sdl->wind == NULL || sdl->rend == NULL)
-		return (panic (error_msg, errhook));
+	sdl->vtex = SDL_CreateTexture (sdl->rend, esdl_pxformat, SDL_TEXTUREACCESS_TARGET, DWIDTH, DHEIGHT);
+	if (sdl->wind == NULL || sdl->rend == NULL || sdl->vtex == NULL)
+		return (ft_panic (error_msg, errhook));
 	return (0);
 }
 
@@ -186,13 +187,14 @@ int		main(int argc, char **argv)
 	SDL_RenderPresent(sdl.rend);
 	while (sdl.pstatus == ECONTINUE)
 	{
-		if (SDL_PollEvent(&event))
+		while (SDL_PollEvent(&event))
 		{
 			if ((SDL_QUIT == event.type) || (SDL_KEYDOWN == event.type
-				&& SDL_SCANCODE_ESCAPE == event.key.keysym.scancode))
-					sdl.pstatus = EEXIT;
+			&& SDL_SCANCODE_ESCAPE == event.key.keysym.scancode))
+				sdl.pstatus = EEXIT;
 		}
 	}
 	// free everything here, then exit with main return
-	return (0);
+	SDL_Quit ();
+	return (XC_EXIT);
 }

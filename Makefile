@@ -6,7 +6,7 @@
 #    By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/19 01:31:36 by ikarjala          #+#    #+#              #
-#    Updated: 2022/11/20 17:13:05 by ikarjala         ###   ########.fr        #
+#    Updated: 2022/11/20 19:44:00 by ikarjala         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ OBJ_DIR	:= obj/
 INC_DIR	:= include/ libft/
 
 CFUNC	=\
-main vector color render_utils parser
+main vector color render_utils parser error
 
 SDL_DIR		:= build/libsdl2/
 SDL_CC		:= $(shell $(SDL_DIR)bin/sdl2-config --cflags)
@@ -52,7 +52,7 @@ $(OBJ_DIR):
 	@$(MKDIR) $(@)
 	
 $(LIB_NAME):
-	$(MAKE) --directory=$(@D) $(MAKEARGS) all
+	@$(MAKE) --directory=$(@D) $(MAKEFLAGS) $(MAKEARGS) all
 #-- CLEANUP ---------------------------|----//--||
 clean:
 	@$(ECHO)	"Cleaning objects..."
