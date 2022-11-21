@@ -6,23 +6,23 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 21:15:40 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/11/20 20:04:08 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/11/20 21:47:58 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef RENDER_H
 # define RENDER_H
 
-typedef struct s_rgb
+typedef struct s_rgb_floating
 {
 	float	r;
 	float	g;
 	float	b;
-}	t_rgb;
+}	t_rgbf;
 
 /* Union representing a pixel's colors in a format suitable for a texture.
  * Bit depth of 8 (8 bits or 256 values / channel) in format [AA][RR][GG][BB].
- * Since the Alpha channel is not useful for rendering,
+ * Since the Alpha channel is not super useful for rendering,
  * we can use it to store metadata instead.
 */
 typedef union u_pixel32 {
@@ -34,11 +34,13 @@ typedef union u_pixel32 {
 	unsigned int	r : 8;
 	unsigned int	g : 8;
 	unsigned int	b : 8;
-}	t_pixel;
+}	t_pixel; // WARN: UNTESTED, DO NOT USE
 
-enum e_sdl_init_flags {
+enum e_sdl_settings {
 	esdl_dev = SDL_INIT_VIDEO,
-	esdl_pxformat = SDL_PIXELFORMAT_RGBA8888
+	esdl_pxformat = SDL_PIXELFORMAT_ARGB8888,
+	esdl_winpos = SDL_WINDOWPOS_CENTERED,
+	esdl_winflags = SDL_WINDOW_SHOWN
 };
 
 #endif

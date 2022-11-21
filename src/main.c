@@ -6,7 +6,7 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 14:19:38 by ekantane          #+#    #+#             */
-/*   Updated: 2022/11/20 20:59:46 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/11/21 17:44:11 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -228,34 +228,39 @@ static inline int	init_sdl(t_sdl *sdl)
 	const void	(*errhook) = NULL;
 
 	sdl->pstatus = ECONTINUE;
-	if (SDL_Init(esdl_dev) != 0)
+	if (SDL_Init (esdl_dev) != 0)
 		return (ft_panic (error_msg, errhook));
-	sdl->wind = SDL_CreateWindow ( WIN_TITLE,
-		SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-		DWIDTH, DHEIGHT, SDL_WINDOW_SHOWN);
-	sdl->rend = SDL_CreateRenderer (sdl->wind, -1, SDL_RENDERER_ACCELERATED);
-	sdl->vtex = SDL_CreateTexture (sdl->rend, esdl_pxformat, SDL_TEXTUREACCESS_TARGET, DWIDTH, DHEIGHT);
-	if (sdl->wind == NULL || sdl->rend == NULL || sdl->vtex == NULL)
+	sdl->rend = NULL;
+	sdl->wind = SDL_CreateWindow (
+		WIN_TITLE, esdl_winpos, esdl_winpos,
+		DWIDTH, DHEIGHT, esdl_winflags);
+	sdl->surf = SDL_GetWindowSurface (sdl->wind);
+	if (!sdl->wind || !sdl->surf)
 		return (ft_panic (error_msg, errhook));
+	ft_bzero (sdl->vbuf, sizeof(sdl->vbuf));
 	return (0);
 }
 
+/* args
+ * parse
+ * SDL init
+ * events -> render
+*/
 int		main(int argc, char **argv)
 {
 	t_sdl		sdl;
 	t_ray		ray;
 	SDL_Event	event;
 
-	if (init_sdl(&sdl) == -1)
-		return (-1);
-	ft_parse(argv[1], &sdl);
-	if (argc != 2 || !argv[1])
-		exit (1);
+	if ((argc != 2 || !argv[1]) // TODO: print usage
+	|| (init_sdl(&sdl) == -1))
+		return (XC_ERROR);
+	ft_parse (argv[1], &sdl);
 	ray.orig.x = sdl.cam.pos.x;
 	ray.orig.y = sdl.cam.pos.y;
 	ray.orig.z = sdl.cam.pos.z;
 	ray_trace_init(&sdl, &ray);
-	SDL_RenderPresent(sdl.rend);
+	render (&sdl);
 	while (sdl.pstatus == ECONTINUE)
 	{
 		while (SDL_PollEvent(&event))

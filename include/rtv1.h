@@ -6,7 +6,7 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 14:20:34 by ekantane          #+#    #+#             */
-/*   Updated: 2022/11/20 21:01:08 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/11/21 17:25:25 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,11 @@
 
 # define BIN_NAME	"rtv1"
 # define WIN_TITLE	"RT (v1)"
-
 # define DWIDTH		800
 # define DHEIGHT	800
+
+# define MAX_BOUNCE	2
+
 # define V_W		40
 # define V_H		40
 # define EPS		0.000001
@@ -36,13 +38,14 @@
 # define EEXIT		1
 
 # define XC_EXIT	0
+# define XC_ERROR	1
 
 typedef struct s_sdl_data
 {
 	unsigned int	pstatus;
 	SDL_Window		*wind;
 	SDL_Renderer	*rend;
-	SDL_Texture		*vtex;
+	SDL_Surface		*surf;
 	unsigned int	vbuf[DWIDTH][DHEIGHT];
 
 	// TODO: move these to s_context in scene.h
@@ -82,5 +85,9 @@ void	intersection_check(t_ray *ray, t_sdl *sdl, int x, int y);
 /*/ error.c ============================================================| ///*/
 
 int		ft_panic(const char *msg, void (*hook)(void));
+
+/*/ render.c ===========================================================| ///*/
+
+void	render(t_sdl *sdl);
 
 #endif

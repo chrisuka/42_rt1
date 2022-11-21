@@ -6,7 +6,7 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 15:16:56 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/11/18 15:10:59 by ekantane         ###   ########.fr       */
+/*   Updated: 2022/11/20 21:58:42 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,12 +49,3 @@ void	set_color(t_sdl *sdl, int i, int x, int y)
 		SDL_RenderDrawPoint(sdl->rend, x, y);
 	}
 }
-
-// SDL_RenderClear == mlx_clear_window
-//
-// SDL_LockTexture		: lock texture for write-only mode so we can edit safely
-// memmove vbuf => tex_buf
-// SDL_UnlockTexture	: give texture back read access
-//
-// SDL_RenderCopy		: copy texture to render target
-// SDL_RenderPresent == mlx_put_img_to_window
