@@ -6,7 +6,7 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 14:19:38 by ekantane          #+#    #+#             */
-/*   Updated: 2022/11/21 17:44:11 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/11/21 18:19:22 by ekantane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,7 @@ t_vec	cone_normal(t_ray *ray, t_object *obj)
 	t_vec	n;
 	t_vec	p;
 
-	m = obj->t * vec_dot(ray->dir, obj->rot) +
-	vec_dot(vec_sub(ray->orig, obj->pos), obj->rot);
+	m = obj->t * vec_dot(ray->dir, obj->rot) + vec_dot(vec_sub(ray->orig, obj->pos), obj->rot);
 	p = vec_sum(ray->orig, vec_scale(ray->dir, obj->t));
 	n = vec_scale(vec_scale(obj->rot, m), (1 + obj->r * obj->r));
 	n = vec_norm(vec_sub(vec_sub(p, obj->pos), n));
@@ -78,13 +77,33 @@ t_vec	cylinder_normal(t_ray *ray, t_object *obj)
 	t_vec	n;
 	t_vec	p;
 
-	m = obj->t * vec_dot(ray->dir, obj->rot) +
-	vec_dot(vec_sub(ray->orig, obj->pos), obj->rot);
+	m = obj->t * vec_dot(ray->dir, obj->rot) + vec_dot(vec_sub(ray->orig, obj->pos), obj->rot);
 	p = vec_sum(ray->orig, vec_scale(ray->dir, obj->t));
 	n = vec_norm(vec_sub(vec_sub(p, obj->pos), vec_scale(obj->rot, m)));
 	if (vec_dot(ray->dir, n) > EPS)
 		n = vec_scale(n, -1);
 	return (n);
+}
+
+t_vec	plane_normal(t_ray *ray, t_object *obj)
+{
+	if (vec_dot(ray->dir, obj->rot) < 0)
+		return (obj->rot);
+	return (vec_scale(obj->rot, -1));
+}
+
+double	plane_intersect(t_vec o, t_vec dir, t_object *obj)
+{
+	double	a;
+	double	b;
+	double	t;
+	
+	a = vec_dot(vec_sub(o, obj->pos), obj->rot);
+	b = vec_dot(dir, obj->rot);
+	t = -a / b;
+	if (b == 0 || (a < 0 && b < 0) || (a > 0 && b > 0) || t < EPS)
+		return (-1);
+	return (t);
 }
 
 double	cone_intersect(t_vec o, t_vec dir, t_object *obj)
@@ -96,7 +115,7 @@ double	cone_intersect(t_vec o, t_vec dir, t_object *obj)
 	t_vec	x;
 	double	m;
 
-	m = pow(obj->r, 2) / vec_dot(dir, dir);
+	m = pow(obj->r, 2);
 	x = vec_sub(o, obj->pos);
 	
 	a = vec_dot(dir, dir) - m * pow(vec_dot(dir, obj->rot), 2) - pow(vec_dot(dir, obj->rot), 2);

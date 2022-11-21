@@ -1,10 +1,10 @@
 sphere.pos.x 0
 sphere.pos.y 0
-sphere.pos.z 2500
-sphere.rot.x 1
-sphere.rot.y 0
-sphere.rot.z 0
-sphere.radius 100
+sphere.pos.z 60
+sphere.rot.x 0
+sphere.rot.y 1
+sphere.rot.z 1
+sphere.radius 1
 light.pos.x 3000
 light.pos.y 40
 light.pos.z -100
@@ -13,8 +13,8 @@ colorB 0
 colorG 255
 light.intensity 60
 cam.pos.x 0
-cam.pos.y 0
-cam.pos.z -3500
+cam.pos.y 1
+cam.pos.z -25
 cam.rot.x 0
 cam.rot.y 0
 cam.rot.z 0
