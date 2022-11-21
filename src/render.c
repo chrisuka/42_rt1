@@ -6,7 +6,7 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 21:35:43 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/11/21 17:50:17 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/11/21 22:10:27 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,9 @@
 
 void	render(t_sdl *sdl)
 {
-	int x;
-	int y;
+	int	x;
+	int	y;
+	//unsigned int	*px; // if we want to iterate the surface buffer directly
 
 	SDL_LockSurface (sdl->surf);
 	x = -1;
@@ -25,8 +26,7 @@ void	render(t_sdl *sdl)
 		y = -1;
 		while (++y < DHEIGHT)
 		{
-			// for testing, just set every pixel to red
-			//sdl->vbuf [x][y] = 0x00FF0000;
+			//sdl->vbuf [x][y] = raytrace (project_ray_from_camera (sdl->cam));
 		}
 	}
 	ft_memmove (sdl->surf->pixels, sdl->vbuf, sizeof(sdl->vbuf));

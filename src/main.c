@@ -6,7 +6,7 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 14:19:38 by ekantane          #+#    #+#             */
-/*   Updated: 2022/11/21 18:19:22 by ekantane         ###   ########.fr       */
+/*   Updated: 2022/11/21 22:10:22 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,8 @@ t_vec	cone_normal(t_ray *ray, t_object *obj)
 	t_vec	n;
 	t_vec	p;
 
-	m = obj->t * vec_dot(ray->dir, obj->rot) + vec_dot(vec_sub(ray->orig, obj->pos), obj->rot);
+	m = obj->t * vec_dot(ray->dir, obj->rot) +
+	vec_dot(vec_sub(ray->orig, obj->pos), obj->rot);
 	p = vec_sum(ray->orig, vec_scale(ray->dir, obj->t));
 	n = vec_scale(vec_scale(obj->rot, m), (1 + obj->r * obj->r));
 	n = vec_norm(vec_sub(vec_sub(p, obj->pos), n));
@@ -77,33 +78,13 @@ t_vec	cylinder_normal(t_ray *ray, t_object *obj)
 	t_vec	n;
 	t_vec	p;
 
-	m = obj->t * vec_dot(ray->dir, obj->rot) + vec_dot(vec_sub(ray->orig, obj->pos), obj->rot);
+	m = obj->t * vec_dot(ray->dir, obj->rot) +
+	vec_dot(vec_sub(ray->orig, obj->pos), obj->rot);
 	p = vec_sum(ray->orig, vec_scale(ray->dir, obj->t));
 	n = vec_norm(vec_sub(vec_sub(p, obj->pos), vec_scale(obj->rot, m)));
 	if (vec_dot(ray->dir, n) > EPS)
 		n = vec_scale(n, -1);
 	return (n);
-}
-
-t_vec	plane_normal(t_ray *ray, t_object *obj)
-{
-	if (vec_dot(ray->dir, obj->rot) < 0)
-		return (obj->rot);
-	return (vec_scale(obj->rot, -1));
-}
-
-double	plane_intersect(t_vec o, t_vec dir, t_object *obj)
-{
-	double	a;
-	double	b;
-	double	t;
-	
-	a = vec_dot(vec_sub(o, obj->pos), obj->rot);
-	b = vec_dot(dir, obj->rot);
-	t = -a / b;
-	if (b == 0 || (a < 0 && b < 0) || (a > 0 && b > 0) || t < EPS)
-		return (-1);
-	return (t);
 }
 
 double	cone_intersect(t_vec o, t_vec dir, t_object *obj)
@@ -115,7 +96,7 @@ double	cone_intersect(t_vec o, t_vec dir, t_object *obj)
 	t_vec	x;
 	double	m;
 
-	m = pow(obj->r, 2);
+	m = pow(obj->r, 2) / vec_dot(dir, dir);
 	x = vec_sub(o, obj->pos);
 	
 	a = vec_dot(dir, dir) - m * pow(vec_dot(dir, obj->rot), 2) - pow(vec_dot(dir, obj->rot), 2);
@@ -199,21 +180,16 @@ void	object_init(t_sdl *sdl, t_ray *ray, int i, t_object *obj)
 	}
 }
 
-void	get_dir(double x, double y, t_ray *ray, t_sdl *sdl)
-{
-	ray->dir.x = x * (V_W / (double)DWIDTH);
-	ray->dir.y = y * (V_H / (double)DHEIGHT);
-	ray->dir.z = 1.0;
-	ray->dir = vec_rot(ray->dir, sdl->cam.rot);
-}
-
 void	ray_trace_init(t_sdl *sdl, t_ray *ray)
 {
 	int		x;
 	int		y;
+	int		i;
+
+#if 0
 	double	n_x;
 	double	n_y;
-	int i;
+#endif
 
 	x = 0;
 	i = 1;
@@ -221,13 +197,18 @@ void	ray_trace_init(t_sdl *sdl, t_ray *ray)
 	while (x <= DWIDTH)
 	{
 		y = 0;
+#if 0
 		n_x = (x + 0.5) / (double)DWIDTH;
 		n_x = 2 * n_x - 1;
+#endif
 		while (y <= DHEIGHT)
 		{
+#if 0
 			n_y = (y + 0.5) / (double)DHEIGHT;
 			n_y = 1 - (2 * n_y);
-			get_dir(n_x, n_y, ray, sdl);
+#endif
+			*ray = project_ray_from_camera (sdl->cam);
+			//get_dir(n_x, n_y, ray, sdl);
 			sdl->min_t = INFINITY;
 			sdl->clos_obj = 0;
 			object_init(sdl, ray, i, &sdl->obj);
@@ -274,10 +255,10 @@ int		main(int argc, char **argv)
 	if ((argc != 2 || !argv[1]) // TODO: print usage
 	|| (init_sdl(&sdl) == -1))
 		return (XC_ERROR);
-	ft_parse (argv[1], &sdl);
-	ray.orig.x = sdl.cam.pos.x;
-	ray.orig.y = sdl.cam.pos.y;
-	ray.orig.z = sdl.cam.pos.z;
+	ft_parse (argv[1], &sdl); // TODO: this should be before sdl init
+#if 1
+	ray = (t_ray){.orig = sdl.cam.pos, .dir = (t_vec){0, 0, 0}};
+#endif
 	ray_trace_init(&sdl, &ray);
 	render (&sdl);
 	while (sdl.pstatus == ECONTINUE)

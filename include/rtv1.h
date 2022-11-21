@@ -6,7 +6,7 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 14:20:34 by ekantane          #+#    #+#             */
-/*   Updated: 2022/11/21 18:22:47 by ekantane         ###   ########.fr       */
+/*   Updated: 2022/11/21 22:10:37 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,14 +59,10 @@ typedef struct s_sdl_data
 	// ========================================
 }	t_sdl;
 
-void	set_color(t_sdl *sdl, int i, int x, int y);
-double	get_t(double a, double b, double d);
 void	object_init(t_sdl *sdl, t_ray *ray, int i, t_object *obj);
 void	cylinder(t_sdl *sdl, t_ray *ray, int i, t_object *obj);
 
 t_vec	cylinder_normal(t_ray *ray, t_object *obj);
-t_vec	sphere_normal(t_ray *ray, t_object *obj);
-t_vec	cone_normal(t_ray *ray, t_object *obj);
 t_vec	sphere_normal(t_ray *ray, t_object *obj);
 
 void	light(t_sdl *sdl, t_ray *ray);
@@ -75,22 +71,23 @@ void	light(t_sdl *sdl, t_ray *ray);
 
 void	ft_parse(char *arg, t_sdl *sdl);
 /*/ raytracer.c ========================================================| ///*/
+t_ray	project_ray_from_camera(t_cam cam);
 
 void	ray_trace_init(t_sdl *sdl, t_ray *ray);
-void	get_dir(double x, double y, t_ray *ray, t_sdl *sdl);
+//void	get_dir(double x, double y, t_ray *ray, t_sdl *sdl);
+double	get_t(double a, double b, double d);
 /*/ intersect.c ========================================================| ///*/
 
 double	sphere_intersect(t_vec o, t_vec dir, t_object *obj);
 double	cylinder_intersect(t_vec o, t_vec dir, t_object *obj);
 double	cone_intersect(t_vec o, t_vec dir, t_object *obj);
-double	plane_intersect(t_vec o, t_vec dir, t_object *obj);
 void	intersection_check(t_ray *ray, t_sdl *sdl, int x, int y);
 /*/ error.c ============================================================| ///*/
 
 int		ft_panic(const char *msg, void (*hook)(void));
-
 /*/ render.c ===========================================================| ///*/
 
+void	set_color(t_sdl *sdl, int i, int x, int y);
 void	render(t_sdl *sdl);
 
 #endif
