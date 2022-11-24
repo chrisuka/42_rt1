@@ -6,7 +6,7 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 20:39:42 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/11/18 15:05:57 by ekantane         ###   ########.fr       */
+/*   Updated: 2022/11/24 09:19:18 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	ft_parse(char *arg, t_sdl *sdl)
 	fd = 0;
 	line = NULL;
 	if ((fd = open(arg, O_RDONLY)) < 0)
-		exit(1);
+		exit(ft_panic ("Parse failed!", NULL));
 	while ((i = get_next_line(fd, &line)) > 0)
 	{
 		spl_res = ft_strsplit(line, ' ');

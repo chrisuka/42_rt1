@@ -6,7 +6,7 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 14:20:34 by ekantane          #+#    #+#             */
-/*   Updated: 2022/11/21 22:10:37 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/11/24 10:27:02 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@
 
 # define BIN_NAME	"rtv1"
 # define WIN_TITLE	"RT (v1)"
-# define DWIDTH		800
-# define DHEIGHT	800
+# define WIN_W		800
+# define WIN_H		800
 
 # define MAX_BOUNCE	2
 
@@ -43,10 +43,9 @@
 typedef struct s_sdl_data
 {
 	unsigned int	pstatus;
-	SDL_Window		*wind;
+	SDL_Window		*win;
 	SDL_Renderer	*rend;
 	SDL_Surface		*surf;
-	unsigned int	vbuf[DWIDTH][DHEIGHT];
 
 	// TODO: move these to s_context in scene.h
 	t_cam			cam;
@@ -72,6 +71,7 @@ void	light(t_sdl *sdl, t_ray *ray);
 void	ft_parse(char *arg, t_sdl *sdl);
 /*/ raytracer.c ========================================================| ///*/
 t_ray	project_ray_from_camera(t_cam cam);
+t_rgbf	raytrace(t_ray ray);
 
 void	ray_trace_init(t_sdl *sdl, t_ray *ray);
 //void	get_dir(double x, double y, t_ray *ray, t_sdl *sdl);
@@ -89,5 +89,7 @@ int		ft_panic(const char *msg, void (*hook)(void));
 
 void	set_color(t_sdl *sdl, int i, int x, int y);
 void	render(t_sdl *sdl);
+/*/ color.c ============================================================| ///*/
 
+unsigned int	to_rgb(t_rgbf c);
 #endif

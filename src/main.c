@@ -6,12 +6,13 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 14:19:38 by ekantane          #+#    #+#             */
-/*   Updated: 2022/11/21 22:10:22 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/11/24 10:43:46 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rtv1.h"
 
+#if 0
 static int	shadow_init(t_light *light, t_sdl *sdl)
 {
 	double	max_t;
@@ -194,20 +195,19 @@ void	ray_trace_init(t_sdl *sdl, t_ray *ray)
 	x = 0;
 	i = 1;
 
-	while (x <= DWIDTH)
+	while (x <= WIN_W)
 	{
 		y = 0;
 #if 0
-		n_x = (x + 0.5) / (double)DWIDTH;
+		n_x = (x + 0.5) / (double)WIN_W;
 		n_x = 2 * n_x - 1;
 #endif
-		while (y <= DHEIGHT)
+		while (y <= WIN_H)
 		{
 #if 0
-			n_y = (y + 0.5) / (double)DHEIGHT;
+			n_y = (y + 0.5) / (double)WIN_H;
 			n_y = 1 - (2 * n_y);
 #endif
-			*ray = project_ray_from_camera (sdl->cam);
 			//get_dir(n_x, n_y, ray, sdl);
 			sdl->min_t = INFINITY;
 			sdl->clos_obj = 0;
@@ -221,6 +221,7 @@ void	ray_trace_init(t_sdl *sdl, t_ray *ray)
 		x++;
 	}
 }
+#endif
 
 static inline int	init_sdl(t_sdl *sdl)
 {
@@ -231,13 +232,12 @@ static inline int	init_sdl(t_sdl *sdl)
 	if (SDL_Init (esdl_dev) != 0)
 		return (ft_panic (error_msg, errhook));
 	sdl->rend = NULL;
-	sdl->wind = SDL_CreateWindow (
+	sdl->win = SDL_CreateWindow (
 		WIN_TITLE, esdl_winpos, esdl_winpos,
-		DWIDTH, DHEIGHT, esdl_winflags);
-	sdl->surf = SDL_GetWindowSurface (sdl->wind);
-	if (!sdl->wind || !sdl->surf)
+		WIN_W, WIN_H, esdl_winflags);
+	sdl->surf = SDL_GetWindowSurface (sdl->win);
+	if (!sdl->win || !sdl->surf)
 		return (ft_panic (error_msg, errhook));
-	ft_bzero (sdl->vbuf, sizeof(sdl->vbuf));
 	return (0);
 }
 
@@ -256,10 +256,9 @@ int		main(int argc, char **argv)
 	|| (init_sdl(&sdl) == -1))
 		return (XC_ERROR);
 	ft_parse (argv[1], &sdl); // TODO: this should be before sdl init
-#if 1
+
 	ray = (t_ray){.orig = sdl.cam.pos, .dir = (t_vec){0, 0, 0}};
-#endif
-	ray_trace_init(&sdl, &ray);
+	//ray_trace_init(&sdl, &ray);
 	render (&sdl);
 	while (sdl.pstatus == ECONTINUE)
 	{
