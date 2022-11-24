@@ -6,13 +6,12 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 21:23:06 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/11/24 10:34:11 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/11/24 20:17:38 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rtv1.h"
 
-# if 1
 static inline t_vec	get_dir(double x, double y, t_vec cam_rot)
 {
 	return (vec_rot ((t_vec){
@@ -32,9 +31,16 @@ t_ray	project_ray_from_camera(t_cam cam)
 	});
 }
 
-t_rgbf	raytrace(t_ray ray)
+t_rgbf	raytrace(t_scene *ctx, t_ray ray)
 {
-	ray = (t_ray){{0},{0}};
-	return ((t_rgbf){1.0L, 0.0L, 0.0L});
+	t_rgbf	c;
+	double	min_t;
+
+	min_t = INFINITY;
+	
+	intersect(ray, ctx->obj[0])
+	// TODO: light, intensity, specular
+	c = obj[0].color;
+	c *= get_intensity();
+	return (c);
 }
-#endif

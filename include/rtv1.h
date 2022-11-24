@@ -1,12 +1,11 @@
-/* ************************************************************************** */
-/*                                                                            */
+/* ************************************************************************** */ /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   rtv1.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 14:20:34 by ekantane          #+#    #+#             */
-/*   Updated: 2022/11/24 10:27:02 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/11/24 12:32:33 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,18 +43,9 @@ typedef struct s_sdl_data
 {
 	unsigned int	pstatus;
 	SDL_Window		*win;
-	SDL_Renderer	*rend;
 	SDL_Surface		*surf;
 
-	// TODO: move these to s_context in scene.h
-	t_cam			cam;
-	t_object		obj;
-	double			min_t;
-	int				clos_obj;
-	double			ambient;
-	t_light			light;
-	int				spl_res[0];
-	// ========================================
+	t_scene			ctx;
 }	t_sdl;
 
 void	object_init(t_sdl *sdl, t_ray *ray, int i, t_object *obj);
@@ -71,7 +61,7 @@ void	light(t_sdl *sdl, t_ray *ray);
 void	ft_parse(char *arg, t_sdl *sdl);
 /*/ raytracer.c ========================================================| ///*/
 t_ray	project_ray_from_camera(t_cam cam);
-t_rgbf	raytrace(t_ray ray);
+t_rgbf	raytrace(t_scene *ctx, t_ray ray);
 
 void	ray_trace_init(t_sdl *sdl, t_ray *ray);
 //void	get_dir(double x, double y, t_ray *ray, t_sdl *sdl);

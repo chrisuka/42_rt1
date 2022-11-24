@@ -6,7 +6,7 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 20:57:29 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/11/21 22:10:31 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/11/24 18:31:06 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,21 +18,17 @@
 typedef struct s_light
 {
 	t_vec	pos;
-	t_vec	p;
-	t_vec	n;
 	double	inten;
-	double	new_inten;
 }	t_light;
 
 typedef struct s_object
 {
+	int		id;
 	t_vec	pos;
-	t_rgbf	col;
 	t_vec	rot;
 	double	r;
-	double	t;
-	int		name;
 	double	specular;
+	t_rgbf	color;
 }	t_object;
 
 typedef struct s_cam
@@ -49,12 +45,9 @@ typedef struct s_ray
 
 typedef struct s_scene_context {
 	t_cam		cam;
-	t_object	obj;
-	double		min_t;
-	int			clos_obj;
-	double		ambient;
+	t_object	obj[];
 	t_light		light;
-	int			spl_res[0];
+	double		ambient;
 }	t_scene;
 
 #endif

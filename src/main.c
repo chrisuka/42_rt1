@@ -6,13 +6,13 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 14:19:38 by ekantane          #+#    #+#             */
-/*   Updated: 2022/11/24 10:43:46 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/11/24 20:02:02 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rtv1.h"
 
-#if 0
+#if 1
 static int	shadow_init(t_light *light, t_sdl *sdl)
 {
 	double	max_t;
@@ -24,9 +24,9 @@ static int	shadow_init(t_light *light, t_sdl *sdl)
 	max_t = vec_len(vec_sub(light->pos, light->p));
 	dir = vec_norm(vec_sub(light->pos, light->p));
 	light->p = vec_sum(light->p, vec_scale(dir, EPS));
-	t = cone_intersect(light->p, dir, &sdl->obj);
-		if (t > 0.00001 && t < max_t)
-			return (1);
+	t = cone_intersect(light->p, dir, &sdl->ctx.obj);
+	if (t > EPS && t < max_t)
+		return (1);
 	return (0);
 }
 
@@ -38,7 +38,7 @@ static void	get_intensity(t_sdl *sdl, t_light *light, t_vec v, double s)
 	t_vec	l;
 	t_vec	r;
 
-	light->new_inten = sdl->ambient;
+	light->new_inten = sdl->ctx.ambient;
 	inten = 0.0;
 	l = vec_norm(vec_sub(light->pos, light->p));
 	n_dot_l = vec_dot(light->n, l);
@@ -174,10 +174,10 @@ void	object_init(t_sdl *sdl, t_ray *ray, int i, t_object *obj)
 {
 	obj->t = cone_intersect(ray->orig, ray->dir, obj);
 	obj->rot = vec_norm(obj->rot);
-	if (obj->t > 0 && obj->t < sdl->min_t)
+	if (obj->t > 0 && obj->t < sdl->ctx.min_t)
 	{
-		sdl->min_t = obj->t;
-		sdl->clos_obj = i;
+		sdl->ctx.min_t = obj->t;
+		sdl->ctx.clos_obj = i;
 	}
 }
 
@@ -209,13 +209,13 @@ void	ray_trace_init(t_sdl *sdl, t_ray *ray)
 			n_y = 1 - (2 * n_y);
 #endif
 			//get_dir(n_x, n_y, ray, sdl);
-			sdl->min_t = INFINITY;
-			sdl->clos_obj = 0;
-			object_init(sdl, ray, i, &sdl->obj);
-			sdl->light.p = vec_sum(ray->orig, vec_scale(ray->dir, sdl->obj.t));
-			sdl->light.n = cone_normal(ray, &sdl->obj);
-			get_intensity(sdl, &sdl->light, vec_scale(ray->dir, -1), sdl->obj.specular);
-			set_color(sdl, sdl->clos_obj, x, y);
+			sdl->ctx.min_t = INFINITY;
+			sdl->ctx.clos_obj = 0;
+			object_init(sdl, ray, i, &sdl->ctx.obj);
+			sdl->ctx.light.p = vec_sum(ray->orig, vec_scale(ray->dir, sdl->ctx.obj.t));
+			sdl->ctx.light.n = cone_normal(ray, &sdl->ctx.obj);
+			get_intensity(sdl, &sdl->ctx.light, vec_scale(ray->dir, -1), sdl->ctx.obj.specular);
+			set_color(sdl, sdl->ctx.clos_obj, x, y);
 			y++;
 		}
 		x++;
@@ -231,7 +231,6 @@ static inline int	init_sdl(t_sdl *sdl)
 	sdl->pstatus = ECONTINUE;
 	if (SDL_Init (esdl_dev) != 0)
 		return (ft_panic (error_msg, errhook));
-	sdl->rend = NULL;
 	sdl->win = SDL_CreateWindow (
 		WIN_TITLE, esdl_winpos, esdl_winpos,
 		WIN_W, WIN_H, esdl_winflags);
@@ -252,12 +251,11 @@ int		main(int argc, char **argv)
 	t_ray		ray;
 	SDL_Event	event;
 
-	if ((argc != 2 || !argv[1]) // TODO: print usage
-	|| (init_sdl(&sdl) == -1))
+	if (argc != 2 || !argv[1] // TODO: print usage
+		|| ft_parse (argv[1], &sdl) == -1
+		|| init_sdl(&sdl) == -1)
 		return (XC_ERROR);
-	ft_parse (argv[1], &sdl); // TODO: this should be before sdl init
-
-	ray = (t_ray){.orig = sdl.cam.pos, .dir = (t_vec){0, 0, 0}};
+	ray = (t_ray){.orig = sdl.ctx.cam.pos, .dir = (t_vec){0, 0, 1}};
 	//ray_trace_init(&sdl, &ray);
 	render (&sdl);
 	while (sdl.pstatus == ECONTINUE)
