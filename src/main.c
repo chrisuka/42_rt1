@@ -6,13 +6,37 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 14:19:38 by ekantane          #+#    #+#             */
-/*   Updated: 2022/11/24 10:43:46 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/11/24 18:05:03 by ekantane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rtv1.h"
 
 #if 0
+
+SHADOW_INIT & GET_INTENSITY:
+
+n_dot_l = the point where the normal meets the light
+r_dot_v = the point where the ray meets the "view vector"
+pos = the position of the light
+p = any point in the scene
+
+The ambience is the base for the intensity and
+we substract point from postion to create an omnidirectional light.
+If there are no shadows, the intensity is zero.
+
+"if (n_dot_l > EPS)" makes sure we don’t add negative values, which represent
+lights illuminating the back side of the surface. After this we caculate the intensity and 
+before shadow_init checks for the closest intersection.
+
+The position of the point of reflection will be slightly different from the ideal value,
+and the distance that should be 0 will more likely be some small quantity like 0.000001.
+That's what we call an epsilon.
+
+Similar things happen with specular:
+Again, "if (r_dot_v > EPS)" makes sure we don’t add negative values, which represent
+lights illuminating the back side of the surface.
+
 static int	shadow_init(t_light *light, t_sdl *sdl)
 {
 	double	max_t;
