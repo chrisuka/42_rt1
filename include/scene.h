@@ -6,7 +6,7 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 20:57:29 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/11/24 18:31:06 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/11/29 19:17:51 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 typedef struct s_light
 {
 	t_vec	pos;
-	double	inten;
+	double	intensity;
 }	t_light;
 
 typedef struct s_object
@@ -45,9 +45,16 @@ typedef struct s_ray
 
 typedef struct s_scene_context {
 	t_cam		cam;
-	t_object	obj[];
 	t_light		light;
 	double		ambient;
+	t_object	obj[1];
 }	t_scene;
+
+enum e_object_type {
+	sphere = 0,
+	cylinder = 1,
+	cone = 2,
+	plane = 3
+};
 
 #endif

@@ -1,36 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   render.c                                           :+:      :+:    :+:   */
+/*   light.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/20 21:35:43 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/11/29 08:50:02 by ikarjala         ###   ########.fr       */
+/*   Created: 2022/11/29 18:53:34 by ikarjala          #+#    #+#             */
+/*   Updated: 2022/11/29 19:17:02 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rtv1.h"
-#include "render.h"
 
-void	render(t_sdl *sdl)
+double	get_intensity(t_vec hit_p, t_vec hit_n, t_light light)
 {
-	unsigned int	*px;
-	int				x;
-	int				y;
-
-	SDL_LockSurface (sdl->surf);
-	px = (unsigned int *)(sdl->surf->pixels);
-	y = -1;
-	while (++y < WIN_H)
-	{
-		x = -1;
-		while (++x < WIN_W)
-		{
-			*(px++) = to_rgb (raytrace (
-				&sdl->ctx, project_ray_from_camera (x, y, sdl->ctx.cam)));
-		}
-	}
-	SDL_UnlockSurface (sdl->surf); 
-	SDL_UpdateWindowSurface (sdl->win);
+	hit_p.x = 0;
+	hit_n.x = 0;
+	
+	return (light.intensity);
 }

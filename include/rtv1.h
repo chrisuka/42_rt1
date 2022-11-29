@@ -1,11 +1,12 @@
-/* ************************************************************************** */ /*                                                                            */
+/* ************************************************************************** */
+/*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   rtv1.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/25 14:20:34 by ekantane          #+#    #+#             */
-/*   Updated: 2022/11/24 12:32:33 by ikarjala         ###   ########.fr       */
+/*   Created: 2022/11/28 12:18:05 by ikarjala          #+#    #+#             */
+/*   Updated: 2022/11/29 19:26:03 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +30,13 @@
 
 # define MAX_BOUNCE	2
 
-# define V_W		40
-# define V_H		40
-# define EPS		0.000001
+# define VIEWPORT_W		400.0L
+# define VIEWPORT_H		400.0L
+# define EPS			0.000001
 
 # define ECONTINUE	0
 # define EEXIT		1
+# define EINTERNAL	2
 
 # define XC_EXIT	0
 # define XC_ERROR	1
@@ -48,38 +50,30 @@ typedef struct s_sdl_data
 	t_scene			ctx;
 }	t_sdl;
 
-void	object_init(t_sdl *sdl, t_ray *ray, int i, t_object *obj);
-void	cylinder(t_sdl *sdl, t_ray *ray, int i, t_object *obj);
-
-t_vec	cylinder_normal(t_ray *ray, t_object *obj);
-t_vec	sphere_normal(t_ray *ray, t_object *obj);
-
-void	light(t_sdl *sdl, t_ray *ray);
-
 /*/ parser.c ===========================================================| ///*/
 
-void	ft_parse(char *arg, t_sdl *sdl);
+int		ft_parse(char *arg, t_scene *ctx);
+
 /*/ raytracer.c ========================================================| ///*/
-t_ray	project_ray_from_camera(t_cam cam);
+
+t_ray	project_ray_from_camera(int x, int y, t_cam cam);
 t_rgbf	raytrace(t_scene *ctx, t_ray ray);
 
-void	ray_trace_init(t_sdl *sdl, t_ray *ray);
-//void	get_dir(double x, double y, t_ray *ray, t_sdl *sdl);
-double	get_t(double a, double b, double d);
 /*/ intersect.c ========================================================| ///*/
 
-double	sphere_intersect(t_vec o, t_vec dir, t_object *obj);
-double	cylinder_intersect(t_vec o, t_vec dir, t_object *obj);
-double	cone_intersect(t_vec o, t_vec dir, t_object *obj);
-void	intersection_check(t_ray *ray, t_sdl *sdl, int x, int y);
+double	intersect(t_ray ray, t_object obj);
+
 /*/ error.c ============================================================| ///*/
 
 int		ft_panic(const char *msg, void (*hook)(void));
+
 /*/ render.c ===========================================================| ///*/
 
 void	set_color(t_sdl *sdl, int i, int x, int y);
 void	render(t_sdl *sdl);
-/*/ color.c ============================================================| ///*/
 
-unsigned int	to_rgb(t_rgbf c);
+/*/ light.c ============================================================| ///*/
+
+double	get_intensity(t_vec hit_p, t_vec hit_n, t_light light);
+
 #endif

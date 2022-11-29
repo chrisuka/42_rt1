@@ -6,34 +6,37 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 20:39:42 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/11/24 18:36:51 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/11/29 19:23:16 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/rtv1.h"
+#include "rtv1.h"
 
 #if 1
+/* Initialize a scene context with default values.
+*/
 static inline t_scene	init_context(void)
 {
 	return ((t_scene){
-		.cam = (t_cam){.orig = (t_vec){0, 0, 0}, .dir = (t_vec){0, 0, 1}},
-		.obj = (t_obj)[1]{
-			.id = 0, .pos = (t_vec){0, 0, 10}, .rot = (t_vec){0},
-			.r = 0, .specular = 0.5L, .color = (t_rgbf){0}},
-		.light = (t_light){.pos = (t_vec){0}, .inten = 1.0L},
+		.cam = (t_cam){.pos = (t_vec){0, 0, -10}, .rot = (t_vec){0, 0, 0}},
+		.obj[0] = (t_object){
+			.id = sphere, .pos = (t_vec){3, 0, 10}, .rot = (t_vec){0},
+			.r = 2, .specular = 0.5L, .color = (t_rgbf){1.0L, 0, 0}},
+		.light = (t_light){.pos = (t_vec){0, 50, 50}, .intensity = 1.0L},
 		.ambient = 0.2L
 	});
 }
 
 int	ft_parse(char *arg, t_scene *ctx)
 {
-	char	*line;
+	//char	*line;
 	int		fd;
 
 	fd = open (arg, O_RDONLY);
 	if (fd < 0)
-		return (ft_panic ("Unable to open scene file!"));
+		return (ft_panic ("Unable to open scene file!", NULL));
 	*ctx = init_context();
+	close (fd);
 	return (0);
 }
 #else

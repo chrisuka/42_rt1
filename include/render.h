@@ -6,7 +6,7 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 21:15:40 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/11/21 18:13:29 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/11/29 18:47:15 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,5 +42,8 @@ enum e_sdl_settings {
 	esdl_winpos = SDL_WINDOWPOS_CENTERED,
 	esdl_winflags = SDL_WINDOW_SHOWN
 };
+
+t_rgbf			cmul(t_rgbf c, double v);
+unsigned int	to_rgb(t_rgbf c);
 
 #endif

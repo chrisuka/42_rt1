@@ -6,11 +6,20 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 15:16:12 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/11/24 10:39:02 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/11/29 18:47:19 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/rtv1.h"
+#include "rtv1.h"
+
+t_rgbf	cmul(t_rgbf c, double v)
+{
+	return ((t_rgbf){
+		.r = c.r * v,
+		.g = c.g * v,
+		.b = c.b * v
+	});
+}
 
 /* Return a copy of floating-point color c, converted to unsigned integer 32
  * in format ARGB8 (CHAR (8) bits / channel). Clear alpha.

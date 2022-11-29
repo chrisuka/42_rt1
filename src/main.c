@@ -6,7 +6,7 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 14:19:38 by ekantane          #+#    #+#             */
-/*   Updated: 2022/11/24 20:21:35 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/11/29 19:33:31 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,31 +151,6 @@ double	cylinder_intersect(t_vec o, t_vec dir, t_object *obj)
 	return (get_t(a, b, d));
 }
 
-t_vec	sphere_normal(t_ray *ray, t_object *obj)
-{
-	t_vec n;
-
-	n = vec_sum(ray->orig, vec_scale(ray->dir, obj->t));
-	n = vec_norm(vec_sub(n, obj->pos));
-	if (vec_dot(ray->dir, n) > EPS)
-		n = vec_scale(n, -1);
-	return (n);
-}
-
-double	get_t(double a, double b, double d)
-{
-	double t1;
-	double t2;
-
-	t1 = (-b - sqrt(d)) / (2 * a);
-	t2 = (-b + sqrt(d)) / (2 * a);
-	if ((t1 <= t2 && t1 >= 0) || (t1 >= 0 && t2 < 0))
-		return (t1);
-	else if ((t2 <= t1 && t2 >= 0) || (t1 < 0 && t2 >= 0))
-		return (t2);
-	return (-1);
-}
-
 double	sphere_intersect(t_vec o, t_vec dir, t_object *obj)
 {
 	double	a;
@@ -264,22 +239,35 @@ static inline int	init_sdl(t_sdl *sdl)
 	return (0);
 }
 
+#define DEBUG 0
+#if DEBUG
+#include <stdio.h>
+static inline void	unit_tests(t_sdl *sdl)
+{
+	sdl = NULL;
+}
+#endif
+
 /* args
  * parse
  * SDL init
- * events -> render
+ * events -> render -> raytrace
 */
 int		main(int argc, char **argv)
 {
 	t_sdl		sdl;
-	t_ray		ray;
 	SDL_Event	event;
 
-	if (argc != 2 || !argv[1] // TODO: print usage
-		|| ft_parse (argv[1], &sdl) == -1
+	if (argc != 2)
+		// TODO: print usage
+		return (XC_ERROR);
+	else if (ft_parse (argv[1], &sdl.ctx) == -1
 		|| init_sdl(&sdl) == -1)
 		return (XC_ERROR);
-	ray = (t_ray){.orig = sdl.ctx.cam.pos, .dir = (t_vec){0, 0, 1}};
+#if DEBUG
+	unit_tests(&sdl); // DEBUG
+	return (0);
+#endif
 	//ray_trace_init(&sdl, &ray);
 	render (&sdl);
 	while (sdl.pstatus == ECONTINUE)
@@ -287,7 +275,7 @@ int		main(int argc, char **argv)
 		while (SDL_PollEvent(&event))
 		{
 			if ((SDL_QUIT == event.type) || (SDL_KEYDOWN == event.type
-			&& SDL_SCANCODE_ESCAPE == event.key.keysym.scancode))
+				&& SDL_SCANCODE_ESCAPE == event.key.keysym.scancode))
 				sdl.pstatus = EEXIT;
 		}
 	}

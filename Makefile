@@ -6,7 +6,7 @@
 #    By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/19 01:31:36 by ikarjala          #+#    #+#              #
-#    Updated: 2022/11/21 22:06:20 by ikarjala         ###   ########.fr        #
+#    Updated: 2022/11/29 19:22:37 by ikarjala         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ OBJ_DIR	:= obj/
 INC_DIR	:= include/ libft/
 
 CFUNC	=\
-main vector color render render_utils parser error raytracer
+main vector color render render_utils parser error raytracer intersect light
 
 SDL_DIR		:= build/libsdl2/
 SDL_CC		:= $(shell $(SDL_DIR)bin/sdl2-config --cflags)
