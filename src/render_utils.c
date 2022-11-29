@@ -6,13 +6,13 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 15:16:56 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/11/24 14:32:12 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/11/29 18:04:05 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/rtv1.h"
+#include "rtv1.h"
 
-#if 1
+#if 0
 /* Return index position of pixel at (x,y)
 */
 static inline unsigned int	px_at(int x, int y)

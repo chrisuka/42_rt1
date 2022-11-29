@@ -6,7 +6,7 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 20:03:10 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/11/18 16:05:20 by ekantane         ###   ########.fr       */
+/*   Updated: 2022/11/29 16:55:23 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 
 // WARN: get rid of these macros ASAP! they are forbidden!
 # define DTR(a)	((double)a * (M_PI / 180))
+// DTR = degrees to radians
 
 typedef struct s_vec
 {

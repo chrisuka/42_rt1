@@ -6,22 +6,29 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 14:19:38 by ekantane          #+#    #+#             */
-/*   Updated: 2022/11/18 16:05:06 by ekantane         ###   ########.fr       */
+/*   Updated: 2022/11/29 16:51:21 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/vector.h"
+#include "vector.h"
 
+/* Return the Dot product between vectors v1 and v2
+ * (scalar gotten by adding together the products of the individual axis).
+*/
 double	vec_dot(t_vec v1, t_vec v2)
 {
 	return (v1.x * v2.x + v1.y * v2.y + v1.z * v2.z);
 }
 
+/* Return length (magnitude) of vector v1.
+*/
 double	vec_len(t_vec v1)
 {
 	return (sqrt(vec_dot(v1, v1)));
 }
 
+/* Normalize, or return a unit vector (magnitude scaled to 1) of v1.
+*/
 t_vec	vec_norm(t_vec v1)
 {
 	double inv;
