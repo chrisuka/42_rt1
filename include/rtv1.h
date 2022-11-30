@@ -6,7 +6,7 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 12:18:05 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/11/29 19:26:03 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/11/30 07:52:44 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@
 
 # define MAX_BOUNCE	2
 
-# define VIEWPORT_W		400.0L
-# define VIEWPORT_H		400.0L
-# define EPS			0.000001
+# define VIEWPORT_W	400.0L
+# define VIEWPORT_H	400.0L
+# define EPS		0.000001
 
 # define ECONTINUE	0
 # define EEXIT		1

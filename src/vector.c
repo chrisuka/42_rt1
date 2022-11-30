@@ -6,7 +6,7 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 14:19:38 by ekantane          #+#    #+#             */
-/*   Updated: 2022/11/29 16:51:21 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/11/30 08:15:50 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,47 @@ double	vec_len(t_vec v1)
 */
 t_vec	vec_norm(t_vec v1)
 {
-	double inv;
+	double	inv;
 
 	inv = 1 / vec_len(v1);
 	return (vec_scale(v1, inv));
 }
 
+t_vec	vec_scale(t_vec v1, double t)
+{
+	v1.x *= t;
+	v1.y *= t;
+	v1.z *= t;
+	return (v1);
+}
+
+t_vec	vec_sum(t_vec v1, t_vec v2)
+{
+	v1.x += v2.x;
+	v1.y += v2.y;
+	v1.z += v2.z;
+	return (v1);
+}
+
+t_vec	vec_sub(t_vec v1, t_vec v2)
+{
+	v1.x -= v2.x;
+	v1.y -= v2.y;
+	v1.z -= v2.z;
+	return (v1);
+}
+
+/*
+ * Rotation math
+*/
+
+/* Rotate vector d around the world axis by the corresponding
+ * angles specified in vector r in degrees (Euler angles)
+ *
+ * r.x = pitch = nose vertical, or around the RIGHT axis
+ * r.y = yaw   = nose horizontal, or around the UP axis
+ * r.z = roll  = rotate clockwise, nose pointing in the same direction
+*/
 t_vec	vec_rot(t_vec d, t_vec r)
 {
 	d = vec_rotx(d, DTR(r.x));
@@ -73,28 +108,4 @@ t_vec	vec_rotz(t_vec d, double a)
 	r.y = d.x * sin(a) + d.y * cos(a);
 	r.z = d.z;
 	return (r);
-}
-
-t_vec	vec_scale(t_vec v1, double t)
-{
-	v1.x *= t;
-	v1.y *= t;
-	v1.z *= t;
-	return (v1);
-}
-
-t_vec	vec_sub(t_vec v1, t_vec v2)
-{
-	v1.x -= v2.x;
-	v1.y -= v2.y;
-	v1.z -= v2.z;
-	return (v1);
-}
-
-t_vec	vec_sum(t_vec v1, t_vec v2)
-{
-	v1.x += v2.x;
-	v1.y += v2.y;
-	v1.z += v2.z;
-	return (v1);
 }

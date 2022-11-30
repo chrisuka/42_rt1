@@ -6,11 +6,19 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 14:19:38 by ekantane          #+#    #+#             */
-/*   Updated: 2022/11/29 19:33:31 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/11/30 07:33:20 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rtv1.h"
+
+static inline int	print_usage(void)
+{
+	const char	msg[] = "usage: " BIN_NAME " <scene_description_file>\n";
+	
+	write (1, msg, sizeof(msg) - sizeof(char));
+	return (XC_ERROR);
+}
 
 #if 0
 
@@ -259,8 +267,7 @@ int		main(int argc, char **argv)
 	SDL_Event	event;
 
 	if (argc != 2)
-		// TODO: print usage
-		return (XC_ERROR);
+		return (print_usage ());
 	else if (ft_parse (argv[1], &sdl.ctx) == -1
 		|| init_sdl(&sdl) == -1)
 		return (XC_ERROR);
