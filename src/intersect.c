@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   intersect.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 11:36:51 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/11/29 15:53:36 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/11/30 13:27:29 by ekantane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,61 @@ static inline double	choose_quad_result(double a, double b, double d)
 	else if ((t2 <= t1 && t2 >= 0) || (t1 < 0 && t2 >= 0))
 		return (t2);
 	return (-1);
+}
+
+static inline double	intersect_plane(t_vec dir, t_object *obj)
+{
+	double	a;
+	double	b;
+	double	t;
+	
+	a = vec_dot(vec_sub(ray.orig, obj->pos), obj->rot);
+	b = vec_dot(dir, obj->rot);
+	t = -a / b;
+	if (b == 0 || (a < 0 && b < 0) || (a > 0 && b > 0) || t <= EPS)
+		return (-1);
+	return (t);
+}
+
+static inline double	intersect_cone(t_vec dir, t_object *obj)
+{
+	double	a;
+	double	b;
+	double	c;
+	double	d;
+	t_vec	x;
+	double	m;
+
+	m = pow(obj->r, 2);
+	x = vec_sub(ray.orig, obj->pos);
+	
+	a = vec_dot(dir, dir) - m * pow(vec_dot(dir, obj->rot), 2) -
+		pow(vec_dot(dir, obj->rot), 2);
+	b = 2 * ((vec_dot(dir, x) - (m * vec_dot(dir, obj->rot)) *
+		vec_dot(x, obj->rot) - vec_dot(dir, obj->rot) * vec_dot(x, obj->rot)));
+		pow(vec_dot(x, obj->rot), 2);
+	d = b * b - 4 * a * c;
+	if (d < 0)
+		return (-1);
+	return (choose_quad_result (a, b, d));
+}
+
+static inline double	intersect_cylinder(t_vec dir, t_object *obj)
+{
+	double	a;
+	double	b;
+	double	c;
+	double	d;
+	t_vec	x;
+
+	x = vec_sub(ray.orig, obj->pos);
+	a = vec_dot(dir, dir) - pow(vec_dot(dir, obj->rot), 2);
+	b = 2 * (vec_dot(dir, x) - (vec_dot(dir, obj->rot) * vec_dot(x, obj->rot)));
+	c = vec_dot(x, x) - pow(vec_dot(x, obj->rot), 2) - pow(obj->r, 2);
+	d = b * b - 4 * a * c;
+	if (d < 0)
+		return (-1);
+	return (choose_quad_result (a, b, d));
 }
 
 static inline double	intersect_sphere(t_ray ray, t_object obj)
