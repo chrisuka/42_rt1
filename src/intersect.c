@@ -6,7 +6,7 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 11:36:51 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/11/30 13:27:29 by ekantane         ###   ########.fr       */
+/*   Updated: 2022/11/30 14:37:09 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ static inline double	choose_quad_result(double a, double b, double d)
 	return (-1);
 }
 
+#if 0
 static inline double	intersect_plane(t_vec dir, t_object *obj)
 {
 	double	a;
@@ -83,6 +84,7 @@ static inline double	intersect_cylinder(t_vec dir, t_object *obj)
 		return (-1);
 	return (choose_quad_result (a, b, d));
 }
+#endif
 
 static inline double	intersect_sphere(t_ray ray, t_object obj)
 {

@@ -6,7 +6,7 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/29 18:53:34 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/11/30 11:14:32 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/11/30 15:31:35 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,9 @@ double	get_intensity(t_vec hit_p, t_vec hit_n, t_light light)
 	// won't this always result in 1 ?!
 	// x/(|vA| * |vB|) = x/1*1 = x/1 = x
 	
-#if 0
+#if 0 // WIP
 	if (obj.specular > 0)
-	{
-	}
+		intensity += fpow(cos(vec_dot (CAM_vZ, L_vREFLECTION)), obj.specular);
 #endif
 	return (intensity);
 }
