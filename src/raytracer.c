@@ -6,7 +6,7 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 21:23:06 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/11/30 07:49:52 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/11/30 11:25:59 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static inline t_vec	sphere_normal(t_vec dir, t_vec hit_p, t_object *obj)
 t_ray	project_ray_from_camera(int x, int y, t_cam cam)
 {
 	const double	unit_w = 1.0L / (WIN_W / 2);
-	const double	unit_h = 1.0L / (WIN_H / 2);
+	const double	unit_h = 1.0L / (WIN_H / 2) * -1;
 
 	return ((t_ray){
 		.orig = cam.pos,
@@ -75,10 +75,10 @@ t_rgbf	raytrace(t_scene *ctx, t_ray ray)
 		return ((t_rgbf){0, 0, 0});
 
 	hit_p = vec_sum (ray.orig, vec_scale (ray.dir, min_t));
-	c = cmul (c, get_intensity (
+	c = cmul (c, fmin(1.0L, ctx->ambient + get_intensity (
 				hit_p,
 				sphere_normal (ray.dir, hit_p, nearest),
-				ctx->light));
+				ctx->light)));
 
 	// TODO: specular
 	return (c);
