@@ -6,7 +6,7 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 12:18:05 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/12/01 12:59:08 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/12/01 13:19:56 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,10 @@ int		ft_panic(const char *msg, void (*hook)(void));
 
 void	set_color(t_sdl *sdl, int i, int x, int y);
 void	render(t_sdl *sdl);
+
+/*/ normals.c ==========================================================| ///*/
+
+t_vec	get_object_normal(t_vec dir, t_vec hit_point, t_object *obj);
 
 /*/ light.c ============================================================| ///*/
 

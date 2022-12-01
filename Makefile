@@ -6,7 +6,7 @@
 #    By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/19 01:31:36 by ikarjala          #+#    #+#              #
-#    Updated: 2022/12/01 09:00:27 by ikarjala         ###   ########.fr        #
+#    Updated: 2022/12/01 13:21:26 by ikarjala         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,8 @@ OBJ_DIR	:= obj/
 INC_DIR	:= include/ libft/
 
 CFUNC	=\
-main vector color render render_utils parser error raytracer intersect light
+main parser error vector color render render_utils \
+raytracer intersect normals light
 
 SDL_FLAGS	:= --disable-shared --disable-video-wayland
 BUILD_DIR	:= build/

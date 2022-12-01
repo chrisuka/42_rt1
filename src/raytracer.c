@@ -6,25 +6,11 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 21:23:06 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/12/01 09:58:23 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/12/01 13:20:19 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rtv1.h"
-
-/* Return the normal vector of ray intersection point on an sphere's surface.
- * N = Normalize(P - O)
- * where P = ray hit point, O = object origin
-*/
-static inline t_vec	sphere_normal(t_vec dir, t_vec hit_p, t_object *obj)
-{
-	t_vec	n;
-
-	n = vec_norm (vec_sub (hit_p, obj->pos));
-	if (vec_dot (dir, n) > EPS)
-		return (vec_scale (n, -1));
-	return (n);
-}
 
 /* Create a ray shooting from camera origin toward a direction
  * determined by the pixel coordinates and frustrum size.
@@ -77,7 +63,7 @@ t_rgbf	raytrace(t_scene *ctx, t_ray ray)
 	hit_point = vec_sum (ray.orig, vec_scale (ray.dir, min_t));
 	c = cmul (c, fmin(1.0L, ctx->ambient + get_intensity (
 				hit_point,
-				sphere_normal (ray.dir, hit_point, nearest),
+				get_object_normal (ray.dir, hit_point, nearest),
 				ctx->light, nearest)));
 
 	// TODO: specular
