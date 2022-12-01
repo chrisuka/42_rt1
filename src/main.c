@@ -6,7 +6,7 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 14:19:38 by ekantane          #+#    #+#             */
-/*   Updated: 2022/11/30 07:33:20 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/12/01 09:17:43 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,33 +62,6 @@ static int	shadow_init(t_light *light, t_sdl *sdl)
 	return (0);
 }
 
-static void	get_intensity(t_sdl *sdl, t_light *light, t_vec v, double s)
-{
-	double	n_dot_l;
-	double	r_dot_v;
-	double	inten;
-	t_vec	l;
-	t_vec	r;
-
-	light->new_inten = sdl->ctx.ambient;
-	inten = 0.0;
-	l = vec_norm(vec_sub(light->pos, light->p));
-	n_dot_l = vec_dot(light->n, l);
-	if (shadow_init(light, sdl) == 0)
-		inten = light->inten;
-	if (n_dot_l > EPS)
-		light->new_inten += inten * (n_dot_l / (vec_len(light->n) * vec_len(l)));
-	if (s > 0)
-	{
-		r = vec_scale(light->n, 2);
-		r = vec_scale(r, vec_dot(light->n, l));
-		r = vec_sub(r, l);
-		r_dot_v = vec_dot(r, v);
-		if (r_dot_v > EPS)
-			light->new_inten += inten * pow((r_dot_v / (vec_len(r) * vec_len(v))), s);
-	}
-}
-
 t_vec	cone_normal(t_ray *ray, t_object *obj)
 {
 	double	m;
@@ -120,114 +93,6 @@ t_vec	cylinder_normal(t_ray *ray, t_object *obj)
 	return (n);
 }
 
-double	cone_intersect(t_vec o, t_vec dir, t_object *obj)
-{
-	double	a;
-	double	b;
-	double	c;
-	double	d;
-	t_vec	x;
-	double	m;
-
-	m = pow(obj->r, 2) / vec_dot(dir, dir);
-	x = vec_sub(o, obj->pos);
-	
-	a = vec_dot(dir, dir) - m * pow(vec_dot(dir, obj->rot), 2) - pow(vec_dot(dir, obj->rot), 2);
-	b = 2 * ((vec_dot(dir, x) - (m * vec_dot(dir, obj->rot)) * vec_dot(x, obj->rot) - vec_dot(dir, obj->rot) * vec_dot(x, obj->rot)));
-	c = vec_dot(x, x) - (m * pow(vec_dot(x, obj->rot), 2)) - pow(vec_dot(x, obj->rot), 2);
-	d = b * b - 4 * a * c;
-	if (d < 0)
-		return (-1);
-	return (get_t(a, b, d));
-}
-
-double	cylinder_intersect(t_vec o, t_vec dir, t_object *obj)
-{
-	double	a;
-	double	b;
-	double	c;
-	double	d;
-	t_vec	x;
-
-	x = vec_sub(o, obj->pos);
-	a = vec_dot(dir, dir) - pow(vec_dot(dir, obj->rot), 2);
-	b = 2 * (vec_dot(dir, x) - (vec_dot(dir, obj->rot) * vec_dot(x, obj->rot)));
-	c = vec_dot(x, x) - pow(vec_dot(x, obj->rot), 2) - pow(obj->r, 2);
-	d = b * b - 4 * a * c;
-	if (d < 0)
-		return (-1);
-	return (get_t(a, b, d));
-}
-
-double	sphere_intersect(t_vec o, t_vec dir, t_object *obj)
-{
-	double	a;
-	double	b;
-	double	c;
-	double	d;
-	t_vec	oc;
-
-	oc = vec_sub(o, obj->pos);
-	a = vec_dot(dir, dir);
-	b = 2 * vec_dot(oc, dir);
-	c = vec_dot(oc, oc) - (obj->r * obj->r);
-	d = b * b - 4 * a * c;
-	if (d < 0)
-		return (-1);
-	return (get_t(a, b, d));
-}
-
-void	object_init(t_sdl *sdl, t_ray *ray, int i, t_object *obj)
-{
-	obj->t = cone_intersect(ray->orig, ray->dir, obj);
-	obj->rot = vec_norm(obj->rot);
-	if (obj->t > 0 && obj->t < sdl->ctx.min_t)
-	{
-		sdl->ctx.min_t = obj->t;
-		sdl->ctx.clos_obj = i;
-	}
-}
-
-void	ray_trace_init(t_sdl *sdl, t_ray *ray)
-{
-	int		x;
-	int		y;
-	int		i;
-
-#if 0
-	double	n_x;
-	double	n_y;
-#endif
-
-	x = 0;
-	i = 1;
-
-	while (x <= WIN_W)
-	{
-		y = 0;
-#if 0
-		n_x = (x + 0.5) / (double)WIN_W;
-		n_x = 2 * n_x - 1;
-#endif
-		while (y <= WIN_H)
-		{
-#if 0
-			n_y = (y + 0.5) / (double)WIN_H;
-			n_y = 1 - (2 * n_y);
-#endif
-			//get_dir(n_x, n_y, ray, sdl);
-			sdl->ctx.min_t = INFINITY;
-			sdl->ctx.clos_obj = 0;
-			object_init(sdl, ray, i, &sdl->ctx.obj);
-			sdl->ctx.light.p = vec_sum(ray->orig, vec_scale(ray->dir, sdl->ctx.obj.t));
-			sdl->ctx.light.n = cone_normal(ray, &sdl->ctx.obj);
-			get_intensity(sdl, &sdl->ctx.light, vec_scale(ray->dir, -1), sdl->ctx.obj.specular);
-			set_color(sdl, sdl->ctx.clos_obj, x, y);
-			y++;
-		}
-		x++;
-	}
-}
 #endif
 
 static inline int	init_sdl(t_sdl *sdl)
