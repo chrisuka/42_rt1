@@ -6,7 +6,7 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 20:39:42 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/12/01 12:58:29 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/12/01 15:08:25 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ static inline t_scene	init_context(void)
 		.cam = (t_cam){.pos = (t_vec){0, 0, -10}, .rot = (t_vec){0, 0, 0}},
 		.obj[0] = (t_object){
 			.id = sphere, .pos = (t_vec){2, 0, 0}, .rot = (t_vec){0},
-			.r = 2, .specular = 100.0L, .color = (t_rgbf){1.0L, 0, 0}},
-		.light = (t_light){.pos = (t_vec){-30, 50, -50}, .intensity = 1.0L},
+			.r = 2, .specular = 1000.0L, .color = (t_rgbf){1.0L, 0, 0}},
+		.light = (t_light){.pos = (t_vec){-30, 50, -50}, .intensity = 0.5L},
 		.ambient = 0.1L
 	});
 }
