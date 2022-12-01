@@ -6,7 +6,7 @@
 #    By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/18 22:41:30 by ikarjala          #+#    #+#              #
-#    Updated: 2022/12/01 09:00:29 by ikarjala         ###   ########.fr        #
+#    Updated: 2022/12/01 09:31:58 by ikarjala         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -81,8 +81,8 @@ BUILD_RULES_STRICT:		BMSG_FORM := --STRICT--
 BUILD_RULES_STRICT:		CFLAGS += $(CFSTRICT)
 BUILD_RULES_STRICT:		re
 BUILD_RULES_OPTIMAL:	BMSG_FORM := --OPTIMIZED--
-BUILD_RULES_OPTIMAL: 	CFLAGS += $(CFOPTIM)
-BUILD_RULES_OPTIMAL: 	re
+BUILD_RULES_OPTIMAL:	CFLAGS += $(CFOPTIM)
+BUILD_RULES_OPTIMAL:	re
 BUILD_RULES_DEBUG:		BMSG_FORM := --DEBUG--
 BUILD_RULES_DEBUG:		CFLAGS += $(CFDEBUG)
 BUILD_RULES_DEBUG:		re

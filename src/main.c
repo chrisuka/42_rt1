@@ -6,7 +6,7 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 14:19:38 by ekantane          #+#    #+#             */
-/*   Updated: 2022/12/01 09:17:43 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/12/01 09:20:11 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,7 +140,6 @@ int		main(int argc, char **argv)
 	unit_tests(&sdl); // DEBUG
 	return (0);
 #endif
-	//ray_trace_init(&sdl, &ray);
 	render (&sdl);
 	while (sdl.pstatus == ECONTINUE)
 	{

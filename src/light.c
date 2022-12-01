@@ -6,7 +6,7 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/29 18:53:34 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/11/30 15:31:35 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/12/01 10:46:00 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,13 @@
  * In either case it would contribute no light to the surface,
  * therefore we only apply it if the angle is greater than Epsilon.
 */
-double	get_intensity(t_vec hit_p, t_vec hit_n, t_light light)
+double	get_intensity(t_vec hit_p, t_vec hit_n, t_light light, t_object *obj)
 {
 	// NOTE: light_dir is currently from obj towards light
 	const t_vec		light_dir = vec_norm (vec_sub (light.pos, hit_p));
 	const double	angle = vec_dot (light_dir, hit_n);
 	double			intensity;
+
 
 	intensity = 0.0L;
 	
@@ -50,9 +51,11 @@ double	get_intensity(t_vec hit_p, t_vec hit_n, t_light light)
 	// won't this always result in 1 ?!
 	// x/(|vA| * |vB|) = x/1*1 = x/1 = x
 	
-#if 0 // WIP
-	if (obj.specular > 0)
-		intensity += fpow(cos(vec_dot (CAM_vZ, L_vREFLECTION)), obj.specular);
+#if 1 // WIP
+	//const double CAM_vZ = 
+	if (obj->specular > 0)
+		;
+		//intensity += fpow(cos(vec_dot (CAM_vZ, L_vREFLECTION)), obj.specular);
 #endif
 	return (intensity);
 }

@@ -6,7 +6,7 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 21:23:06 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/12/01 09:08:12 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/12/01 09:58:23 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ t_rgbf	raytrace(t_scene *ctx, t_ray ray)
 {
 	t_rgbf		c;
 	t_object	*nearest;
-	t_vec		hit_p;
+	t_vec		hit_point;
 	double		min_t;
 	double		t;
 
@@ -77,8 +77,8 @@ t_rgbf	raytrace(t_scene *ctx, t_ray ray)
 	hit_point = vec_sum (ray.orig, vec_scale (ray.dir, min_t));
 	c = cmul (c, fmin(1.0L, ctx->ambient + get_intensity (
 				hit_point,
-				sphere_normal (ray.dir, hit_p, nearest),
-				ctx->light)));
+				sphere_normal (ray.dir, hit_point, nearest),
+				ctx->light, nearest)));
 
 	// TODO: specular
 	return (c);
