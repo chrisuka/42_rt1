@@ -6,7 +6,7 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 20:57:29 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/11/30 09:04:58 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/12/01 17:06:49 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ typedef struct s_object
 	t_vec	pos;
 	t_vec	rot;
 	double	r;
+	double	gloss;
 	double	specular;
 	t_rgbf	color;
 }	t_object;
