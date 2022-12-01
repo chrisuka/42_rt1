@@ -6,7 +6,7 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 11:36:51 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/12/01 13:46:59 by ekantane         ###   ########.fr       */
+/*   Updated: 2022/12/01 14:06:31 by ekantane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ static inline double	choose_quad_result(double a, double b, double d)
 }
 
 #if 0
+
 static inline double	intersect_plane(t_vec dir, t_object *obj)
 {
 	double	a;
@@ -91,19 +92,19 @@ static inline double	intersect_cylinder(t_vec dir, t_object *obj)
 
 SPHERE:
 a =  square of line direction
-b = 2 * (line direction * (point on the line * spehere center))
+b = 2 * (line direction * (point on the line * sphere center))
 c = (square of (point on the line * sphere center)) - square of radius
 
 CYLINDER:
 a =  square of line direction - square of (line direction * rotation)
-b = 2 * (line direction * (point on the line * sphere center) - (line direction * rotation) * ((point on the line * sphere center) * rotation))
-c = (square of (point on the line * spehere center)) - square of ((point on the line * sphere center) * rotation) - square of radius
+b = 2 * (line direction * (point on the line * cylinder center) - (line direction * rotation) * ((point on the line * cylinder center) * rotation))
+c = (square of (point on the line * cylinder center)) - square of ((point on the line * cylinder center) * rotation) - square of radius
 
 CONE:
 a = square of line direction - square of rotation * (square of (line direction * rotation)) - square of (line direction * rotation)
-b = 2 * (line direction * (point on the line * sphere center) - square of rotation * ((line direction * rotation) *
-((point on the line * sphere center) * rotation)) - (line direction * rotation) * ((point on the line * sphere center) * rotation))
-c = (square of (point on the line * spehere center)) - square of rotation * (square of (line direction * rotation)) - square of (line direction * rotation)
+b = 2 * (line direction * (point on the line * cone circle  center) - square of rotation * ((line direction * rotation) *
+((point on the line * cone circle center) * rotation)) - (line direction * rotation) * ((point on the line * cone circle center) * rotation))
+c = (square of (point on the line * cone circle center)) - square of rotation * (square of (line direction * rotation)) - square of (line direction * rotation)
 
 square of vec_dot(dir, obj->rot)
 
@@ -112,6 +113,9 @@ if	b * b - 4 * a * c = 0	there is one intersection
 if	b * b - 4 * a * c < 0	there are no intersections
 
 The equations in choose_quad_result handling the discriminant tell the locations of the intersections.
+
+PLANE:
+t = -(point on the line - plane center) * rotation) / (line direction * rotation)
 
 */
 
