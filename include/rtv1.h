@@ -6,7 +6,7 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 12:18:05 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/12/01 10:46:13 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/12/01 12:59:08 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@
 
 typedef struct s_sdl_data
 {
-	unsigned int	pstatus;
+	int				ps;
 	SDL_Window		*win;
 	SDL_Surface		*surf;
 

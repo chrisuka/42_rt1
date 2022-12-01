@@ -6,7 +6,7 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 14:19:38 by ekantane          #+#    #+#             */
-/*   Updated: 2022/12/01 09:20:11 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/12/01 12:59:43 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ static inline int	init_sdl(t_sdl *sdl)
 	const char	error_msg[] = "Unable to initialize SDL.";
 	const void	(*errhook) = NULL;
 
-	sdl->pstatus = ECONTINUE;
+	sdl->ps = ECONTINUE;
 	if (SDL_Init (esdl_dev) != 0)
 		return (ft_panic (error_msg, errhook));
 	sdl->win = SDL_CreateWindow (
@@ -118,6 +118,13 @@ static inline int	init_sdl(t_sdl *sdl)
 static inline void	unit_tests(t_sdl *sdl)
 {
 	sdl = NULL;
+	t_vec d = {1,1,0};
+	t_vec n = {0,-1,0};
+	t_vec r = vec_reflect (d, n);
+	if (r.x == 1 &&
+		r.y == -1 &&
+		r.z == 0)
+		ft_putendl ("success");
 }
 #endif
 
@@ -141,13 +148,13 @@ int		main(int argc, char **argv)
 	return (0);
 #endif
 	render (&sdl);
-	while (sdl.pstatus == ECONTINUE)
+	while (sdl.ps == ECONTINUE)
 	{
 		while (SDL_PollEvent(&event))
 		{
 			if ((SDL_QUIT == event.type) || (SDL_KEYDOWN == event.type
 				&& SDL_SCANCODE_ESCAPE == event.key.keysym.scancode))
-				sdl.pstatus = EEXIT;
+				sdl.ps = EEXIT;
 		}
 	}
 	// free everything here, then exit with main return
