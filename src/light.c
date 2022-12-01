@@ -6,7 +6,7 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/29 18:53:34 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/12/01 17:15:07 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/12/01 17:45:24 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@
  * In either case it would contribute no light to the surface,
  * therefore we only apply it if the angle is greater than Epsilon.
 */
-double	get_intensity(t_vec hit_p, t_vec hit_n, t_light light, t_object *obj)
+double	get_intensity(t_vec hit_p, t_vec hit_n, t_light light, t_obj *obj)
 {
 	// NOTE: light_dir is currently from obj towards light
 	const t_vec		light_dir = vec_norm (vec_sub (light.pos, hit_p));

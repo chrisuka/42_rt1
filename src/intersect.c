@@ -6,7 +6,7 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 11:36:51 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/12/01 14:06:31 by ekantane         ###   ########.fr       */
+/*   Updated: 2022/12/01 17:45:46 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static inline double	choose_quad_result(double a, double b, double d)
 
 #if 0
 
-static inline double	intersect_plane(t_vec dir, t_object *obj)
+static inline double	intersect_plane(t_vec dir, t_obj *obj)
 {
 	double	a;
 	double	b;
@@ -45,7 +45,7 @@ static inline double	intersect_plane(t_vec dir, t_object *obj)
 	return (t);
 }
 
-static inline double	intersect_cone(t_vec dir, t_object *obj)
+static inline double	intersect_cone(t_vec dir, t_obj *obj)
 {
 	double	a;
 	double	b;
@@ -69,7 +69,7 @@ static inline double	intersect_cone(t_vec dir, t_object *obj)
 	return (choose_quad_result (a, b, d));
 }
 
-static inline double	intersect_cylinder(t_vec dir, t_object *obj)
+static inline double	intersect_cylinder(t_vec dir, t_obj *obj)
 {
 	double	a;
 	double	b;
@@ -119,7 +119,7 @@ t = -(point on the line - plane center) * rotation) / (line direction * rotation
 
 */
 
-static inline double	intersect_sphere(t_ray ray, t_object obj)
+static inline double	intersect_sphere(t_ray ray, t_obj obj)
 {
 	double	a;
 	double	b;
@@ -137,9 +137,9 @@ static inline double	intersect_sphere(t_ray ray, t_object obj)
 	return (choose_quad_result (a, b, d));
 }
 
-double	intersect(t_ray ray, t_object obj)
+double	intersect(t_ray ray, t_obj obj)
 {
-	typedef double (*t_rayfn)(t_ray, t_object);
+	typedef double (*t_rayfn)(t_ray, t_obj);
 	const t_rayfn	jmp[] = {
 		intersect_sphere
 		//intersect_cylinder,

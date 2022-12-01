@@ -6,7 +6,7 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 12:18:05 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/12/01 13:19:56 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/12/01 17:46:04 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ t_rgbf	raytrace(t_scene *ctx, t_ray ray);
 
 /*/ intersect.c ========================================================| ///*/
 
-double	intersect(t_ray ray, t_object obj);
+double	intersect(t_ray ray, t_obj obj);
 
 /*/ error.c ============================================================| ///*/
 
@@ -74,10 +74,10 @@ void	render(t_sdl *sdl);
 
 /*/ normals.c ==========================================================| ///*/
 
-t_vec	get_object_normal(t_vec dir, t_vec hit_point, t_object *obj);
+t_vec	get_object_normal(t_vec dir, t_vec hit_point, t_obj *obj);
 
 /*/ light.c ============================================================| ///*/
 
-double	get_intensity(t_vec hit_p, t_vec hit_n, t_light light, t_object *obj);
+double	get_intensity(t_vec hit_p, t_vec hit_n, t_light light, t_obj *obj);
 
 #endif

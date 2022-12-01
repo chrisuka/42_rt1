@@ -6,7 +6,7 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 21:23:06 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/12/01 13:20:19 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/12/01 18:07:37 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,11 @@ t_ray	project_ray_from_camera(int x, int y, t_cam cam)
 */
 t_rgbf	raytrace(t_scene *ctx, t_ray ray)
 {
-	t_rgbf		c;
-	t_object	*nearest;
-	t_vec		hit_point;
-	double		min_t;
-	double		t;
+	t_rgbf	c;
+	t_obj	*nearest;
+	t_vec	hit_point;
+	double	min_t;
+	double	t;
 
 	nearest = NULL;
 	min_t = INFINITY;

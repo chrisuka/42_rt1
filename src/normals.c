@@ -6,14 +6,14 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/01 13:02:04 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/12/01 13:22:39 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/12/01 17:45:18 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rtv1.h"
 
 #if 0
-static inline t_vec	cone_normal(t_ray *ray, t_object *obj)
+static inline t_vec	cone_normal(t_ray *ray, t_obj *obj)
 {
 	double	m;
 	t_vec	n;
@@ -29,7 +29,7 @@ static inline t_vec	cone_normal(t_ray *ray, t_object *obj)
 	return (n);
 }
 
-static inline t_vec	cylinder_normal(t_ray *ray, t_object *obj)
+static inline t_vec	cylinder_normal(t_ray *ray, t_obj *obj)
 {
 	double	m;
 	t_vec	n;
@@ -49,7 +49,7 @@ static inline t_vec	cylinder_normal(t_ray *ray, t_object *obj)
  * N = Normalize(P - O)
  * where P = ray hit point, O = object origin
 */
-static inline t_vec	sphere_normal(t_vec dir, t_vec hit_p, t_object *obj)
+static inline t_vec	sphere_normal(t_vec dir, t_vec hit_p, t_obj *obj)
 {
 	t_vec	n;
 
@@ -59,9 +59,9 @@ static inline t_vec	sphere_normal(t_vec dir, t_vec hit_p, t_object *obj)
 	return (n);
 }
 
-t_vec	get_object_normal(t_vec dir, t_vec hit_point, t_object *obj)
+t_vec	get_object_normal(t_vec dir, t_vec hit_point, t_obj *obj)
 {
-	typedef t_vec (*t_nf)(t_vec, t_vec, t_object *);
+	typedef t_vec (*t_nf)(t_vec, t_vec, t_obj *);
 	const t_nf	jmp[] = {
 		sphere_normal
 		//cylinder_normal,

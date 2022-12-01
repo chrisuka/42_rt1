@@ -6,7 +6,7 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 20:57:29 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/12/01 17:06:49 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/12/01 17:44:30 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,13 @@ typedef struct s_object
 	double	gloss;
 	double	specular;
 	t_rgbf	color;
-}	t_object;
+}	t_obj; // TODO: inheritance
 
 typedef struct s_cam
 {
 	t_vec	pos;
 	t_vec	rot;
+	// TODO: union (euler / forward) instead of rot
 }	t_cam;
 
 typedef struct s_ray
@@ -45,10 +46,10 @@ typedef struct s_ray
 }	t_ray;
 
 typedef struct s_scene_context {
-	t_cam		cam;
-	t_light		light;
-	double		ambient;
-	t_object	obj[1];
+	t_cam	cam;
+	t_light	light;
+	t_obj	obj[1];
+	double	ambient;
 }	t_scene;
 
 enum e_object_type {
