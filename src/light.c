@@ -6,7 +6,7 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/29 18:53:34 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/12/01 17:45:24 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/12/01 20:21:48 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
  * and return a multiplier for how bright the intersection point on an
  * object's surface should be.
  *
- * Diffuse shading: every light source outputs I (ray width) amount of
+ * Diffuse: every light source outputs I (ray width) amount of
  * energy spread evenly over area A, i = I / A
  * Area is from 1 to infinity based on the angle between vL and vN.
  *
@@ -29,6 +29,8 @@
  * If the angle = 0, the light would spread over A infinity.
  * In either case it would contribute no light to the surface,
  * therefore we only apply it if the angle is greater than Epsilon.
+ *
+ * We in fact want the cosine of angle
 */
 double	get_intensity(t_vec hit_p, t_vec hit_n, t_light light, t_obj *obj)
 {
@@ -37,27 +39,21 @@ double	get_intensity(t_vec hit_p, t_vec hit_n, t_light light, t_obj *obj)
 	const double	angle = vec_dot (light_dir, hit_n);
 	double			intensity;
 
-	const double	matte = (1.0L - obj->gloss);
+	//const double	matte = (1.0L - obj->gloss);
 
 	intensity = 0.0L;
 	
 	// NOTE: for every light...
 
 	if (angle > EPS)
-		intensity += matte * light.intensity *
-			(angle / (vec_len(light_dir) * vec_len(hit_n)));
+		intensity += light.intensity * angle;
 
-	// NOTE: what the heck?! we are dividing by
-	// the product of the lengths of 2 unit vectors? WHY?!
-	// won't this always result in 1 ?!
-	// x/(|vA| * |vB|) = x/1*1 = x/1 = x
-	
 #if 1 // WIP
 	const t_vec Vz = vec_norm (vec_sub (obj->pos, hit_p));
 	const t_vec Vr = vec_reflect (Vz, hit_n);
-	if (obj->specular > 0 && obj->gloss > 0)
-		intensity += light.intensity *
-			obj->gloss * pow(vec_dot (Vr, light_dir), obj->specular);
+	if (obj->specular > 0) //&& obj->gloss > 0
+		intensity += light.intensity * obj->specular * 
+			pow(vec_dot (Vr, light_dir), obj->gloss);
 #endif
 	return (intensity);
 }
