@@ -6,7 +6,7 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 14:19:38 by ekantane          #+#    #+#             */
-/*   Updated: 2022/11/30 08:15:50 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/12/01 11:01:16 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,14 @@ t_vec	vec_norm(t_vec v1)
 
 	inv = 1 / vec_len(v1);
 	return (vec_scale(v1, inv));
+}
+
+/* Return vector d, reflected by normal vector n
+ * r = d - 2(d . n)n
+*/
+t_vec	vec_reflect(t_vec d, t_vec n)
+{
+	return (vec_sub (d, vec_scale (n, 2 * vec_dot(d, n))));
 }
 
 t_vec	vec_scale(t_vec v1, double t)

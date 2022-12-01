@@ -6,7 +6,7 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 20:03:10 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/11/29 16:55:23 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/12/01 11:01:36 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ typedef struct s_vec
 
 double	vec_len(t_vec v1);
 double	vec_dot(t_vec v1, t_vec v2);
+
+t_vec	vec_reflect(t_vec d, t_vec n);
 
 t_vec	vec_sum(t_vec v1, t_vec v2);
 t_vec	vec_sub(t_vec v1, t_vec v2);
