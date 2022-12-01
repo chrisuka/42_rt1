@@ -6,7 +6,7 @@
 #    By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/19 01:31:36 by ikarjala          #+#    #+#              #
-#    Updated: 2022/11/30 17:57:04 by ikarjala         ###   ########.fr        #
+#    Updated: 2022/12/01 08:48:12 by ikarjala         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,9 +22,9 @@ main vector color render render_utils parser error raytracer intersect light
 
 SDL_FLAGS	:= --disable-shared --disable-video-wayland
 BUILD_DIR	:= build/
-SDL_CC		= $(shell $(BUILD_DIR)libsdl2/bin/sdl2-config --cflags)
-SDL_LD		= $(shell $(BUILD_DIR)libsdl2/bin/sdl2-config --libs)
-LIB_SDL		:= $(BUILD_DIR)libsdl2/lib/libSDL2.a
+SDL_CC		= $(shell $(BUILD_DIR)bin/sdl2-config --cflags)
+SDL_LD		= $(shell $(BUILD_DIR)bin/sdl2-config --libs)
+LIB_SDL		= $(BUILD_DIR)lib/libSDL2.a
 
 LIB_NAME	= libft/libft.a
 LIBRARIES	= $(LIB_NAME) $(SDL_LD)
@@ -51,7 +51,7 @@ $(OBJ): $(OBJ_DIR)%.o:$(SRC_DIR)%.c | $(OBJ_DIR)
 
 $(LIB_SDL): $(BUILD_DIR)
 	@cd libsdl2\
-	&& ./configure --prefix=$(abspath $(BUILD_DIR)libsdl2) $(SDL_FLAGS)\
+	&& ./configure --prefix=$(abspath $(BUILD_DIR)) $(SDL_FLAGS)\
 	&& make && make install
 
 $(OBJ_DIR) $(BUILD_DIR):
@@ -71,19 +71,8 @@ re: fclean all
 lclean:
 	@$(MAKE) --directory=libft fclean
 	@$(RM) -r $(BUILD_DIR)
-#-- OVERRIDES -------------------------|----//--||
-W:		strict
-strict:	BMSG_FORM := --STRICT--
-strict:	CFLAGS += $(CFSTRICT)
-strict:	re
-
-O:		optim
-optim:	BMSG_FORM := --OPTIMIZED--
-optim: 	CFLAGS += $(CFOPTIM)
-optim: 	re
-
-d:		debug
-debug:	BMSG_FORM := --DEBUG--
-debug:	CFLAGS += $(CFDEBUG)
-debug:	re
+#-- BUILD OVERRIDES -------------------|----//--||
+W:	BUILD_RULES_STRICT
+O:	BUILD_RULES_OPTIMAL
+d:	BUILD_RULES_DEBUG
 #======|============|==============================================|===========#

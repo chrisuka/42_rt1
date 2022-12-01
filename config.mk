@@ -6,11 +6,9 @@
 #    By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/18 22:41:30 by ikarjala          #+#    #+#              #
-#    Updated: 2022/11/20 17:15:31 by ikarjala         ###   ########.fr        #
+#    Updated: 2022/12/01 08:53:11 by ikarjala         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
-
-OS	:= $(shell uname -s)
 
 MAKEARGS	:= --load-average=2.5 --jobs=4
 
@@ -23,8 +21,8 @@ SRC		= $(CFUNC:%=$(SRC_DIR)%.c)
 OBJ		= $(CFUNC:%=$(OBJ_DIR)%.o)
 INCLUDE	= $(addprefix -I , $(INC_DIR))
 
-CC			:= clang
-LD			:= $(CC)
+CC	:= clang
+LD	:= $(CC)
 
 CFLAGS		= -Wall -Werror -Wextra $(USEFLAGS)
 CFSTRICT	= -Wimplicit -Wunused -Wconversion
@@ -39,17 +37,9 @@ DEP_FLAGS	= -MMD -MP -MT $(@) -MF $(@:.o=.dep)
 .EXTRA_PREREQS	:= 
 .DELETE_ON_ERROR = $(NAME) $(OBJ)
 .NOTPARALLEL: $(PRE_REQUISITE) $(OBJ_DIR)
-.PHONY: so debug d strict W norme O optim
-#=== UTILITIES ================================================================#
-CMD_NORME		:= norminette -R CheckForbiddenSourceHeader
-PRE_REQUISITE	:= .buildinfo
-$(PRE_REQUISITE):
-	@$(ECHO)	$(BMSG_BIN)
-	@$(ECHO)	$(BMSG_CC)
-	@$(TOUCH)	$(PRE_REQUISITE)
-norme: $(SRC) $(INC_DIR)
-	@$(CMD_NORME) $(@)
+.PHONY: norme so BUILD_RULES_STRICT BUILD_RULES_OPTIMAL BUILD_RULES_DEBUG 
 #=== COMPATABILITY ============================================================#
+OS	:= $(shell uname -s)
 ifeq ("$(OS)" , "Linux")
 ECHO := echo -e
 endif
@@ -73,8 +63,27 @@ endif
 #=== BUILD MESSAGES ===========================================================#
 BMSG_FORM	:= --DEPLOY--
 BMSG_PREFIX	:= $(BLUE)$(NAME)$(CNIL) :: 
-BMSG_BIN	= "$(BMSG_PREFIX)$(CYANB)Starting $(BMSG_FORM) build...$(CNIL)"
+BMSG_BIN	= "$(BMSG_PREFIX)$(CYANB)Starting $(BMSG_FORM) build$(CNIL)..."
 BMSG_CC		= "$(BMSG_PREFIX)$(CNIL)$(CC) $(CFLAGS)"
 BMSG_LD		= "$(BMSG_PREFIX)$(PURPLEB)Linking:$(CNIL) $(LIBS)"
 BMSG_FIN	= "$(BMSG_PREFIX)$(GREENB)Build success!$(CNIL)"
+#=== UTILITIES ================================================================#
+CMD_NORME		:= norminette -R CheckForbiddenSourceHeader
+PRE_REQUISITE	:= .buildinfo
+$(PRE_REQUISITE):
+	@$(ECHO)	$(BMSG_BIN)
+	@$(ECHO)	$(BMSG_CC)
+	@$(TOUCH)	$(PRE_REQUISITE)
+norme: $(SRC_DIR) $(INC_DIR)
+	@$(CMD_NORME) $(<)
+#=== BUILD OVERRIDES ==========================================================#
+BUILD_RULES_STRICT:		BMSG_FORM := --STRICT--
+BUILD_RULES_STRICT:		CFLAGS += $(CFSTRICT)
+BUILD_RULES_STRICT:		re
+BUILD_RULES_OPTIMAL:	BMSG_FORM := --OPTIMIZED--
+BUILD_RULES_OPTIMAL: 	CFLAGS += $(CFOPTIM)
+BUILD_RULES_OPTIMAL: 	re
+BUILD_RULES_DEBUG:		BMSG_FORM := --DEBUG--
+BUILD_RULES_DEBUG:		CFLAGS += $(CFDEBUG)
+BUILD_RULES_DEBUG:		re
 #======|============|==========================================================#
