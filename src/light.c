@@ -6,7 +6,7 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/29 18:53:34 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/12/01 20:21:48 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/12/01 21:00:21 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 /* Calculate the summed intensity of all the light sources in the scene
  * and return a multiplier for how bright the intersection point on an
  * object's surface should be.
+ *
+ * Ambient: base intensity
  *
  * Diffuse: every light source outputs I (ray width) amount of
  * energy spread evenly over area A, i = I / A
@@ -30,11 +32,17 @@
  * In either case it would contribute no light to the surface,
  * therefore we only apply it if the angle is greater than Epsilon.
  *
- * We in fact want the cosine of angle
+ * Specular (Phong model): we multiply the object's specular factor with
+ * a factor raised to the power of the object's shininess value.
+ * We get this factor as cosine of the angle between Vr and L
+ *
+ * L = direction from object to light source
+ * Vr = reflection of Viewport vector
+ * 0 = ( |Vr| . |L| ) / ( ||Vr|| * ||L|| )
+ * cos0 = |Vr| . |L|
 */
 double	get_intensity(t_vec hit_p, t_vec hit_n, t_light light, t_obj *obj)
 {
-	// NOTE: light_dir is currently from obj towards light
 	const t_vec		light_dir = vec_norm (vec_sub (light.pos, hit_p));
 	const double	angle = vec_dot (light_dir, hit_n);
 	double			intensity;
