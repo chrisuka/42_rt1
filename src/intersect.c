@@ -6,7 +6,7 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 11:36:51 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/12/02 17:36:58 by ekantane         ###   ########.fr       */
+/*   Updated: 2022/12/02 19:30:52 by ekantane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,66 +29,6 @@ static inline double	choose_quad_result(double a, double b, double d)
 	return (-1);
 }
 
-#if 0
-
-static inline double	intersect_cone(t_ray ray, t_obj obj)
-{
-	double	a;
-	double	b;
-	double	c;
-	double	d;
-	t_vec	x;
-	double	m;
-
-	m = pow(obj.r, 2) + 1;
-	x = vec_sub(ray.orig, obj.pos);
-	
-	a = vec_dot(ray.dir, ray.dir) - m * pow(vec_dot(ray.dir, obj.rot), 2) -
-		pow(vec_dot(ray.dir, obj.rot), 2);
-	b = 2 * ((vec_dot(ray.dir, x) - (m * vec_dot(ray.dir, obj.rot)) *
-		vec_dot(x, obj.rot) - vec_dot(ray.dir, obj.rot) * vec_dot(x, obj.rot)));
-	c = vec_dot(x, x) - (m * pow(vec_dot(x, obj.rot), 2)) -
-	pow(vec_dot(x, obj.rot), 2);
-	d = b * b - 4 * a * c;
-	if (d < 0)
-		return (-1);
-	return (choose_quad_result (a, b, d));
-}
-
-
-static inline double	intersect_plane(t_vec dir, t_obj *obj)
-{
-	double	a;
-	double	b;
-	double	t;
-	
-	a = vec_dot(vec_sub(ray.orig, obj->pos), obj->rot);
-	b = vec_dot(dir, obj->rot);
-	t = -a / b;
-	if (b == 0 || (a < 0 && b < 0) || (a > 0 && b > 0) || t <= EPS)
-		return (-1);
-	return (t);
-}
-
-static inline double	intersect_cylinder(t_vec dir, t_obj *obj)
-{
-	double	a;
-	double	b;
-	double	c;
-	double	d;
-	t_vec	x;
-
-	x = vec_sub(ray.orig, obj.pos);
-	a = vec_dot(ray.dir, ray.dir) - pow(vec_dot(ray.dir, obj.rot), 2);
-	b = 2 * (vec_dot(ray.dir, x) - (vec_dot(ray.dir, obj.rot) * vec_dot(x, obj.rot)));
-	c = vec_dot(x, x) - pow(vec_dot(x, obj.rot), 2) - pow(obj.r, 2);
-	d = b * b - 4 * a * c;
-	if (d < 0)
-		return (-1);
-	return (choose_quad_result (a, b, d));
-}
-#endif
-
 /*
 
 SPHERE:
@@ -106,6 +46,60 @@ PLANE:
 t = -(point on the line - plane center) * rotation) / (line direction * rotation)
 
 */
+
+static inline double	intersect_plane(t_ray ray, t_obj obj)
+{
+	double	a;
+	double	b;
+	double	t;
+	
+	a = vec_dot(vec_sub(ray.orig, obj.pos), obj.rot);
+	b = vec_dot(ray.dir, obj.rot);
+	t = -a / b;
+	if (b == 0 || (a < 0 && b < 0) || (a > 0 && b > 0) || t <= EPS)
+		return (-1);
+	return (t);
+}
+
+static inline double	intersect_cone(t_ray ray, t_obj obj)
+{
+	double	a;
+	double	b;
+	double	c;
+	double	d;
+	t_vec	x;
+	double	m;
+
+	obj.rot = vec_norm(obj.rot);
+	m = pow(obj.r, 2);								// this is a iffy
+	x = vec_sub(ray.orig, obj.pos);
+	a = vec_dot(ray.dir, ray.dir) - m * pow(vec_dot(ray.dir, obj.rot), 2) - pow(vec_dot(ray.dir, obj.rot), 2);
+	b = 2 * ((vec_dot(ray.dir, x) - (m * vec_dot(ray.dir, obj.rot)) * vec_dot(x, obj.rot) - vec_dot(ray.dir, obj.rot) * vec_dot(x, obj.rot)));
+	c = vec_dot(x, x) - (m * pow(vec_dot(x, obj.rot), 2)) - pow(vec_dot(x, obj.rot), 2);
+	d = b * b - 4 * a * c;
+	if (d < 0)
+		return (-1);
+	return (choose_quad_result (a, b, d));
+}
+
+static inline double	intersect_cylinder(t_ray ray, t_obj obj)
+{
+	double	a;
+	double	b;
+	double	c;
+	double	d;
+	t_vec	x;
+
+	obj.rot = vec_norm(obj.rot);
+	x = vec_sub(ray.orig, obj.pos);
+	a = vec_dot(ray.dir, ray.dir) - pow(vec_dot(ray.dir, obj.rot), 2);
+	b = 2 * (vec_dot(ray.dir, x) - (vec_dot(ray.dir, obj.rot) * vec_dot(x, obj.rot)));
+	c = vec_dot(x, x) - pow(vec_dot(x, obj.rot), 2) - pow(obj.r, 2);
+	d = b * b - 4 * a * c;
+	if (d < 0)
+		return (-1);
+	return (choose_quad_result (a, b, d));
+}
 
 static inline double	intersect_sphere(t_ray ray, t_obj obj)
 {
@@ -129,10 +123,10 @@ double	intersect(t_ray ray, t_obj obj)
 {
 	typedef double (*t_rayfn)(t_ray, t_obj);
 	const t_rayfn	jmp[] = {
-		intersect_sphere
-		//intersect_cylinder,
-		//intersect_cone,
-		//intersect_plane
+		intersect_sphere,
+		intersect_cylinder,
+		intersect_cone,
+		intersect_plane
 	};
 
 	return (jmp [obj.id](ray, obj));

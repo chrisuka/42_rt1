@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   normals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/01 13:02:04 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/12/01 17:45:18 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/12/02 19:12:09 by ekantane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,5 +69,5 @@ t_vec	get_object_normal(t_vec dir, t_vec hit_point, t_obj *obj)
 		//plane_normal
 	};
 
-	return (jmp [obj->id](dir, hit_point, obj));
+	return (jmp [sphere](dir, hit_point, obj));
 }
