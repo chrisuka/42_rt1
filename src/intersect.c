@@ -6,7 +6,7 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 11:36:51 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/12/06 19:17:11 by ikarjala         ###   ########.fr       */
+/*   Updated: 2023/01/04 18:13:12 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ static inline double	intersect_cone(t_ray ray, t_obj obj)
 	double	m;
 
 	obj.rot = vec_norm(obj.rot);
-	m = pow(obj.r, 2);								// this is a bit iffy
+	m = pow(obj.r, 2) + 1;								// this is a bit iffy
 	x = vec_sub(ray.orig, obj.pos);
 	a = vec_dot(ray.dir, ray.dir) - m * pow(vec_dot(ray.dir, obj.rot), 2) - pow(vec_dot(ray.dir, obj.rot), 2);
 	b = 2 * ((vec_dot(ray.dir, x) - (m * vec_dot(ray.dir, obj.rot)) * vec_dot(x, obj.rot) - vec_dot(ray.dir, obj.rot) * vec_dot(x, obj.rot)));
