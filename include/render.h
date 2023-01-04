@@ -6,7 +6,7 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 21:15:40 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/11/29 18:47:15 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/12/05 19:12:10 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,12 @@ typedef union u_pixel32 {
 	unsigned int	g : 8;
 	unsigned int	b : 8;
 }	t_pixel; // WARN: UNTESTED, DO NOT USE
+
+typedef struct	s_raytrace_data {
+	double	qf_roots[2];
+	t_vec	hit_point;
+	t_vec	hit_normal;
+}	t_rt;
 
 enum e_sdl_settings {
 	esdl_dev = SDL_INIT_VIDEO,

@@ -6,13 +6,18 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/01 13:02:04 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/12/02 19:12:09 by ekantane         ###   ########.fr       */
+/*   Updated: 2022/12/06 19:17:31 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rtv1.h"
 
 #if 0
+static inline t_vec	plane_normal(t_ray *ray, t_obj *obj)
+{
+	return (obj->rot);
+}
+
 static inline t_vec	cone_normal(t_ray *ray, t_obj *obj)
 {
 	double	m;
@@ -29,7 +34,7 @@ static inline t_vec	cone_normal(t_ray *ray, t_obj *obj)
 	return (n);
 }
 
-static inline t_vec	cylinder_normal(t_ray *ray, t_obj *obj)
+static inline t_vec	cylinder_normal(t_vec dir, t_vec hit_p, t_obj *obj)
 {
 	double	m;
 	t_vec	n;

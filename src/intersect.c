@@ -6,22 +6,32 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 11:36:51 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/12/02 19:32:43 by ekantane         ###   ########.fr       */
+/*   Updated: 2022/12/06 19:17:11 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rtv1.h"
 
-/* Solve quadratic function and return the more ideal solution to get
- * the closer intersection, or -1 for invalid / unexpected results.
+/* PREFACE:
+ * The basic idea of all the ray-primitive intersections is that we can
+ * form a triangle from the vectors of the ray, the object position and
+ * ray origin, and we can form a quadratic function to determine the scalar t.
+ * The roots tell us what kind of intersection it was and t represents the
+ * distance from the ray origin to the intersection point. We can get the
+ * intersection position in Cartesian coordinates by R0 + t(R) where
+ * R0 = ray origin, R = ray direction.
 */
-static inline double	choose_quad_result(double a, double b, double d)
-{
-	double	t1;
-	double	t2;
 
-	t1 = (-b - sqrt(d)) / (2 * a);
-	t2 = (-b + sqrt(d)) / (2 * a);
+/* Solve quadratic function and return the more ideal solution to get
+ * the closest real intersection t, or -1 if there are no real roots.
+*/
+static inline double	select_root(double a, double b, double d)
+{
+	const double	aa_inv = 1 / (2 * a);
+	const double	disc_root = sqrt(d);
+	const double	t1 = (-b - disc_root) * aa_inv;
+	const double	t2 = (-b + disc_root) * aa_inv;
+
 	if ((t1 <= t2 && t1 >= 0) || (t1 >= 0 && t2 < 0))
 		return (t1);
 	else if ((t2 <= t1 && t2 >= 0) || (t1 < 0 && t2 >= 0))
@@ -32,15 +42,16 @@ static inline double	choose_quad_result(double a, double b, double d)
 /*
 
 SPHERE:
-a =  square of line direction
+a =  squared magnitude of ray direction
 b = 2 * (line direction * (point on the line * sphere center))
 c = (square of (point on the line * sphere center)) - square of radius
 
-if	b * b - 4 * a * c > 0	there are two intersections
-if	b * b - 4 * a * c = 0	there is one intersection
-if	b * b - 4 * a * c < 0	there are no intersections
+D = b*b - 4ac
+if	D > 0	there are two intersections
+if	D = 0	there is one intersection
+if	D < 0	there are no intersections
 
-The equations in choose_quad_result handling the discriminant tell the locations of the intersections.
+The equations in select_root handling the discriminant tell the locations of the intersections.
 
 PLANE:
 t = -(point on the line - plane center) * rotation) / (line direction * rotation)
@@ -79,7 +90,7 @@ static inline double	intersect_cone(t_ray ray, t_obj obj)
 	d = b * b - 4 * a * c;
 	if (d < 0)
 		return (-1);
-	return (choose_quad_result (a, b, d));
+	return (select_root (a, b, d));
 }
 
 static inline double	intersect_cylinder(t_ray ray, t_obj obj)
@@ -98,7 +109,7 @@ static inline double	intersect_cylinder(t_ray ray, t_obj obj)
 	d = b * b - 4 * a * c;
 	if (d < 0)
 		return (-1);
-	return (choose_quad_result (a, b, d));
+	return (select_root (a, b, d));
 }
 
 static inline double	intersect_sphere(t_ray ray, t_obj obj)
@@ -116,7 +127,7 @@ static inline double	intersect_sphere(t_ray ray, t_obj obj)
 	d = b * b - 4 * a * c; // discriminant
 	if (d < 0)
 		return (-1);
-	return (choose_quad_result (a, b, d));
+	return (select_root (a, b, d));
 }
 
 double	intersect(t_ray ray, t_obj obj)
