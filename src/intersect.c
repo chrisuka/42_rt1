@@ -6,7 +6,7 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 11:36:51 by ikarjala          #+#    #+#             */
-/*   Updated: 2023/01/04 18:13:12 by ikarjala         ###   ########.fr       */
+/*   Updated: 2023/01/09 13:58:08 by ekantane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,24 @@ static inline double	intersect_cone(t_ray ray, t_obj obj)
 		return (-1);
 	return (select_root (a, b, d));
 }
+/*
+	t_vec	x;
+	double	a;
+	double	b;
+	double	c;
+	double	d;
+
+	x = vec_sub(ray.orig, obj.pos);
+	a = vec_dot(ray.dir, obj.rot);
+	a = vec_dot(ray.dir, ray.dir) - a * a;
+	b = 2 * (vec_dot(ray.dir, x) - vec_dot(ray.dir, obj.rot)
+		* vec_dot(x, obj.rot));
+	c = vec_dot(x, obj.rot);
+	c = vec_dot(x, x) - c * c - obj.r * obj.r;
+	d = b * b - 4 * a * c;
+	d = DROUND(d);
+	return (d = d < 0 ? -1 : select_root(a, b, d));
+*/
 
 static inline double	intersect_cylinder(t_ray ray, t_obj obj)
 {
@@ -139,6 +157,9 @@ double	intersect(t_ray ray, t_obj obj)
 		intersect_cone,
 		intersect_plane
 	};
+	t_rt	rt;
 
+	rt.t = intersect_cylinder(ray, obj);
+	obj.rot = vec_norm(obj.rot);
 	return (jmp [obj.id](ray, obj));
 }

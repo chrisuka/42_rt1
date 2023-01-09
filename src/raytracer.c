@@ -3,14 +3,36 @@
 /*                                                        :::      ::::::::   */
 /*   raytracer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 21:23:06 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/12/01 18:07:37 by ikarjala         ###   ########.fr       */
+/*   Updated: 2023/01/09 13:56:27 by ekantane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rtv1.h"
+
+t_obj*	find_nearest(t_scene *ctx, t_ray ray, double *min_t)
+{
+	t_obj	*nearest;
+	double	t;
+	int i;
+
+	nearest = NULL;
+	t = 0;
+	i = 0;
+	while (i <= 2)
+	{
+		t = intersect (ray, ctx->obj[i]);
+		if (t > 0 && t < *min_t)
+		{
+			*min_t = t;
+			nearest = &ctx->obj[i];
+		}
+		i++;
+	}
+	return (nearest);
+}
 
 /* Create a ray shooting from camera origin toward a direction
  * determined by the pixel coordinates and frustrum size.
@@ -43,27 +65,19 @@ t_rgbf	raytrace(t_scene *ctx, t_ray ray)
 {
 	t_rgbf	c;
 	t_obj	*nearest;
-	t_vec	hit_point;
-	double	min_t;
-	double	t;
+	t_rt	rt;
 
-	nearest = NULL;
-	min_t = INFINITY;
-	t = intersect (ray, ctx->obj[0]);
-	if (t > 0 && t < min_t)
-	{
-		min_t = t;
-		nearest = &ctx->obj[0];
-	}
+	rt.min_t = INFINITY;
+	nearest = find_nearest(ctx, ray, &rt.min_t);
+
 	if (nearest)
 		c = nearest->color;
 	else
 		return ((t_rgbf){0, 0, 0});
-
-	hit_point = vec_sum (ray.orig, vec_scale (ray.dir, min_t));
+	rt.hit_point = vec_sum (ray.orig, vec_scale (ray.dir, rt.min_t));
 	c = cmul (c, fmin(1.0L, ctx->ambient + get_intensity (
-				hit_point,
-				get_object_normal (ray.dir, hit_point, nearest),
+				rt.hit_point,
+				get_object_normal (ray.dir, rt.hit_point, nearest, ray.orig),
 				ctx->light, nearest)));
 
 	// TODO: specular
