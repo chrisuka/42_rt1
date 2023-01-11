@@ -6,38 +6,37 @@
 #    By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/18 22:41:30 by ikarjala          #+#    #+#              #
-#    Updated: 2023/01/11 14:26:55 by ikarjala         ###   ########.fr        #
+#    Updated: 2023/01/11 14:45:53 by ikarjala         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-MAKEARGS	:= --load-average=2.5 --jobs=4
+#NPROCS		:= $(shell grep 'processor' /proc/cpuinfo | wc -l)
+NPROCS		:= 4
+MAKEARGS	:= --load-average=2.5 --jobs=$(NPROCS)
 
 ECHO 	:= echo
 TOUCH	:= touch
 MKDIR	:= mkdir -p
 RM		:= rm -f
 
-SRC		= $(CFUNC:%=$(SRC_DIR)%.c)
 OBJ		= $(CFUNC:%=$(OBJ_DIR)%.o)
 INCLUDE	= $(addprefix -I , $(INC_DIR))
 
 CC	:= clang
-LD	:= $(CC)
+LD	:= ar
 
 CFLAGS		= -Wall -Werror -Wextra $(USEFLAGS)
 CFSTRICT	= -Wimplicit -Wunused -Wconversion
 CFOPTIM		= -O3 -flto=full
-CFDEBUG		= -g #-fsanitize=address
+CFDEBUG		= -g -fsanitize=address
 
-LDFLAGS 	:= 
+LDFLAGS 	:= -crs
 DEP_FLAGS	= -MMD -MP -MT $(@) -MF $(@:.o=.dep)
 #=== SPECIAL ==================================================================#
-.DEFAULT_GOAL	:= all
-.RECIPEPREFIX	:= >
 .EXTRA_PREREQS	:= 
 .DELETE_ON_ERROR = $(NAME) $(OBJ)
 .NOTPARALLEL: $(PRE_REQUISITE) $(OBJ_DIR)
-.PHONY: norme so BUILD_RULES_STRICT BUILD_RULES_OPTIMAL BUILD_RULES_DEBUG 
+.PHONY: norme so BUILD_RULES_STRICT BUILD_RULES_OPTIMAL BUILD_RULES_DEBUG
 #=== COMPATABILITY ============================================================#
 OS	:= $(shell uname -s)
 ifeq ("$(OS)" , "Linux")
@@ -61,11 +60,11 @@ PURPLEB	:=\033[1;35m
 CYANB	:=\033[1;36m
 endif
 #=== BUILD MESSAGES ===========================================================#
-BMSG_FORM	:= --DEPLOY--
+BMSG_FORM		:= --DEPLOY--
 BMSG_PREFIX	:= $(BLUE)$(NAME)$(CNIL) :: 
 BMSG_BIN	= "$(BMSG_PREFIX)$(CYANB)Starting $(BMSG_FORM) build$(CNIL)..."
-BMSG_CC		= "$(BMSG_PREFIX)$(CNIL)$(CC) $(CFLAGS)"
-BMSG_LD		= "$(BMSG_PREFIX)$(PURPLEB)Linking:$(CNIL) $(LIBS)"
+BMSG_CC	= "$(BMSG_PREFIX)$(CNIL)$(CC) $(CFLAGS)"
+BMSG_LD	= "$(BMSG_PREFIX)$(PURPLEB)Linking:$(CNIL) $(LD) $(LDFLAGS)$(LIBS)"
 BMSG_FIN	= "$(BMSG_PREFIX)$(GREENB)Build success!$(CNIL)"
 #=== UTILITIES ================================================================#
 CMD_NORME		:= norminette -R CheckForbiddenSourceHeader

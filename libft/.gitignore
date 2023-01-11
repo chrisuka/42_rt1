@@ -1,0 +1,15 @@
+**
+!.gitignore
+!author
+
+!Makefile
+!config.mk
+!libft.h
+
+!src/
+!src/ft_*.c
+
+!eval_tests/*.c.test
+!eval_tests/*.h.test
+!eval_tests/Makefile
+!eval_tests/unit-tests/*

@@ -13,3 +13,9 @@
 
 !include/
 !include/*.h
+
+!libft/
+!libft/Makefile
+!libft/config.mk
+!libft/libft.h
+!libft/src/*.c
