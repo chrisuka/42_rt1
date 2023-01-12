@@ -6,7 +6,7 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 14:19:38 by ekantane          #+#    #+#             */
-/*   Updated: 2022/12/01 18:56:31 by ikarjala         ###   ########.fr       */
+/*   Updated: 2023/01/12 14:59:00 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int		main(int argc, char **argv)
 
 	if (argc != 2)
 		return (print_usage ());
-	else if (ft_parse (argv[1], &sdl.ctx) == -1
+	else if (ft_parse (open (argv[1], O_RDONLY), &sdl.ctx) == -1
 		|| init_sdl(&sdl) == -1)
 		return (XC_ERROR);
 #if DEBUG
@@ -85,6 +85,7 @@ int		main(int argc, char **argv)
 		}
 	}
 	// free everything here, then exit with main return
+	scene_unload (&sdl.ctx);
 	SDL_Quit ();
 	return (XC_EXIT);
 }

@@ -6,7 +6,7 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 21:23:06 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/12/01 18:07:37 by ikarjala         ###   ########.fr       */
+/*   Updated: 2023/01/12 14:54:44 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,15 +56,22 @@ t_rgbf	raytrace(t_scene *ctx, t_ray ray)
 		nearest = &ctx->obj[0];
 	}
 	if (nearest)
-		c = nearest->color;
+	{
+		// NOTE: TEMPORARY HOTFIX!
+		if (nearest->mat)
+			c = nearest->mat->color;
+		else
+			c = ctx->default_mat.color;
+	}
 	else
 		return ((t_rgbf){0, 0, 0});
 
 	hit_point = vec_sum (ray.orig, vec_scale (ray.dir, min_t));
+	if (ctx->lights)
 	c = cmul (c, fmin(1.0L, ctx->ambient + get_intensity (
 				hit_point,
 				get_object_normal (ray.dir, hit_point, nearest),
-				ctx->light, nearest)));
+				*ctx->lights, nearest)));
 
 	// TODO: specular
 	return (c);

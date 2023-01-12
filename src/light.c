@@ -6,7 +6,7 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/29 18:53:34 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/12/01 21:00:21 by ikarjala         ###   ########.fr       */
+/*   Updated: 2023/01/12 14:54:05 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,12 @@
 */
 double	get_intensity(t_vec hit_p, t_vec hit_n, t_light light, t_obj *obj)
 {
+	const t_mat		m = *obj->mat;
 	const t_vec		light_dir = vec_norm (vec_sub (light.pos, hit_p));
 	const double	angle = vec_dot (light_dir, hit_n);
 	double			intensity;
 
 	//const double	matte = (1.0L - obj->gloss);
-
 	intensity = 0.0L;
 	
 	// NOTE: for every light...
@@ -59,9 +59,9 @@ double	get_intensity(t_vec hit_p, t_vec hit_n, t_light light, t_obj *obj)
 #if 1 // WIP
 	const t_vec Vz = vec_norm (vec_sub (obj->pos, hit_p));
 	const t_vec Vr = vec_reflect (Vz, hit_n);
-	if (obj->specular > 0) //&& obj->gloss > 0
-		intensity += light.intensity * obj->specular * 
-			pow(vec_dot (Vr, light_dir), obj->gloss);
+	if (m.specular > 0) //&& obj->gloss > 0
+		intensity += light.intensity * m.specular * 
+			pow(vec_dot (Vr, light_dir), m.gloss);
 #endif
 	return (intensity);
 }

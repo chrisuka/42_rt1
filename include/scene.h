@@ -6,7 +6,7 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 20:57:29 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/12/01 17:44:30 by ikarjala         ###   ########.fr       */
+/*   Updated: 2023/01/12 15:00:23 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,20 @@ typedef struct s_light
 	double	intensity;
 }	t_light;
 
+typedef struct s_material
+{
+	double	gloss;
+	double	specular;
+	t_rgbf	color;
+}	t_mat;
+
 typedef struct s_object
 {
 	int		id;
 	t_vec	pos;
-	t_vec	rot;
+	t_vec	rot; // TODO: forward vector
 	double	r;
-	double	gloss;
-	double	specular;
-	t_rgbf	color;
+	t_mat	*mat;
 }	t_obj; // TODO: inheritance
 
 typedef struct s_cam
@@ -46,17 +51,24 @@ typedef struct s_ray
 }	t_ray;
 
 typedef struct s_scene_context {
+	t_obj	*obj;
+	t_light	*lights;
+	t_mat	*mat;
+	size_t	obj_count;
+	size_t	light_count;
+	size_t	mat_count;
+	t_mat	default_mat;
 	t_cam	cam;
-	t_light	light;
-	t_obj	obj[1];
 	double	ambient;
 }	t_scene;
 
-enum e_object_type {
+typedef enum e_object_type {
 	sphere = 0,
 	cylinder = 1,
 	cone = 2,
 	plane = 3
-};
+}	t_eobjtype;
+
+void	scene_unload(t_scene *context);
 
 #endif

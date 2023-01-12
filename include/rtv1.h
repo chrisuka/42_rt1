@@ -6,7 +6,7 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 12:18:05 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/12/01 17:46:04 by ikarjala         ###   ########.fr       */
+/*   Updated: 2023/01/12 13:24:44 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,12 @@
 # include <math.h>
 
 # include "libft.h"
+# include "get_next_line.h"
 # include "vector.h"
 # include "scene.h"
+# include "parser.h"
 # include "render.h"
+# include "graphics_util.h"
 
 # define BIN_NAME	"rtv1"
 # define WIN_TITLE	"RT (v1)"
@@ -52,7 +55,7 @@ typedef struct s_sdl_data
 
 /*/ parser.c ===========================================================| ///*/
 
-int		ft_parse(char *arg, t_scene *ctx);
+int		ft_parse(int fd, t_scene *ctx);
 
 /*/ raytracer.c ========================================================| ///*/
 

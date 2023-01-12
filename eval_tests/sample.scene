@@ -1,0 +1,20 @@
+# This is a sample scene to showcase the scene description syntax.
+# you can use <>(){}[]+=:;,\t\v for formatting and readability.
+# They are converted to whitespace with the keywords parsed contextually.
+#
+# Allowed arguments:
+# scene metadata: cam ambient
+# objects: sphere 
+
+sphere
+plane
+cone
+#cam
+#ambient = .1 ;
+#cam pos 0 0 -10
+#	rot 0 0 0
+#light pos -50 0 -50 intensity = 0.4
+
+#sphere pos(0 0 0) r=2.0 rgb [1,0,0]
+#sphere pos(1 0 0) r=0.3 rgb [0, 0.5, 1] #@prefab
+#prefab pos -1 0 0
