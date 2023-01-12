@@ -6,7 +6,7 @@
 #    By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/18 22:41:30 by ikarjala          #+#    #+#              #
-#    Updated: 2023/01/11 14:45:53 by ikarjala         ###   ########.fr        #
+#    Updated: 2023/01/12 16:17:08 by ikarjala         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,7 @@ LD	:= ar
 CFLAGS		= -Wall -Werror -Wextra $(USEFLAGS)
 CFSTRICT	= -Wimplicit -Wunused -Wconversion
 CFOPTIM		= -O3 -flto=full
-CFDEBUG		= -g -fsanitize=address
+CFDEBUG		= -g #-fsanitize=address
 
 LDFLAGS 	:= -crs
 DEP_FLAGS	= -MMD -MP -MT $(@) -MF $(@:.o=.dep)
