@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   scene.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 20:57:29 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/12/01 17:44:30 by ikarjala         ###   ########.fr       */
+/*   Updated: 2023/01/12 16:55:20 by ekantane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ typedef struct s_ray
 typedef struct s_scene_context {
 	t_cam	cam;
 	t_light	light;
-	t_obj	obj[1];
+	t_obj	obj[4];
 	double	ambient;
 }	t_scene;
 

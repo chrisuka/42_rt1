@@ -6,7 +6,7 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 20:39:42 by ikarjala          #+#    #+#             */
-/*   Updated: 2023/01/09 13:56:11 by ekantane         ###   ########.fr       */
+/*   Updated: 2023/01/12 16:54:50 by ekantane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,17 +27,20 @@ int	ft_parse(char *arg, t_scene *ctx)
 	if ((fd = open(arg, O_RDONLY)) < 0)
 		exit(ft_panic ("Parse failed!", NULL));
 	*ctx = (t_scene){
-		.cam = (t_cam){.pos = (t_vec){    0  , 0, -70}, .rot = (t_vec){0, 0, 0}},
+		.cam = (t_cam){.pos = (t_vec){0, 0, -200}, .rot = (t_vec){0, 0, 0}},
 		.obj[0] = (t_obj){.id = sphere,
-			.pos = (t_vec){20, 0, 0}, .rot = (t_vec){0}, .r = 8,
-			.gloss = 0.0L, .specular = 0.0L, .color = (t_rgbf){1.0L, 0, 0}},
+			.pos = (t_vec){20, 0, -100}, .rot = (t_vec){0}, .r = 8,
+			.gloss = 200.0L, .specular = 0.1L, .color = (t_rgbf){1.0L, 0, 0}},
 		.obj[1] = (t_obj){.id = cylinder,
-			.pos = (t_vec){-5, 0, 0}, .rot = (t_vec){0, 1, 0}, .r = 5,
-			.gloss = 0.0L, .specular = 0.0L, .color = (t_rgbf){1.0L, 1.0L, 0}},
+			.pos = (t_vec){5, 0, 0}, .rot = (t_vec){0, 1, 0}, .r = 5,
+			.gloss = 200.0L, .specular = 0.6L, .color = (t_rgbf){1.0L, 1.0L, 0}},
 		.obj[2] = (t_obj){.id = cone,
 			.pos = (t_vec){-20, 0, 0}, .rot = (t_vec){0, 1, 0}, .r = 0.11,
-			.gloss = 0.0L, .specular = 0.0L, .color = (t_rgbf){0, 1.0L, 1.0L}},
-		.light = (t_light){.pos = (t_vec){-200, 0, 0}, .intensity = 0.7L},
+			.gloss = 200.0L, .specular = 0.1L, .color = (t_rgbf){0, 1.0L, 1.0L}},
+		.obj[3] = (t_obj){.id = plane,
+			.pos = (t_vec){0, -10, 0}, .rot = (t_vec){0, 1, 0}, .r = 1,
+			.gloss = 200.0L, .specular = 0.1L, .color = (t_rgbf){0, 1.0L, 0.0L}},
+		.light = (t_light){.pos = (t_vec){-200, 30, -300}, .intensity = 0.7L},
 		.ambient = 0.1L
 	};
 	close (fd);

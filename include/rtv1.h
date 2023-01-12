@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rtv1.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 12:18:05 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/12/01 17:46:04 by ikarjala         ###   ########.fr       */
+/*   Updated: 2023/01/12 16:49:43 by ekantane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void	render(t_sdl *sdl);
 
 /*/ normals.c ==========================================================| ///*/
 
-t_vec	get_object_normal(t_vec dir, t_vec hit_point, t_obj *obj);
+t_vec	get_object_normal(t_vec dir, t_vec hit_point, t_obj *obj, t_vec raystart);
 
 /*/ light.c ============================================================| ///*/
 

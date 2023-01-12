@@ -6,7 +6,7 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 11:36:51 by ikarjala          #+#    #+#             */
-/*   Updated: 2023/01/09 13:58:08 by ekantane         ###   ########.fr       */
+/*   Updated: 2023/01/12 16:50:31 by ekantane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,9 +157,7 @@ double	intersect(t_ray ray, t_obj obj)
 		intersect_cone,
 		intersect_plane
 	};
-	t_rt	rt;
 
-	rt.t = intersect_cylinder(ray, obj);
 	obj.rot = vec_norm(obj.rot);
 	return (jmp [obj.id](ray, obj));
 }
