@@ -6,9 +6,10 @@
 # scene metadata: cam ambient
 # objects: sphere 
 
-sphere
 plane
 cone
+cylinder
+sphere
 #cam
 #ambient = .1 ;
 #cam pos 0 0 -10

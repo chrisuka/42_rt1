@@ -6,7 +6,7 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 14:19:38 by ekantane          #+#    #+#             */
-/*   Updated: 2022/12/01 11:01:16 by ikarjala         ###   ########.fr       */
+/*   Updated: 2023/01/07 18:57:30 by ekantane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,5 +115,17 @@ t_vec	vec_rotz(t_vec d, double a)
 	r.x = d.x * cos(a) - d.y * sin(a);
 	r.y = d.x * sin(a) + d.y * cos(a);
 	r.z = d.z;
+	return (r);
+}
+
+/* Return the cross prduct of two vectors.
+*/
+t_vec vec_cross(t_vec u, t_vec v)
+{
+	t_vec	r;
+
+	r.x = u.y * v.z - u.z * v.y;
+	r.y = u.z * v.x - u.x * v.z;
+	r.z = u.x * v.y - u.y * v.x;
 	return (r);
 }

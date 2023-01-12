@@ -6,7 +6,7 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 20:39:42 by ikarjala          #+#    #+#             */
-/*   Updated: 2023/01/12 16:25:23 by ikarjala         ###   ########.fr       */
+/*   Updated: 2023/01/12 19:38:05 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,26 @@ static inline void	process_token(char *word, t_parser *p)
 }
 #endif
 
+#if 1
+// NOTE: ONLY FOR DEBUG!!
+/* Rotation is actually a vector, needs to be changed later.
+*/
+void	scene_hard_set_attr(t_scene *ctx)
+{
+	ctx->cam = (t_cam){.pos = (t_vec){0, 0, -200}, .rot = (t_vec){0, 0, 0}};
+	ctx->obj[0] = (t_obj){.id = sphere,
+			.pos = (t_vec){20, 0, -100}, .rot = (t_vec){0}, .r = 8};
+	ctx->obj[1] = (t_obj){.id = cylinder,
+			.pos = (t_vec){5, 0, 0}, .rot = (t_vec){0, 1, 0}, .r = 5};
+	ctx->obj[2] = (t_obj){.id = cone,
+			.pos = (t_vec){-20, 0, 0}, .rot = (t_vec){0, 1, 0}, .r = 0.11};
+	ctx->obj[3] = (t_obj){.id = plane,
+			.pos = (t_vec){0, -10, 0}, .rot = (t_vec){0, 1, 0}, .r = 1};
+	//ctx->light = (t_light){.pos = (t_vec){-200, 30, -300}, .intensity = 0.7L},
+	//.gloss = 200.0L, .specular = 0.1L, .color = (t_rgbf){0, 1.0L, 0.0L}};
+	ctx->ambient = 0.1L;
+}
+
 int	ft_parse(int fd, t_scene *ctx)
 {
 	t_parser	p;
@@ -126,5 +146,9 @@ int	ft_parse(int fd, t_scene *ctx)
 	ft_strdel(&line);
 	close (fd);
 	scene_apply (ctx, &p);
+	// DEBUG!!========
+	scene_hard_set_attr (ctx);
 	return (0);
 }
+
+#endif

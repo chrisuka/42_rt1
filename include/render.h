@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 21:15:40 by ikarjala          #+#    #+#             */
-/*   Updated: 2023/01/11 14:23:29 by ikarjala         ###   ########.fr       */
+/*   Updated: 2023/01/12 18:42:14 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ typedef union u_pixel32 {
 
 typedef struct	s_raytrace_data {
 	double	qf_roots[2];
+	double 	min_t;
 	t_vec	hit_point;
 	t_vec	hit_normal;
 }	t_rt;

@@ -6,7 +6,7 @@
 #    By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/19 01:31:36 by ikarjala          #+#    #+#              #
-#    Updated: 2023/01/11 18:56:42 by ikarjala         ###   ########.fr        #
+#    Updated: 2023/01/12 19:30:19 by ikarjala         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -77,5 +77,5 @@ lclean:
 #-- BUILD OVERRIDES -------------------|----//--||
 W:	BUILD_RULES_STRICT
 O:	BUILD_RULES_OPTIMAL
-d:	BUILD_RULES_DEBUG
+D:	BUILD_RULES_DEBUG
 #======|============|==============================================|===========#

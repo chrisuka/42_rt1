@@ -6,7 +6,7 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 20:03:10 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/12/01 13:02:25 by ikarjala         ###   ########.fr       */
+/*   Updated: 2023/01/07 18:56:57 by ekantane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,5 +40,6 @@ t_vec	vec_rot(t_vec d, t_vec r);
 t_vec	vec_rotx(t_vec d, double a);
 t_vec	vec_roty(t_vec d, double a);
 t_vec	vec_rotz(t_vec d, double a);
+t_vec vec_cross(t_vec u, t_vec v);
 
 #endif
