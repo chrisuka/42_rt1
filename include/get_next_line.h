@@ -6,14 +6,14 @@
 /*   By: ikarjala <ikarjala@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 17:46:50 by ikarjala          #+#    #+#             */
-/*   Updated: 2023/01/11 15:03:17 by ikarjala         ###   ########.fr       */
+/*   Updated: 2023/01/12 19:49:44 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 
-# include "../../libft/libft.h"
+# include "libft.h"
 
 # define RET_READL	1
 # define RET_EOF	0
