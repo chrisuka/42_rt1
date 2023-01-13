@@ -6,7 +6,7 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/29 18:53:34 by ikarjala          #+#    #+#             */
-/*   Updated: 2023/01/12 14:54:05 by ikarjala         ###   ########.fr       */
+/*   Updated: 2023/01/13 14:45:41 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@
 */
 double	get_intensity(t_vec hit_p, t_vec hit_n, t_light light, t_obj *obj)
 {
-	const t_mat		m = *obj->mat;
+	const t_mat		m = (t_mat)(*obj->mat);
 	const t_vec		light_dir = vec_norm (vec_sub (light.pos, hit_p));
 	const double	angle = vec_dot (light_dir, hit_n);
 	double			intensity;
@@ -69,5 +69,3 @@ double	get_intensity(t_vec hit_p, t_vec hit_n, t_light light, t_obj *obj)
 // TODO: more accurate name for this function
 // i.e.  get_light_mul
 //       get_brightness
-
-// TODO: add explanation for cos(alpha) in I/A

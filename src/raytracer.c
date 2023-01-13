@@ -6,7 +6,7 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 21:23:06 by ikarjala          #+#    #+#             */
-/*   Updated: 2023/01/12 19:17:12 by ikarjala         ###   ########.fr       */
+/*   Updated: 2023/01/13 14:54:47 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,19 +74,13 @@ t_rgbf	raytrace(t_scene *ctx, t_ray ray)
 	t_rt	rt;
 	t_rgbf	c;
 	t_obj	*nearest;
-	t_obj	*occluder;
+	t_obj	*occluder; // NOTE: only used in 1 place, can be removed
 	double	light_t;
 
 	rt.min_t = INFINITY;
 	nearest = find_nearest(ctx, ray, &rt.min_t);
 	if (nearest)
-	{
-		// NOTE: TEMPORARY HOTFIX!
-		if (nearest->mat)
-			c = nearest->mat->color;
-		else
-			c = ctx->default_mat.color;
-	}
+		c = nearest->mat->color;
 	else
 		return ((t_rgbf){0, 0, 0});
 
@@ -97,12 +91,12 @@ t_rgbf	raytrace(t_scene *ctx, t_ray ray)
 	rt.hit_point = vec_sum (ray.orig, vec_scale (ray.dir, rt.min_t));
 	light_t = vec_len(vec_sub(ctx->lights->pos, rt.hit_point));
 	occluder = find_nearest (ctx, project_ray_from_light (
-			*ctx->lights, rt.hit_point), &light_t);
+			*(ctx->lights), rt.hit_point), &light_t);
 	if (occluder)
-		return (cmul (c, fmin(1.0L, ctx->ambient)));
+		return (cmul (c, ctx->ambient)); // TODO: clamp ambient in parsing
 	c = cmul (c, fmin(1.0L, ctx->ambient + get_intensity (
 			rt.hit_point,
 			get_object_normal (rt.hit_point, nearest),
-			*ctx->lights, nearest)));
+			*(ctx->lights), nearest)));
 	return (c);
 }

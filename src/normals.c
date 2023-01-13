@@ -6,16 +6,17 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/01 13:02:04 by ikarjala          #+#    #+#             */
-/*   Updated: 2023/01/12 19:23:08 by ikarjala         ###   ########.fr       */
+/*   Updated: 2023/01/13 15:32:14 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rtv1.h"
 
-/* Return the normal vector of ray intersection point on an sphere's surface.
- * N = Normalize(P - O)
- * where P = ray hit point, O = object origin
-*/
+static inline t_vec	plane_normal(t_vec hit_p, t_obj *obj)
+{
+	(void)(hit_p);
+	return (obj->rot);
+}
 
 static inline t_vec	cone_normal(t_vec hit_p, t_obj *obj)
 {
@@ -24,6 +25,8 @@ static inline t_vec	cone_normal(t_vec hit_p, t_obj *obj)
 
 	hypotenuse = vec_sub(hit_p, obj->pos);
 	n = vec_norm(vec_cross(hypotenuse, vec_cross(hypotenuse, obj->rot)));
+	if (hit_p.y < obj->pos.y)
+		return (vec_scale (n, -1));
 	return (n);
 }
 
@@ -41,11 +44,10 @@ static inline t_vec	cylinder_normal(t_vec hit_p, t_obj *obj)
 	return (normal);
 }
 
-static inline t_vec	plane_normal(t_vec hit_p, t_obj *obj)
-{
-	(void)(hit_p);
-	return (obj->rot);
-}
+/* Return the normal vector of ray intersection point on an sphere's surface.
+ * N = Normalize(P - O)
+ * where P = ray hit point, O = object origin
+*/
 
 static inline t_vec	sphere_normal(t_vec hit_p, t_obj *obj)
 {

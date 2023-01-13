@@ -6,7 +6,7 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 15:25:48 by ikarjala          #+#    #+#             */
-/*   Updated: 2023/01/12 14:40:16 by ikarjala         ###   ########.fr       */
+/*   Updated: 2023/01/13 13:50:49 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static int	word_in_list(char *word, const char **list, const size_t count)
 	return (-1);
 }
 
-static inline t_obj	*obj_init(int id)
+static inline t_obj	*obj_init(int id, t_mat *mat)
 {
 	t_obj	*obj;
 
@@ -68,7 +68,7 @@ static inline t_obj	*obj_init(int id)
 	if (obj)
 		*obj = (t_obj){.id = id,
 			.pos = (t_vec){0, 0, 0}, .rot = (t_vec){0, 1, 0}, .r = 2,
-			.mat = NULL
+			.mat = mat
 		};
 	return (obj);
 }
@@ -85,7 +85,7 @@ int	token_try_obj(char *word, t_parser *p)
 #if 1
 	node = p->obj;
 	p->obj = (t_list *)malloc(sizeof(t_list)); // TODO: ft_lstpush (insert at beginning)
-	p->obj->content = (void *)obj_init(n);
+	p->obj->content = (void *)obj_init(n, p->default_matp);
 	p->obj->content_size = sizeof(t_obj);
 	p->obj->next = node;
 	p->obj_count ++;

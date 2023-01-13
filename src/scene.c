@@ -6,7 +6,7 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 18:58:14 by ikarjala          #+#    #+#             */
-/*   Updated: 2023/01/12 16:05:43 by ikarjala         ###   ########.fr       */
+/*   Updated: 2023/01/13 14:13:53 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 void	scene_unload(t_scene *ctx)
 {
 	ft_memdel ((void **)(&ctx->obj));
-	//ft_memdel ((void **)(&ctx->mat), ctx->mat_count);
-	//ft_memdel ((void **)(&ctx->lights), ctx->light_count);
+	ft_memdel ((void **)(&ctx->lights));
+	ft_memdel ((void **)(&ctx->mat));
 	ctx->obj_count = 0;
 	ctx->light_count = 0;
 	ctx->mat_count = 0;
