@@ -6,6 +6,8 @@
 # scene metadata: cam ambient
 # objects: sphere 
 
+light
+
 plane
 cone
 cylinder

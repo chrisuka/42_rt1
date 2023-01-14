@@ -6,7 +6,7 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 15:12:33 by ikarjala          #+#    #+#             */
-/*   Updated: 2023/01/13 13:15:15 by ikarjala         ###   ########.fr       */
+/*   Updated: 2023/01/14 16:07:45 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,19 +28,21 @@ enum e_token_id {
 #endif
 
 typedef struct s_parser_data {
-	t_list	*obj;
-	t_list	*mat;
-	t_list	*lights;
-	void	*attrp;
-	int		attr_val_req;
-	int		errorid;
 	size_t	obj_count;
 	size_t	light_count;
 	size_t	mat_count;
+	t_list	*obj;
+	t_list	*mat;
+	t_list	*lights;
+	int		active_type;
+	void	*attrp;
+	int		attr_val_req;
+	int		errorid;
 	t_mat	*default_matp;
 }	t_parser;
 
 int		token_try_obj(char *word, t_parser *p);
+int		token_try_light(char *word, t_parser *p);
 
 int		parser_error_fatal(int ecode);
 int		parser_exception(int ecode);

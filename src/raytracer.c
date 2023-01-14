@@ -6,7 +6,7 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 21:23:06 by ikarjala          #+#    #+#             */
-/*   Updated: 2023/01/13 14:54:47 by ikarjala         ###   ########.fr       */
+/*   Updated: 2023/01/13 18:53:46 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ t_rgbf	raytrace(t_scene *ctx, t_ray ray)
 	if (occluder)
 		return (cmul (c, ctx->ambient)); // TODO: clamp ambient in parsing
 	c = cmul (c, fmin(1.0L, ctx->ambient + get_intensity (
+			ray.dir,
 			rt.hit_point,
 			get_object_normal (rt.hit_point, nearest),
 			*(ctx->lights), nearest)));

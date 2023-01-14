@@ -6,7 +6,7 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 20:39:42 by ikarjala          #+#    #+#             */
-/*   Updated: 2023/01/13 15:43:02 by ikarjala         ###   ########.fr       */
+/*   Updated: 2023/01/14 17:09:31 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static inline t_scene	scene_init(void)
 		.default_mat = (t_mat){
 			//.color = (t_rgbf){0.5L, 0.2L, 0.0L},
 			.color = (t_rgbf){1.0L, 1.0L, 1.0L},
-			.gloss = 200.0L, .specular = 1.0
+			.gloss = 10.0L, .specular = 1.0
 		},
 		.cam = (t_cam){.pos = (t_vec){0, 0, -10}, .rot = (t_vec){0, 0, 0}},
 		.ambient = 0.1L
@@ -31,17 +31,20 @@ static inline t_scene	scene_init(void)
 static inline t_parser	parser_init(void)
 {
 	return ((t_parser){
-		.obj = NULL,
-		.mat = NULL,
-		.lights = NULL,
-		.attrp = NULL,
-		.attr_val_req = 0,
 		.errorid = 0,
-
-		//.line_num = 0,
 		.obj_count = 0,
 		.light_count = 0,
 		.mat_count = 0,
+
+		.obj = NULL,
+		.mat = NULL,
+		.lights = NULL,
+
+		.active_type = -1,
+		.attrp = NULL,
+		.attr_val_req = 0,
+
+		//.line_num = 0,
 		.default_matp = NULL,
 	});
 }
@@ -75,11 +78,10 @@ static inline void	process_token(char *word, t_parser *p)
 	else if (token_try_obj (word, p))
 		//p->obj->next = obj_init ( CHECK_OBJ_ID ); // WARN: list is null at start
 		write (1, "obj\n", 4);
+	else if (token_try_light (word, p))
+		write (1, "light\n", 6);
 	#if 0
-	else if (token_try_attr (word, p))
-	{
-		//p->attrp = get_attr_pointer (word, atype); // must set avr !
-	}
+	//else if (token_try_attr (word, p))
 	//else if (atype == mat)
 	else if (atype == light)
 	else if (atype == attr)
@@ -103,7 +105,6 @@ static inline void	process_token(char *word, t_parser *p)
 */
 void	scene_hard_set_attr(t_scene *ctx)
 {
-	ctx->cam = (t_cam){.pos = (t_vec){0, 0, -100}, .rot = (t_vec){0, 0, 0}};
 	ctx->obj[0] = (t_obj){.id = sphere,
 			.pos = (t_vec){20, 0, 0}, .rot = (t_vec){0}, .r = 2,
 			.mat = &ctx->default_mat};
@@ -120,10 +121,11 @@ void	scene_hard_set_attr(t_scene *ctx)
 			.pos = (t_vec){0, -10, 0}, .rot = (t_vec){0, 1, 0}, .r = 1,
 			.mat = &ctx->default_mat};
 
-	ctx->lights = (t_light *)malloc(sizeof(t_light));
-	ctx->lights[0] = (t_light){.pos = (t_vec){-30, 0, -50}, .intensity = 0.6L};
-	ctx->light_count = 1;
+	//ctx->light_count = 1;
+	//ctx->lights = (t_light *)malloc(sizeof(t_light));
+	ctx->lights[0] = (t_light){.pos = (t_vec){-10, 5, -30}, .intensity = 0.4L};
 
+	ctx->cam = (t_cam){.pos = (t_vec){0, 0, -100}, .rot = (t_vec){0, 0, 0}};
 	ctx->ambient = 0.3L;
 }
 
@@ -142,13 +144,6 @@ int	ft_parse(int fd, t_scene *ctx)
 	p.default_matp = &ctx->default_mat;
 	while (get_next_line(fd, &line) != 0) // TODO: handle gnl error code
 	{
-		#if 0
-		if (ft_strchr (line, '#'))
-		{
-			ft_strdel(&line);
-			continue ;
-		}
-		#endif
 		pre_process (line); // TODO: error checks
 		tokens = ft_strsplit (line, ' ');
 		ft_strdel(&line);
@@ -160,6 +155,7 @@ int	ft_parse(int fd, t_scene *ctx)
 	ft_strdel(&line);
 	close (fd);
 	scene_apply (ctx, &p);
+
 	// DEBUG!!========
 	scene_hard_set_attr (ctx);
 	return (0);
