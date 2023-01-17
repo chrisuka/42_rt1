@@ -6,7 +6,7 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 20:39:42 by ikarjala          #+#    #+#             */
-/*   Updated: 2023/01/14 17:09:31 by ikarjala         ###   ########.fr       */
+/*   Updated: 2023/01/17 19:34:53 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static inline t_scene	scene_init(void)
 		.default_mat = (t_mat){
 			//.color = (t_rgbf){0.5L, 0.2L, 0.0L},
 			.color = (t_rgbf){1.0L, 1.0L, 1.0L},
-			.gloss = 10.0L, .specular = 1.0
+			.gloss = 100.0L, .specular = 1.0
 		},
 		.cam = (t_cam){.pos = (t_vec){0, 0, -10}, .rot = (t_vec){0, 0, 0}},
 		.ambient = 0.1L
@@ -41,8 +41,8 @@ static inline t_parser	parser_init(void)
 		.lights = NULL,
 
 		.active_type = -1,
-		.attrp = NULL,
-		.attr_val_req = 0,
+		.attr = (t_attr){.type = tnull, .val_req = 0},
+		.av = {0},
 
 		//.line_num = 0,
 		.default_matp = NULL,
@@ -51,7 +51,7 @@ static inline t_parser	parser_init(void)
 
 static inline void	pre_process(char *line)
 {
-	const char	valid[] = "#<>(){}[]+=:;,\t\v";
+	const char	valid[] = "#<>(){}[]/+=:;,\t\v";
 	char		*cp;
 
 	cp = ft_strany (line, valid);
@@ -70,26 +70,26 @@ static inline void	pre_process(char *line)
 static inline void	process_token(char *word, t_parser *p)
 #if 1
 {
-	if (p->attr_val_req != 0)
+	if (p->attr.val_req != 0)
 	{
-		//set_attr (word, p);
-		parser_exception (EPARSE_INTERNAL);
+		set_attr (word, p);
+		//parser_exception (EPARSE_INTERNAL);
 	}
+	else if (token_try_light (word, p))
+		write (1, "light\n", 6);
 	else if (token_try_obj (word, p))
 		//p->obj->next = obj_init ( CHECK_OBJ_ID ); // WARN: list is null at start
 		write (1, "obj\n", 4);
-	else if (token_try_light (word, p))
-		write (1, "light\n", 6);
-	#if 0
-	//else if (token_try_attr (word, p))
-	//else if (atype == mat)
-	else if (atype == light)
-	else if (atype == attr)
-	else if (atype == meta_cam)
-		p->arg_type = meta_cam;
+	#if 1
+	else if (token_try_attr (word, p))
+		ft_putendl (word);
 	#endif
 	else
+	{
+		write (1, "ayo?! ", 6);
+		ft_putendl (word);
 		parser_exception (EPARSE_TOKEN_UNKNOWN);
+	}
 	free (word);
 }
 #else
@@ -105,29 +105,29 @@ static inline void	process_token(char *word, t_parser *p)
 */
 void	scene_hard_set_attr(t_scene *ctx)
 {
+	/*
 	ctx->obj[0] = (t_obj){.id = sphere,
-			.pos = (t_vec){20, 0, 0}, .rot = (t_vec){0}, .r = 2,
-			.mat = &ctx->default_mat};
+		.pos = (t_vec){20, 0, 0}, .rot = (t_vec){0}, .r = 2,
+		.mat = &ctx->default_mat};
 
 	ctx->obj[1] = (t_obj){.id = cylinder,
-			.pos = (t_vec){5, 0, 0}, .rot = (t_vec){0, 1, 0}, .r = 1,
-			.mat = &ctx->default_mat};
-
-	ctx->obj[2] = (t_obj){.id = cone,
-			.pos = (t_vec){-20, 0, 0}, .rot = (t_vec){0, 1, 0}, .r = 0.05,
-			.mat = &ctx->default_mat};
+		.pos = (t_vec){5, 0, 0}, .rot = (t_vec){0, 1, 0}, .r = 1,
+		.mat = &ctx->default_mat};
 
 	ctx->obj[3] = (t_obj){.id = plane,
-			.pos = (t_vec){0, -10, 0}, .rot = (t_vec){0, 1, 0}, .r = 1,
-			.mat = &ctx->default_mat};
+		.pos = (t_vec){0, -10, 0}, .rot = (t_vec){0, 1, 0}, .r = 1,
+		.mat = &ctx->default_mat};
 
 	//ctx->light_count = 1;
 	//ctx->lights = (t_light *)malloc(sizeof(t_light));
-	ctx->lights[0] = (t_light){.pos = (t_vec){-10, 5, -30}, .intensity = 0.4L};
+	ctx->lights[0] = (t_light){.pos = (t_vec){-60, 10, -40}, .intensity = 0.4L};
+	*/
+	ctx->lights[0].intensity = 0.4L;
 
-	ctx->cam = (t_cam){.pos = (t_vec){0, 0, -100}, .rot = (t_vec){0, 0, 0}};
+	ctx->cam = (t_cam){.pos = (t_vec){0, 10, -100}, .rot = (t_vec){0, 0, 0}};
 	ctx->ambient = 0.3L;
 }
+#endif
 
 int	ft_parse(int fd, t_scene *ctx)
 {
@@ -160,5 +160,3 @@ int	ft_parse(int fd, t_scene *ctx)
 	scene_hard_set_attr (ctx);
 	return (0);
 }
-
-#endif

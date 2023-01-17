@@ -6,70 +6,11 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 15:25:48 by ikarjala          #+#    #+#             */
-/*   Updated: 2023/01/14 16:09:03 by ikarjala         ###   ########.fr       */
+/*   Updated: 2023/01/17 19:17:46 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rtv1.h"
-
-// v=============== UNFINISHED ===============v //
-#if 0
-int	check_token_num(char *word)
-{
-	const int	neg = word[0] == '-';
-	int			dec;
-
-	dec = 0;
-	word += neg;
-	while (*word)
-	{
-		if (ft_isdigit (*word))
-			continue ; // word ++;
-		else if (*word == '.' && !dec)
-			dec = 1;
-		else
-		{
-			// error
-			return (0);
-		}
-		word ++;
-	}
-	return (1);
-}
-
-int	set_attr (char *word, t_parser *p)
-{
-	if (!check_token_num (word))
-		return (parser_exception (EPARSE_TOKEN_UNKNOWN));
-	if (!p->attrp)
-		return (parser_exception (EPARSE_TOKEN_INVALID));
-	if (p->active_type == obj)
-		((t_vec *)(p->attrp))
-			// TODO: need to add type for current attr as well
-	p->attr_val_req --;
-}
-
-int	token_try_attr(char *word, t_parser *p)
-{
-	const char	*keyws[] = {"pos", "euler", "radius","material"};
-	int			n;
-
-	n = word_in_list (word, keyws, sizeof(keyws) / sizeof(keyws[0]));
-	if (n == -1)
-		return (0);
-	if (p->active_type == -1)
-		return (parser_exception (EPARSE_TOKEN_INVALID));
-	// NOTE: needs to account for materials/lights/cam/ambient as well
-	else if (n == 0)
-		p->attrp = (void *)(((t_obj *)(p->current_node))->pos);
-	else if (n == 1)
-		p->attrp = ((t_obj *)(p->current_node))->rot;
-	else if (n == 2)
-		p->attrp = ((t_obj *)(p->current_node))->r;
-	return (1);
-}
-#endif
-// ^=============== UNFINISHED ===============^ //
 
 static int	word_in_list(char *word, const char **list, const size_t count)
 {
@@ -84,12 +25,125 @@ static int	word_in_list(char *word, const char **list, const size_t count)
 	return (-1);
 }
 
+// v=============== UNFINISHED ===============v //
+#if 1
+static inline int	is_number(char *word)
+{
+	const int	neg = word[0] == '-';
+	int			dec;
+
+	dec = 0;
+	word += neg;
+	while (*word)
+	{
+		if (ft_isdigit (*word))
+			;
+		else if (*word == '.' && !dec)
+			dec = 1;
+		else
+		{
+			// error
+			return (0);
+		}
+		word ++;
+	}
+	return (1);
+}
+
+int	set_attr (char *word, t_parser *p)
+{
+	t_vec	av3;
+#if 1
+	t_obj	*obj;
+	t_light	*light;
+	//t_mat	*mat;
+
+	if (p->obj)
+		obj = (t_obj *)(p->obj->content);
+	if (p->lights)
+		light = (t_light *)(p->lights->content);
+	//mat = (t_mat *)(p->mat->content);
+#endif
+
+	p->attr.val_req --;
+	if (!is_number (word))
+	{
+		ft_putendl ("NaN");
+		return (parser_exception (EPARSE_TOKEN_NAN));
+	}
+	p->av[p->attr.val_req] = ft_atoi(word);
+	av3 = (t_vec){.x = p->av[2], .y = p->av[1], .z = p->av[0]};
+#if 1
+	//if (p->attr.type == obj)
+	// TODO: check that attr type matches obj/mat/light/meta
+	if (p->active_type == tobj)
+	{
+		if (p->attr.type == 0)
+		{
+			obj->pos = av3;
+			ft_putendl ("set obj position");
+		}
+		else if (p->attr.type == 1)
+		{
+			obj->rot = av3;
+			ft_putendl ("set obj rotation");
+		}
+		else if (p->attr.type == 2)
+		{
+			obj->r = av3.z;
+			ft_putendl ("set obj radius");
+		}
+	}
+	else if (p->active_type == tlight)
+	{
+		if (p->attr.type == 0)
+		{
+			light->pos = av3;
+			ft_putendl ("set light position");
+		}
+		else if (p->attr.type == 1)
+		{
+			light->intensity = av3.z;
+			ft_putendl ("set light rotation");
+		}
+	}
+	else if (p->active_type == tmaterial)
+	{
+	}
+	else if (p->active_type == tmeta)
+	{
+	}
+	else
+		return (parser_exception (EPARSE_TOKEN_INVALID));
+#endif
+	return (1);
+}
+#endif
+
+int	token_try_attr(char *word, t_parser *p)
+{
+	const char	*keyws[] = {"pos", "rot", "radius", "matp"};
+	const int	valreqs[] = {3, 3, 1, 1};
+	int			n;
+
+	n = word_in_list (word, keyws, sizeof(keyws) / sizeof(keyws[0]));
+	if (n == -1)
+		return (0);
+	if (!(p->active_type == tobj ||
+		p->active_type == tlight ||
+		p->active_type == tmaterial))
+		return (parser_exception (EPARSE_TOKEN_INVALID));
+	p->attr = (t_attr){.type = n, .val_req = valreqs[n]};
+	bzero ((void *)(p->av), sizeof(p->av));
+	return (1);
+}
+// ^=============== UNFINISHED ===============^ //
+
 int	token_try_light(char *word, t_parser *p)
 {
-	const char	keyw[] = "light";
 	t_list		*node;
 
-	if (!ft_strequ (word, keyw))
+	if (!ft_strequ (word, "light"))
 		return (0);
 	node = p->lights;
 	p->lights = (t_list *)malloc(sizeof(t_list)); // TODO: ft_lstpush (insert at beginning)
@@ -97,7 +151,7 @@ int	token_try_light(char *word, t_parser *p)
 	p->lights->content_size = sizeof(t_light);
 	p->lights->next = node;
 	p->light_count ++;
-	//p->active_type = light;
+	p->active_type = tlight;
 	return (1);
 }
 
@@ -130,7 +184,7 @@ int	token_try_obj(char *word, t_parser *p)
 	p->obj->content_size = sizeof(t_obj);
 	p->obj->next = node;
 	p->obj_count ++;
-	//p->active_type = obj;
+	p->active_type = tobj;
 #endif
 	p = NULL; // to shut the compiler up
 	return (1);

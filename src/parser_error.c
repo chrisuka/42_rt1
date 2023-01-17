@@ -6,7 +6,7 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 13:36:36 by ikarjala          #+#    #+#             */
-/*   Updated: 2023/01/11 14:25:24 by ikarjala         ###   ########.fr       */
+/*   Updated: 2023/01/17 18:28:20 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	parser_error_fatal(int ecode)
 
 int	parser_exception(int ecode)
 {
-	const char	msg[] = CRED MPRE_PARSE " :: " CNIL "unexpected token." "\n";
+	const char	msg[] = CRED MPRE_PARSE ":: " CNIL "unexpected token." "\n";
 
 	write (2, msg, sizeof(msg) - 1);
 	return (ecode);

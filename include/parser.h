@@ -6,7 +6,7 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 15:12:33 by ikarjala          #+#    #+#             */
-/*   Updated: 2023/01/14 16:07:45 by ikarjala         ###   ########.fr       */
+/*   Updated: 2023/01/17 19:06:29 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,21 @@
 # define EPARSE_INTERNAL		1
 # define EPARSE_TOKEN_INVALID	2
 # define EPARSE_TOKEN_UNKNOWN	3
+# define EPARSE_TOKEN_NAN		4
 # define EPARSE_FILE_ERROR		10
 
 # define MPRE_PARSE	"parser_exception "
 
-#if 0
+#if 1
 enum e_token_id {
-	obj, light, material, meta_obj, meta_attr, null
+	tobj, tlight, tmaterial, tmeta, tnull
 }	t_tokenid;
 #endif
+
+typedef struct s_attribute_data {
+	int	type;
+	int	val_req;
+}	t_attr;
 
 typedef struct s_parser_data {
 	size_t	obj_count;
@@ -34,15 +40,18 @@ typedef struct s_parser_data {
 	t_list	*obj;
 	t_list	*mat;
 	t_list	*lights;
+	t_attr	attr;
+	double	av[3];
 	int		active_type;
-	void	*attrp;
-	int		attr_val_req;
 	int		errorid;
 	t_mat	*default_matp;
 }	t_parser;
 
 int		token_try_obj(char *word, t_parser *p);
 int		token_try_light(char *word, t_parser *p);
+int		token_try_attr(char *word, t_parser *p);
+
+int		set_attr(char *word, t_parser *p);
 
 int		parser_error_fatal(int ecode);
 int		parser_exception(int ecode);

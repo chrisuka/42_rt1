@@ -6,7 +6,7 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 20:03:10 by ikarjala          #+#    #+#             */
-/*   Updated: 2023/01/07 18:56:57 by ekantane         ###   ########.fr       */
+/*   Updated: 2023/01/17 16:11:11 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@
 
 typedef struct s_vec
 {
-	double		x;
-	double		y;
-	double		z;
+	double	x;
+	double	y;
+	double	z;
 }	t_vec;
 
 double	vec_len(t_vec v1);

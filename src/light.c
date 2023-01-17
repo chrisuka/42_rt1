@@ -6,7 +6,7 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/29 18:53:34 by ikarjala          #+#    #+#             */
-/*   Updated: 2023/01/13 19:01:22 by ikarjala         ###   ########.fr       */
+/*   Updated: 2023/01/14 19:27:59 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,8 @@
 double	get_intensity(t_vec Vz, t_vec hit_p, t_vec hit_n, t_light light, t_obj *obj)
 {
 	const t_mat		m = (t_mat)(*obj->mat);
-	const t_vec		light_dir = vec_norm (vec_sub (light.pos, hit_p));
+	const t_vec		light_vec = vec_sub (light.pos, hit_p);
+	const t_vec		light_dir = vec_norm (light_vec);
 	const double	angle = vec_dot (light_dir, hit_n);
 	double			intensity;
 
@@ -57,10 +58,15 @@ double	get_intensity(t_vec Vz, t_vec hit_p, t_vec hit_n, t_light light, t_obj *o
 		intensity += light.intensity * angle;
 
 #if 1 // WIP
-	const t_vec Vr = vec_reflect (Vz, hit_n);
-	if (m.specular > 0) //&& obj->gloss > 0
+	const t_vec Lr = vec_reflect (light_dir, hit_n);
+	const double dot = vec_dot (Lr, vec_scale (Vz, -1));
+
+	if (m.specular > 0 && dot < 0)
 		intensity += light.intensity * m.specular * 
-			pow(vec_dot (Vr, light_dir), m.gloss);
+			pow(dot, m.gloss);
+#else
+	(void)(Vz);
+	(void)(m);
 #endif
 	return (intensity);
 }
