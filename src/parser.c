@@ -6,7 +6,7 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 20:39:42 by ikarjala          #+#    #+#             */
-/*   Updated: 2023/01/17 19:34:53 by ikarjala         ###   ########.fr       */
+/*   Updated: 2023/01/18 19:05:18 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,14 +75,20 @@ static inline void	process_token(char *word, t_parser *p)
 		set_attr (word, p);
 		//parser_exception (EPARSE_INTERNAL);
 	}
+	else if (token_try_obj (word, p))
+		write (1, "obj\n", 4);
 	else if (token_try_light (word, p))
 		write (1, "light\n", 6);
-	else if (token_try_obj (word, p))
-		//p->obj->next = obj_init ( CHECK_OBJ_ID ); // WARN: list is null at start
-		write (1, "obj\n", 4);
+	else if (token_try_material (word, p))
+		write (1, "material\n", 9);
+	else if (token_try_meta (word, p))
+		write (1, "scene metadata\n", 15);
 	#if 1
 	else if (token_try_attr (word, p))
+	{
+		write (1, "attr: ", 6);
 		ft_putendl (word);
+	}
 	#endif
 	else
 	{
@@ -117,15 +123,14 @@ void	scene_hard_set_attr(t_scene *ctx)
 	ctx->obj[3] = (t_obj){.id = plane,
 		.pos = (t_vec){0, -10, 0}, .rot = (t_vec){0, 1, 0}, .r = 1,
 		.mat = &ctx->default_mat};
+	*/
 
 	//ctx->light_count = 1;
 	//ctx->lights = (t_light *)malloc(sizeof(t_light));
-	ctx->lights[0] = (t_light){.pos = (t_vec){-60, 10, -40}, .intensity = 0.4L};
-	*/
 	ctx->lights[0].intensity = 0.4L;
 
-	ctx->cam = (t_cam){.pos = (t_vec){0, 10, -100}, .rot = (t_vec){0, 0, 0}};
-	ctx->ambient = 0.3L;
+	//ctx->cam = (t_cam){.pos = (t_vec){0, 10, -100}, .rot = (t_vec){0, 0, 0}};
+	ctx->ambient = 0.3;
 }
 #endif
 

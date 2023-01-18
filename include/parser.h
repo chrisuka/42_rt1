@@ -6,7 +6,7 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 15:12:33 by ikarjala          #+#    #+#             */
-/*   Updated: 2023/01/17 19:06:29 by ikarjala         ###   ########.fr       */
+/*   Updated: 2023/01/18 17:31:48 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,24 @@
 
 # define MPRE_PARSE	"parser_exception "
 
-#if 1
+# define ATTRIX_POSITION	0
+# define ATTRIX_ROTATION	1
+# define ATTRIX_RADIUS		2
+# define ATTRIX_MATERIALP	3
+# define ATTRIX_INTENSITY	4
+# define ATTRIX_COLOR		5
+# define ATTRIX_GLOSS		6
+# define ATTRIX_SPECULAR	7
+# define ATTRIX_AMBIENT		8
+
 enum e_token_id {
 	tobj, tlight, tmaterial, tmeta, tnull
 }	t_tokenid;
-#endif
+
+typedef union u_tuple {
+	t_vec	v3;
+	t_rgbf	rgb;
+}	t_tuple;
 
 typedef struct s_attribute_data {
 	int	type;
@@ -34,6 +47,8 @@ typedef struct s_attribute_data {
 }	t_attr;
 
 typedef struct s_parser_data {
+	t_cam	cam;
+	double	ambient;
 	size_t	obj_count;
 	size_t	light_count;
 	size_t	mat_count;
@@ -50,6 +65,8 @@ typedef struct s_parser_data {
 int		token_try_obj(char *word, t_parser *p);
 int		token_try_light(char *word, t_parser *p);
 int		token_try_attr(char *word, t_parser *p);
+int		token_try_material(char *word, t_parser *p);
+int		token_try_meta(char *word, t_parser *p);
 
 int		set_attr(char *word, t_parser *p);
 
