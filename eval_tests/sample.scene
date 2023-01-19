@@ -1,5 +1,5 @@
 # This is a sample scene to showcase the scene description syntax.
-# you can use <>(){}[]/+=:;,\t\v for formatting and readability.
+# You can use <>(){}[]/+=:;,\t\v for formatting and readability.
 # They are converted to whitespace with the keywords parsed contextually.
 #
 # Allowed arguments -------------------
@@ -12,11 +12,20 @@
 #  * pos intensity
 # material
 #  * color gloss specular
+# material color = 1 0 0, gloss = 100, specular=1
 
-light pos (-25 10 -50)
-plane pos 0 0 -15 #rot ()
-cylinder radius 3
-cone pos -30 30 0
-	 rot 0 1 0
-	 radius 0
-sphere pos -5 25 -20 radius 6
+sphere radius 6 matp 0 pos 10 25 0 rot 0 0 0
+cone radius 1 pos (-400, 20, 800) rot [0 1 0]
+plane pos (0, -200, 0)
+cylinder radius 5 (rot 0 0 1) (pos 0 4 0)
+
+cylinder radius 8 (rot 0 1 0) (pos 40 0 80)
+cylinder radius 8 (rot 0 1 0) (pos 40 0 120)
+plane (pos 50 0 0) (rot -1 0 0)
+
+cam	pos: 0 10 -100
+	rot: 0 0 0
+
+ambient 0.3
+light pos (-70 10 -80) intensity = 0.4
+light pos (45 30 10) intensity = 0.2
