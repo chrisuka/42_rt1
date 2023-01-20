@@ -6,7 +6,7 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 14:19:38 by ekantane          #+#    #+#             */
-/*   Updated: 2023/01/14 18:05:35 by ikarjala         ###   ########.fr       */
+/*   Updated: 2023/01/20 18:30:26 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,33 @@ t_vec	vec_sub(t_vec v1, t_vec v2)
  * Rotation math
 */
 
+static inline t_vec	vec_rotx(double a, t_vec d)
+{
+	return ((t_vec){
+		.x = d.x,
+		.y = d.y * cos(a) - d.z * sin(a),
+		.z = d.y * sin(a) + d.z * cos(a)
+	});
+}
+
+static inline t_vec	vec_roty(double a, t_vec d)
+{
+	return ((t_vec){
+		.x = d.x * cos(a) + d.z * sin(a),
+		.y = d.y,
+		.z = d.z * cos(a) - d.x * sin(a)
+	});
+}
+
+static inline t_vec	vec_rotz(double a, t_vec d)
+{
+	return ((t_vec){
+		.x = d.x * cos(a) - d.y * sin(a),
+		.y = d.x * sin(a) + d.y * cos(a),
+		.z = d.z
+	});
+}
+
 /* Rotate vector d around the world axis by the corresponding
  * angles specified in vector r in degrees (Euler angles)
  *
@@ -80,52 +107,23 @@ t_vec	vec_sub(t_vec v1, t_vec v2)
  * r.y = yaw   = nose horizontal, or around the UP axis
  * r.z = roll  = rotate clockwise, nose pointing in the same direction
 */
-t_vec	vec_rot(t_vec d, t_vec r)
+t_vec	vec_rot(t_vec dir, t_vec rot)
 {
-	d = vec_rotx(d, DTR(r.x));
-	d = vec_roty(d, DTR(r.y));
-	d = vec_rotz(d, DTR(r.z));
-	return (d);
-}
+	const double	d2r = M_PI / 180.0;
 
-t_vec	vec_rotx(t_vec d, double a)
-{
-	t_vec r;
-
-	r.x = d.x;
-	r.y = d.y * cos(a) - d.z * sin(a);
-	r.z = d.y * sin(a) + d.z * cos(a);
-	return (r);
-}
-
-t_vec	vec_roty(t_vec d, double a)
-{
-	t_vec r;
-
-	r.x = d.x * cos(a) + d.z * sin(a);
-	r.y = d.y;
-	r.z = d.z * cos(a) - d.x * sin(a);
-	return (r);
-}
-
-t_vec	vec_rotz(t_vec d, double a)
-{
-	t_vec	r;
-
-	r.x = d.x * cos(a) - d.y * sin(a);
-	r.y = d.x * sin(a) + d.y * cos(a);
-	r.z = d.z;
-	return (r);
+	return (vec_rotx (d2r * rot.x,
+			vec_roty (d2r * rot.y,
+			vec_rotz (d2r * rot.z, dir)
+			)));
 }
 
 /* Return the cross prduct of two vectors.
 */
 t_vec vec_cross(t_vec u, t_vec v)
 {
-	t_vec	r;
-
-	r.x = u.y * v.z - u.z * v.y;
-	r.y = u.z * v.x - u.x * v.z;
-	r.z = u.x * v.y - u.y * v.x;
-	return (r);
+	return ((t_vec){
+		.x = u.y * v.z - u.z * v.y,
+		.y = u.z * v.x - u.x * v.z,
+		.z = u.x * v.y - u.y * v.x
+	});
 }
