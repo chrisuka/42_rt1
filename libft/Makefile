@@ -6,7 +6,7 @@
 #    By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/19 01:31:36 by ikarjala          #+#    #+#              #
-#    Updated: 2023/01/11 17:07:02 by ikarjala         ###   ########.fr        #
+#    Updated: 2023/01/20 17:01:43 by ikarjala         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,6 +35,7 @@ putnbr putnbr_fd
 BONUS_FILES =\
 lstnew lstadd lstdelone lstdel lstiter lstmap
 EXTRA_FILES =\
+atof \
 islower isupper isspace isxdigit toinverse \
 bool2sign abs log10 pow min max utoa64 \
 strany swap strword wordcount \
@@ -58,7 +59,7 @@ $(SO):
 
 $(OBJ): $(OBJ_DIR)%.o:$(SRC_DIR)%.c
 	@$(CC) -c $(CFLAGS) $(INCLUDE) $(<) -o $(@)
-	@$(ECHO) -n "[$(GREEN)$(<)$(CNIL)]"
+	@printf "[$(GREEN)$(<)$(CNIL)]"
 
 $(OBJ_DIR):
 	@$(MKDIR) $(@)

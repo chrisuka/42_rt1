@@ -6,7 +6,7 @@
 /*   By: ikarjala <ikarjala@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/05 17:06:35 by ikarjala          #+#    #+#             */
-/*   Updated: 2023/01/11 17:07:21 by ikarjala         ###   ########.fr       */
+/*   Updated: 2023/01/20 17:10:59 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,6 @@ char	*ft_strchr(const char *s, int c);
 char	*ft_strrchr(const char *s, int c);
 char	*ft_strstr(const char *haystack, const char *needle);
 char	*ft_strnstr(const char *haystack, const char *needle, size_t len);
-char	*ft_strany(char *cp, const char *list);
 
 int		ft_atoi(const char *str);
 char	*ft_itoa(int n);
@@ -130,6 +129,7 @@ int		ft_pow(int n, int pow);
 size_t	ft_wordcount(const char *s, const char *del);
 int		*ft_mapi(int start, int end);
 char	*ft_strword(const char *s, const char *delim, size_t *lenout);
+char	*ft_strany(char *cp, const char *list);
 void	*ft_memdup(const void *s1, size_t len);
 
 void	ft_swap(char *a, char *b, size_t bs);
@@ -150,6 +150,8 @@ t_list	*ft_lstinit(size_t elemc, size_t size);
 char	*ft_lststr(t_list *lst, size_t len);
 int		ft_lstcut(t_list **alst, size_t start, size_t count,
 			void (*del)(void *, size_t));
+
+double	ft_atof(const char *str);
 
 long	ft_min(long a, long b);
 long	ft_max(long a, long b);

@@ -1,37 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strany.c                                        :+:      :+:    :+:   */
+/*   ft_atof.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/20 17:08:48 by ikarjala          #+#    #+#             */
-/*   Updated: 2023/01/20 17:08:53 by ikarjala         ###   ########.fr       */
+/*   Created: 2023/01/20 16:25:50 by ikarjala          #+#    #+#             */
+/*   Updated: 2023/01/20 16:42:17 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-/* Return pointer to first instance of ANY character in list
- * appearing in the string cp.
-*/
-char	*ft_strany(char *cp, const char *list)
+double	ft_atof(const char *str)
 {
-	char	*listp;
+	const int	decimal = ft_atoi (str);
+	double		fractional;
+	double		mul;
+	char		*cp;
 
-	while (*cp)
+	fractional = 0.00;
+	mul = 0.10;
+	cp = ft_strchr (str, '.');
+	if (!cp)
+		return ((double)(1.0 * decimal));
+	while (ft_isdigit (*(++cp)) )
 	{
-		listp = (char *)(list);
-		while (*listp)
-		{
-			if (*cp == *listp)
-				return (cp);
-			listp ++;
-		}
-		cp ++;
+		fractional += (double)(*cp - '0') * mul;
+		mul *= 0.10;
 	}
-	return (NULL);
+	return ((double)(decimal * (1.0 + fractional)));
 }
-
-/* TODO: this can be somewhat optimized similiarly to strchr with magic bits
-*/
