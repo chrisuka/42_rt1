@@ -6,7 +6,7 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 15:12:33 by ikarjala          #+#    #+#             */
-/*   Updated: 2023/01/18 17:31:48 by ikarjala         ###   ########.fr       */
+/*   Updated: 2023/01/20 14:02:53 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # define EPARSE_TOKEN_UNKNOWN	3
 # define EPARSE_TOKEN_NAN		4
 # define EPARSE_FILE_ERROR		10
+# define EPARSE_MATERIAL_INDEX	11
 
 # define MPRE_PARSE	"parser_exception "
 

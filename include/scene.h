@@ -6,7 +6,7 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 20:57:29 by ikarjala          #+#    #+#             */
-/*   Updated: 2023/01/12 17:51:22 by ikarjala         ###   ########.fr       */
+/*   Updated: 2023/01/20 13:56:00 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ typedef struct s_object
 	t_vec	pos;
 	t_vec	rot; // TODO: forward vector
 	double	r;
-	t_mat	*mat;
+	int		mat;
 }	t_obj; // TODO: inheritance
 
 typedef struct s_cam
@@ -43,12 +43,6 @@ typedef struct s_cam
 	t_vec	rot;
 	// TODO: union (euler / forward) instead of rot
 }	t_cam;
-
-typedef struct s_ray
-{
-	t_vec	orig;
-	t_vec	dir;
-}	t_ray;
 
 typedef struct s_scene_context {
 	t_obj	*obj;

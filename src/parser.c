@@ -6,7 +6,7 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 20:39:42 by ikarjala          #+#    #+#             */
-/*   Updated: 2023/01/18 19:05:18 by ikarjala         ###   ########.fr       */
+/*   Updated: 2023/01/20 15:42:41 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,6 +128,7 @@ void	scene_hard_set_attr(t_scene *ctx)
 	//ctx->light_count = 1;
 	//ctx->lights = (t_light *)malloc(sizeof(t_light));
 	ctx->lights[0].intensity = 0.4L;
+	//ctx->mat[0] = (t_mat){.color = (t_rgbf){.r = 1.0L, .g = 0.0L, .b = 0.0L}};
 
 	//ctx->cam = (t_cam){.pos = (t_vec){0, 10, -100}, .rot = (t_vec){0, 0, 0}};
 	ctx->ambient = 0.3;
@@ -147,7 +148,7 @@ int	ft_parse(int fd, t_scene *ctx)
 	*ctx = scene_init ();
 	p = parser_init ();
 	p.default_matp = &ctx->default_mat;
-	while (get_next_line(fd, &line) != 0) // TODO: handle gnl error code
+	while (get_next_line(fd, &line) != RET_EOF) // TODO: handle gnl error code
 	{
 		pre_process (line); // TODO: error checks
 		tokens = ft_strsplit (line, ' ');

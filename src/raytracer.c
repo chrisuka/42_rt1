@@ -6,7 +6,7 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 21:23:06 by ikarjala          #+#    #+#             */
-/*   Updated: 2023/01/13 18:53:46 by ikarjala         ###   ########.fr       */
+/*   Updated: 2023/01/20 15:05:37 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,15 +74,21 @@ t_rgbf	raytrace(t_scene *ctx, t_ray ray)
 	t_rt	rt;
 	t_rgbf	c;
 	t_obj	*nearest;
-	t_obj	*occluder; // NOTE: only used in 1 place, can be removed
 	double	light_t;
 
+	rt.ray = ray;
 	rt.min_t = INFINITY;
 	nearest = find_nearest(ctx, ray, &rt.min_t);
 	if (nearest)
-		c = nearest->mat->color;
+	{
+		if (nearest->mat < 0)
+			rt.hit_material = &ctx->default_mat;
+		else
+			rt.hit_material = &ctx->mat [nearest->mat];
+	}
 	else
 		return ((t_rgbf){0, 0, 0});
+	c = rt.hit_material->color;
 
 	rt.hit_point = vec_sum (ray.orig, vec_scale (ray.dir, rt.min_t));
 	if (!ctx->lights)
@@ -90,14 +96,15 @@ t_rgbf	raytrace(t_scene *ctx, t_ray ray)
 	// FIXME: needs to handle multi lights!
 	rt.hit_point = vec_sum (ray.orig, vec_scale (ray.dir, rt.min_t));
 	light_t = vec_len(vec_sub(ctx->lights->pos, rt.hit_point));
-	occluder = find_nearest (ctx, project_ray_from_light (
-			*(ctx->lights), rt.hit_point), &light_t);
-	if (occluder)
+
+	// LIGHT OCCLUSION / SHADOW CHECK
+	if (find_nearest (ctx, project_ray_from_light (
+			*(ctx->lights), rt.hit_point), &light_t) != NULL)
 		return (cmul (c, ctx->ambient)); // TODO: clamp ambient in parsing
-	c = cmul (c, fmin(1.0L, ctx->ambient + get_intensity (
-			ray.dir,
-			rt.hit_point,
-			get_object_normal (rt.hit_point, nearest),
-			*(ctx->lights), nearest)));
+	rt.hit_normal = get_object_normal (rt.hit_point, nearest);
+
+	// TODO: get_intensity should take array of lights instead of one light
+	c = cmul (c, fmin(1.0L, ctx->ambient +
+			get_intensity (rt, *(ctx->lights), *rt.hit_material)));
 	return (c);
 }

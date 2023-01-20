@@ -6,7 +6,7 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/29 18:53:34 by ikarjala          #+#    #+#             */
-/*   Updated: 2023/01/14 19:27:59 by ikarjala         ###   ########.fr       */
+/*   Updated: 2023/01/20 14:01:07 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,15 +41,14 @@
  * 0 = ( |Vr| . |L| ) / ( ||Vr|| * ||L|| )
  * cos0 = |Vr| . |L|
 */
-double	get_intensity(t_vec Vz, t_vec hit_p, t_vec hit_n, t_light light, t_obj *obj)
+double	get_intensity(t_rt rt, t_light light, t_mat m)
 {
-	const t_mat		m = (t_mat)(*obj->mat);
-	const t_vec		light_vec = vec_sub (light.pos, hit_p);
+	const t_vec		light_vec = vec_sub (light.pos, rt.hit_point);
 	const t_vec		light_dir = vec_norm (light_vec);
-	const double	angle = vec_dot (light_dir, hit_n);
+	const double	angle = vec_dot (light_dir, rt.hit_normal);
 	double			intensity;
 
-	//const double	matte = (1.0L - obj->gloss);
+	//const double	matte = (1.0L - mat.gloss);
 	intensity = 0.0L;
 	
 	// NOTE: for every light...
@@ -57,17 +56,12 @@ double	get_intensity(t_vec Vz, t_vec hit_p, t_vec hit_n, t_light light, t_obj *o
 	if (angle > EPS)
 		intensity += light.intensity * angle;
 
-#if 1 // WIP
-	const t_vec Lr = vec_reflect (light_dir, hit_n);
-	const double dot = vec_dot (Lr, vec_scale (Vz, -1));
+	const t_vec Lr = vec_reflect (light_dir, rt.hit_normal);
+	const double dot = vec_dot (Lr, vec_scale (rt.ray.dir, -1));
 
 	if (m.specular > 0 && dot < 0)
 		intensity += light.intensity * m.specular * 
 			pow(dot, m.gloss);
-#else
-	(void)(Vz);
-	(void)(m);
-#endif
 	return (intensity);
 }
 

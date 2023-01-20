@@ -6,7 +6,7 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 15:25:48 by ikarjala          #+#    #+#             */
-/*   Updated: 2023/01/18 18:03:10 by ikarjala         ###   ########.fr       */
+/*   Updated: 2023/01/20 15:22:11 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,9 +94,10 @@ int	set_attr (char *word, t_parser *p)
 		}
 		else if (p->attr.type == ATTRIX_MATERIALP)
 		{
-			obj->mat = p->default_matp;//av3.v3.z;
-			ft_putendl ("set obj material (NOT IMPLEMENTED!)");
-			return (parser_exception (EPARSE_TOKEN_INVALID));
+			if ((size_t)(av3.v3.z) >= p->mat_count)
+				return (parser_exception (EPARSE_MATERIAL_INDEX));
+			ft_putendl ("set obj material");
+			obj->mat = (int)(av3.v3.z);
 		}
 	}
 	else if (p->active_type == tlight)
@@ -116,6 +117,7 @@ int	set_attr (char *word, t_parser *p)
 	{
 		if (p->attr.type == ATTRIX_COLOR)
 		{
+			av3.rgb = (t_rgbf){fmin (1.0L, av3.rgb.r), fmin (1.0L, av3.rgb.g), fmin (1.0L, av3.rgb.b)};
 			mat->color = av3.rgb;
 			ft_putendl ("set material color");
 		}
@@ -169,7 +171,8 @@ int	token_try_attr(char *word, t_parser *p)
 	if (!(p->active_type == tobj ||
 		p->active_type == tlight ||
 		p->active_type == tmaterial ||
-		p->active_type == tmeta))
+		p->active_type == tmeta)
+			|| p->attr.val_req != 0)
 		return (parser_exception (EPARSE_TOKEN_INVALID));
 	p->attr = (t_attr){.type = n, .val_req = valreqs[n]};
 	ft_bzero ((void *)(p->av), sizeof(p->av));
@@ -193,7 +196,7 @@ int	token_try_light(char *word, t_parser *p)
 	return (1);
 }
 
-static inline t_obj	*obj_init(int id, t_mat *mat)
+static inline t_obj	*obj_init(int id)
 {
 	t_obj	*obj;
 
@@ -201,7 +204,7 @@ static inline t_obj	*obj_init(int id, t_mat *mat)
 	if (obj)
 		*obj = (t_obj){.id = id,
 			.pos = (t_vec){0, 0, 0}, .rot = (t_vec){0, 1, 0}, .r = 2,
-			.mat = mat
+			.mat = -1
 		};
 	return (obj);
 }
@@ -240,6 +243,7 @@ int	token_try_material(char *word, t_parser *p)
 		.color = (t_rgbf){1, 1, 1}, .gloss = 1.0, .specular = 0.0};
 	return (1);
 }
+
 int	token_try_obj(char *word, t_parser *p)
 {
 	const char	*keyws[] = {"sphere", "cylinder", "cone", "plane"};
@@ -249,15 +253,12 @@ int	token_try_obj(char *word, t_parser *p)
 	n = word_in_list (word, keyws, sizeof(keyws) / sizeof(keyws[0]));
 	if (n == -1)
 		return (0);
-#if 1
 	node = p->obj;
 	p->obj = (t_list *)malloc(sizeof(t_list)); // TODO: ft_lstpush (insert at beginning)
-	p->obj->content = (void *)obj_init(n, p->default_matp);
+	p->obj->content = (void *)obj_init(n);
 	p->obj->content_size = sizeof(t_obj);
 	p->obj->next = node;
 	p->obj_count ++;
 	p->active_type = tobj;
-#endif
-	p = NULL; // to shut the compiler up
 	return (1);
 }

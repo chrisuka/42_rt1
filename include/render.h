@@ -6,41 +6,35 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 21:15:40 by ikarjala          #+#    #+#             */
-/*   Updated: 2023/01/13 18:51:26 by ikarjala         ###   ########.fr       */
+/*   Updated: 2023/01/20 15:42:34 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef RENDER_H
 # define RENDER_H
 
+# include "scene.h"
+
 typedef struct s_rgb_floating
 {
-	float	r;
-	float	g;
-	float	b;
+	double	r;
+	double	g;
+	double	b;
 }	t_rgbf;
 
-/* Union representing a pixel's colors in a format suitable for a texture.
- * Bit depth of 8 (8 bits or 256 values / channel) in format [AA][RR][GG][BB].
- * Since the Alpha channel is not super useful for rendering,
- * we can use it to store metadata instead.
-*/
-typedef union u_pixel32 {
-	unsigned int	c : 32;
-	union u_metadata {
-		unsigned int	v : 8;
-	}	meta;
-	unsigned int	a : 8;
-	unsigned int	r : 8;
-	unsigned int	g : 8;
-	unsigned int	b : 8;
-}	t_pixel; // WARN: UNTESTED, DO NOT USE
+typedef struct s_ray
+{
+	t_vec	orig;
+	t_vec	dir;
+}	t_ray;
 
 typedef struct	s_raytrace_data {
-	double	qf_roots[2];
-	double 	min_t;
-	t_vec	hit_point;
-	t_vec	hit_normal;
+	struct s_material	*hit_material;
+	t_ray				ray;
+	double				qf_roots[2];
+	double 				min_t;
+	t_vec				hit_point;
+	t_vec				hit_normal;
 }	t_rt;
 
 enum e_sdl_settings {
