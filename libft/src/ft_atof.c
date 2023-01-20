@@ -6,7 +6,7 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 16:25:50 by ikarjala          #+#    #+#             */
-/*   Updated: 2023/01/20 16:42:17 by ikarjala         ###   ########.fr       */
+/*   Updated: 2023/01/20 17:52:25 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,12 @@ double	ft_atof(const char *str)
 	cp = ft_strchr (str, '.');
 	if (!cp)
 		return ((double)(1.0 * decimal));
-	while (ft_isdigit (*(++cp)) )
+	while (ft_isdigit (*(++cp)))
 	{
-		fractional += (double)(*cp - '0') * mul;
+		fractional += (double)(*cp - '0') *mul;
 		mul *= 0.10;
 	}
-	return ((double)(decimal * (1.0 + fractional)));
+	if (decimal < 0)
+		fractional *= -1.0;
+	return ((double)(decimal + fractional));
 }

@@ -6,7 +6,7 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 15:25:48 by ikarjala          #+#    #+#             */
-/*   Updated: 2023/01/20 15:22:11 by ikarjala         ###   ########.fr       */
+/*   Updated: 2023/01/20 17:32:12 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ static inline int	is_number(char *word)
 	return (1);
 }
 
+#include <stdio.h>
 int	set_attr (char *word, t_parser *p)
 {
 	t_tuple	av3;
@@ -70,8 +71,11 @@ int	set_attr (char *word, t_parser *p)
 		ft_putendl ("NaN");
 		return (parser_exception (EPARSE_TOKEN_NAN));
 	}
-	p->av[p->attr.val_req] = ft_atoi(word);
+	p->av[p->attr.val_req] = ft_atof(word);
 	av3.v3 = (t_vec){.x = p->av[2], .y = p->av[1], .z = p->av[0]};
+	printf ("set value to %lf\n", p->av[p->attr.val_req]); //DEBUG
+	if (p->attr.val_req != 0)
+		return (1);
 #if 1
 	//if (p->attr.type == obj)
 	// TODO: check that attr type matches obj/mat/light/meta

@@ -6,7 +6,7 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 20:39:42 by ikarjala          #+#    #+#             */
-/*   Updated: 2023/01/20 15:42:41 by ikarjala         ###   ########.fr       */
+/*   Updated: 2023/01/20 17:13:33 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ static inline void	process_token(char *word, t_parser *p)
 }
 #endif
 
-#if 1
+#if 0
 // NOTE: ONLY FOR DEBUG!!
 /* Rotation is actually a vector, needs to be changed later.
 */
@@ -127,11 +127,9 @@ void	scene_hard_set_attr(t_scene *ctx)
 
 	//ctx->light_count = 1;
 	//ctx->lights = (t_light *)malloc(sizeof(t_light));
-	ctx->lights[0].intensity = 0.4L;
+	//ctx->lights[0].intensity = 0.4L;
 	//ctx->mat[0] = (t_mat){.color = (t_rgbf){.r = 1.0L, .g = 0.0L, .b = 0.0L}};
-
 	//ctx->cam = (t_cam){.pos = (t_vec){0, 10, -100}, .rot = (t_vec){0, 0, 0}};
-	ctx->ambient = 0.3;
 }
 #endif
 
@@ -163,6 +161,6 @@ int	ft_parse(int fd, t_scene *ctx)
 	scene_apply (ctx, &p);
 
 	// DEBUG!!========
-	scene_hard_set_attr (ctx);
+	//scene_hard_set_attr (ctx);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 21:23:06 by ikarjala          #+#    #+#             */
-/*   Updated: 2023/01/20 15:05:37 by ikarjala         ###   ########.fr       */
+/*   Updated: 2023/01/20 16:14:05 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,11 +100,12 @@ t_rgbf	raytrace(t_scene *ctx, t_ray ray)
 	// LIGHT OCCLUSION / SHADOW CHECK
 	if (find_nearest (ctx, project_ray_from_light (
 			*(ctx->lights), rt.hit_point), &light_t) != NULL)
+		// FIXME: cmul is now inconsistent!
 		return (cmul (c, ctx->ambient)); // TODO: clamp ambient in parsing
 	rt.hit_normal = get_object_normal (rt.hit_point, nearest);
 
 	// TODO: get_intensity should take array of lights instead of one light
-	c = cmul (c, fmin(1.0L, ctx->ambient +
-			get_intensity (rt, *(ctx->lights), *rt.hit_material)));
+	c = cmul (c, fmin (1.0L, ctx->ambient + get_intensity (
+			rt, *(ctx->lights), *rt.hit_material)));
 	return (c);
 }
