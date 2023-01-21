@@ -6,7 +6,7 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 18:58:14 by ikarjala          #+#    #+#             */
-/*   Updated: 2023/01/18 17:39:27 by ikarjala         ###   ########.fr       */
+/*   Updated: 2023/01/21 19:39:27 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ void	scene_unload(t_scene *ctx)
 }
 
 /* Create an array of *count* arbitrary objects from a list of objects
- * of size *unit_size*. In this context the list has been initialized
- * First-In-Last-Out, meaning in reverse order to the parsed file. Therefore,
- * we should populate the array in reverse order.
+ * of *unit_size*. In this context the list has been initialized
+ * First-In-Last-Out, meaning in reverse order to the parsed file.
+ * Therefore, we should populate the array in reverse order.
 */
 static void	*lst2array(t_list *lst, const size_t unit_size, size_t count)
 {
@@ -55,10 +55,10 @@ void	scene_apply(t_scene *ctx, t_parser *p)
 	ctx->light_count = p->light_count;
 	ctx->lights = (t_light *)lst2array(
 		p->lights, sizeof(t_light), p->light_count);
-#if 1
+
 	ctx->mat_count = p->mat_count;
 	ctx->mat = (t_mat *)lst2array(p->mat, sizeof(t_mat), p->mat_count);
-#endif
+
 	ft_lstdel (&p->obj, &ft_memclr);
 	ft_lstdel (&p->lights, &ft_memclr);
 	ft_lstdel (&p->mat, &ft_memclr);

@@ -6,7 +6,7 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 13:01:44 by ikarjala          #+#    #+#             */
-/*   Updated: 2023/01/21 17:53:30 by ikarjala         ###   ########.fr       */
+/*   Updated: 2023/01/21 17:58:50 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,10 +86,7 @@ static inline int	set_attr_light(t_parser *p, t_tuple av3)
 	t_light	*light;
 
 	if (!p->lights || !p->lights->content)
-	{
-		ft_putendl (CRED "lights NULL" CNIL);
 		return (parser_error_fatal (EPARSE_INTERNAL));
-	}
 	light = (t_light *)(p->lights->content);
 	if (p->attr.type == ATTRIX_POSITION)
 	{
@@ -109,10 +106,7 @@ static inline int	set_attr_obj(t_parser *p, t_tuple av3)
 	t_obj	*obj;
 
 	if (!p->obj || !p->obj->content)
-	{
-		ft_putendl (CRED "obj NULL" CNIL);
 		return (parser_error_fatal (EPARSE_INTERNAL));
-	}
 	obj = (t_obj *)(p->obj->content);
 	if (p->attr.type == ATTRIX_POSITION)
 	{
@@ -161,6 +155,6 @@ int	set_attr(char *word, t_parser *p)
 	av3.v3 = (t_vec){.x = p->av[2], .y = p->av[1], .z = p->av[0]};
 	if (p->active_type < 0 || p->active_type >= (int)(sizeof(jmp) / sizeof(jmp[0])))
 		return (parser_exception (EPARSE_TOKEN_INVALID));
-	jmp [p->active_type] (p, av3);
+	jmp [p->active_type](p, av3);
 	return (1);
 }

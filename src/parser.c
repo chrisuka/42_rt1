@@ -6,7 +6,7 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 20:39:42 by ikarjala          #+#    #+#             */
-/*   Updated: 2023/01/20 17:13:33 by ikarjala         ###   ########.fr       */
+/*   Updated: 2023/01/21 19:35:46 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,13 +150,13 @@ int	ft_parse(int fd, t_scene *ctx)
 	{
 		pre_process (line); // TODO: error checks
 		tokens = ft_strsplit (line, ' ');
-		ft_strdel(&line);
+		ft_strdel (&line);
 		ap = tokens;
 		while (*ap)
 			process_token (*(ap++), &p);
 		ft_memdel ((void **)(&tokens));
 	}
-	ft_strdel(&line);
+	ft_strdel (&line);
 	close (fd);
 	scene_apply (ctx, &p);
 

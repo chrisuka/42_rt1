@@ -6,7 +6,7 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 15:25:48 by ikarjala          #+#    #+#             */
-/*   Updated: 2023/01/21 17:54:29 by ikarjala         ###   ########.fr       */
+/*   Updated: 2023/01/21 20:02:55 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,45 +35,17 @@ int	token_try_attr(char *word, t_parser *p)
 	n = word_in_list (word, keyws, sizeof(keyws) / sizeof(keyws[0]));
 	if (n == -1)
 		return (0);
-	if (!(p->active_type == tobj ||
-		p->active_type == tlight ||
-		p->active_type == tmaterial ||
-		p->active_type == tmeta)
-			|| p->attr.val_req != 0)
+	if (!(p->active_type == tobj
+			|| p->active_type == tlight
+			|| p->active_type == tmaterial
+			|| p->active_type == tmeta)
+		|| p->attr.val_req != 0)
 		return (parser_exception (EPARSE_TOKEN_INVALID));
 	p->attr = (t_attr){.type = n, .val_req = valreqs[n]};
 	ft_bzero ((void *)(p->av), sizeof(p->av));
 	return (1);
 }
 
-int	token_try_light(char *word, t_parser *p)
-{
-	t_list		*node;
-
-	if (!ft_strequ (word, "light"))
-		return (0);
-	node = p->lights;
-	p->lights = (t_list *)malloc(sizeof(t_list)); // TODO: ft_lstpush (insert at beginning)
-	p->lights->content = (void *)malloc(sizeof(t_light));
-	p->lights->content_size = sizeof(t_light);
-	p->lights->next = node;
-	p->light_count ++;
-	p->active_type = tlight;
-	return (1);
-}
-
-static inline t_obj	*obj_init(int id)
-{
-	t_obj	*obj;
-
-	obj = (t_obj *)malloc(sizeof(t_obj));
-	if (obj)
-		*obj = (t_obj){.id = id,
-			.pos = (t_vec){0, 0, 0}, .rot = (t_vec){0, 1, 0}, .r = 2,
-			.mat = -1
-		};
-	return (obj);
-}
 int	token_try_meta(char *word, t_parser *p)
 {
 	if (ft_strequ (word, "cam"))
@@ -89,23 +61,44 @@ int	token_try_meta(char *word, t_parser *p)
 	return (1);
 }
 
+int	token_try_light(char *word, t_parser *p)
+{
+	t_light	*light;
+
+	if (!ft_strequ (word, "light"))
+		return (0);
+	light = (t_light *)malloc(sizeof(t_light));
+	if (!light)
+		return (0);
+	if (!ft_lstenque (&p->lights, light, sizeof(t_light)))
+	{
+		ft_putendl (CRED "LIGHT: lstenque failed" CNIL);
+		ft_memdel ((void **)(&light));
+		return (parser_error_fatal (EPARSE_INTERNAL));
+	}
+	p->light_count ++;
+	p->active_type = tlight;
+	return (1);
+}
+
 int	token_try_material(char *word, t_parser *p)
 {
-	t_list		*node;
+	t_mat	*mat;
 
 	if (!ft_strequ (word, "material"))
 		return (0);
-	node = p->mat;
-	p->mat = (t_list *)malloc(sizeof(t_list)); // TODO: ft_lstpush (insert at beginning)
-	p->mat->content = (void *)malloc(sizeof(t_mat));
-	// if !ft_lstpush
-	if (!p->mat->content)
+	mat = (t_mat *)malloc(sizeof(t_mat));
+	if (!mat)
+		return (0);
+	if (!ft_lstenque (&p->mat, mat, sizeof(t_mat)))
+	{
+		ft_putendl (CRED "MATERIAL: lstenque failed" CNIL);
+		ft_memdel ((void **)(&mat));
 		return (parser_error_fatal (EPARSE_INTERNAL));
-	p->mat->content_size = sizeof(t_mat);
-	p->mat->next = node;
+	}
 	p->mat_count ++;
 	p->active_type = tmaterial;
-	*((t_mat *)(p->mat->content)) = (t_mat){
+	*mat = (t_mat){
 		.color = (t_rgbf){1, 1, 1}, .gloss = 1.0, .specular = 0.0};
 	return (1);
 }
@@ -113,18 +106,26 @@ int	token_try_material(char *word, t_parser *p)
 int	token_try_obj(char *word, t_parser *p)
 {
 	const char	*keyws[] = {"sphere", "cylinder", "cone", "plane"};
-	t_list		*node;
-	int			n;
+	int			type;
+	t_obj		*obj;
 
-	n = word_in_list (word, keyws, sizeof(keyws) / sizeof(keyws[0]));
-	if (n == -1)
+	type = word_in_list (word, keyws, sizeof(keyws) / sizeof(keyws[0]));
+	if (type == -1)
 		return (0);
-	node = p->obj;
-	p->obj = (t_list *)malloc(sizeof(t_list)); // TODO: ft_lstpush (insert at beginning)
-	p->obj->content = (void *)obj_init(n);
-	p->obj->content_size = sizeof(t_obj);
-	p->obj->next = node;
+	obj = (t_obj *)malloc(sizeof(t_obj));
+	if (!obj)
+		return (0);
+	if (!ft_lstenque (&p->obj, obj, sizeof(t_obj)))
+	{
+		ft_putendl (CRED "OBJ: lstenque failed" CNIL);
+		ft_memdel ((void **)(&obj));
+		return (parser_error_fatal (EPARSE_INTERNAL));
+	}
 	p->obj_count ++;
 	p->active_type = tobj;
+	*obj = (t_obj){
+		.id = type, .r = 2, .mat = -1,
+		.pos = (t_vec){0, 0, 0}, .rot = (t_vec){0, 1, 0},
+	};
 	return (1);
 }
