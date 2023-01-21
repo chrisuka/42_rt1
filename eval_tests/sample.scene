@@ -32,4 +32,4 @@ cam	pos: 0 10 -100
 
 ambient 0.2
 light pos (-70 10 -80) intensity = 0.4
-light pos (45 30 10) intensity = 0.2
+#light pos (45 30 10) intensity = 0.2

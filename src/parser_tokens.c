@@ -6,7 +6,7 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 15:25:48 by ikarjala          #+#    #+#             */
-/*   Updated: 2023/01/20 17:32:12 by ikarjala         ###   ########.fr       */
+/*   Updated: 2023/01/21 17:54:29 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,143 +24,6 @@ static int	word_in_list(char *word, const char **list, const size_t count)
 	}
 	return (-1);
 }
-
-// v=============== UNFINISHED ===============v //
-#if 1
-static inline int	is_number(char *word)
-{
-	const int	neg = word[0] == '-';
-	int			dec;
-
-	dec = 0;
-	word += neg;
-	while (*word)
-	{
-		if (ft_isdigit (*word))
-			;
-		else if (*word == '.' && !dec)
-			dec = 1;
-		else
-		{
-			// error
-			return (0);
-		}
-		word ++;
-	}
-	return (1);
-}
-
-#include <stdio.h>
-int	set_attr (char *word, t_parser *p)
-{
-	t_tuple	av3;
-	t_obj	*obj;
-	t_light	*light;
-	t_mat	*mat;
-
-	if (p->obj)
-		obj = (t_obj *)(p->obj->content);
-	if (p->lights)
-		light = (t_light *)(p->lights->content);
-	if (p->mat)
-		mat = (t_mat *)(p->mat->content);
-
-	p->attr.val_req --;
-	if (!is_number (word))
-	{
-		ft_putendl ("NaN");
-		return (parser_exception (EPARSE_TOKEN_NAN));
-	}
-	p->av[p->attr.val_req] = ft_atof(word);
-	av3.v3 = (t_vec){.x = p->av[2], .y = p->av[1], .z = p->av[0]};
-	printf ("set value to %lf\n", p->av[p->attr.val_req]); //DEBUG
-	if (p->attr.val_req != 0)
-		return (1);
-#if 1
-	//if (p->attr.type == obj)
-	// TODO: check that attr type matches obj/mat/light/meta
-	if (p->active_type == tobj)
-	{
-		if (p->attr.type == ATTRIX_POSITION)
-		{
-			obj->pos = av3.v3;
-			ft_putendl ("set obj position");
-		}
-		else if (p->attr.type == ATTRIX_ROTATION)
-		{
-			obj->rot = av3.v3;
-			ft_putendl ("set obj rotation");
-		}
-		else if (p->attr.type == ATTRIX_RADIUS)
-		{
-			obj->r = av3.v3.z;
-			ft_putendl ("set obj radius");
-		}
-		else if (p->attr.type == ATTRIX_MATERIALP)
-		{
-			if ((size_t)(av3.v3.z) >= p->mat_count)
-				return (parser_exception (EPARSE_MATERIAL_INDEX));
-			ft_putendl ("set obj material");
-			obj->mat = (int)(av3.v3.z);
-		}
-	}
-	else if (p->active_type == tlight)
-	{
-		if (p->attr.type == ATTRIX_POSITION)
-		{
-			light->pos = av3.v3;
-			ft_putendl ("set light position");
-		}
-		else if (p->attr.type == ATTRIX_INTENSITY)
-		{
-			light->intensity = av3.v3.z;
-			ft_putendl ("set light intensity");
-		}
-	}
-	else if (p->active_type == tmaterial)
-	{
-		if (p->attr.type == ATTRIX_COLOR)
-		{
-			av3.rgb = (t_rgbf){fmin (1.0L, av3.rgb.r), fmin (1.0L, av3.rgb.g), fmin (1.0L, av3.rgb.b)};
-			mat->color = av3.rgb;
-			ft_putendl ("set material color");
-		}
-		else if (p->attr.type == ATTRIX_GLOSS)
-		{
-			mat->gloss = av3.v3.z;
-			ft_putendl ("set material gloss");
-		}
-		else if (p->attr.type == ATTRIX_SPECULAR)
-		{
-			mat->specular = av3.v3.z;
-			ft_putendl ("set material specular");
-		}
-		
-	}
-	else if (p->active_type == tmeta)
-	{
-		if (p->attr.type == ATTRIX_POSITION)
-		{
-			p->cam.pos = av3.v3;
-			ft_putendl ("set cam position");
-		}
-		else if (p->attr.type == ATTRIX_ROTATION)
-		{
-			p->cam.rot = av3.v3;
-			ft_putendl ("set cam rotation");
-		}
-		else if (p->attr.type == ATTRIX_AMBIENT)
-		{
-			p->ambient = av3.v3.z;
-			ft_putendl ("set ambient");
-		}
-	}
-	else
-		return (parser_exception (EPARSE_TOKEN_INVALID));
-#endif
-	return (1);
-}
-#endif
 
 int	token_try_attr(char *word, t_parser *p)
 {
@@ -182,7 +45,6 @@ int	token_try_attr(char *word, t_parser *p)
 	ft_bzero ((void *)(p->av), sizeof(p->av));
 	return (1);
 }
-// ^=============== UNFINISHED ===============^ //
 
 int	token_try_light(char *word, t_parser *p)
 {

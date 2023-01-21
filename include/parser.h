@@ -6,7 +6,7 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 15:12:33 by ikarjala          #+#    #+#             */
-/*   Updated: 2023/01/20 14:02:53 by ikarjala         ###   ########.fr       */
+/*   Updated: 2023/01/21 17:20:14 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,11 @@
 # define ATTRIX_AMBIENT		8
 
 enum e_token_id {
-	tobj, tlight, tmaterial, tmeta, tnull
+	tnull = -1,
+	tobj = 0,
+	tlight = 1,
+	tmaterial = 2,
+	tmeta = 3,
 }	t_tokenid;
 
 typedef union u_tuple {
@@ -62,6 +66,8 @@ typedef struct s_parser_data {
 	int		errorid;
 	t_mat	*default_matp;
 }	t_parser;
+
+typedef int (*t_attr_dispatch)(t_parser *, t_tuple);
 
 int		token_try_obj(char *word, t_parser *p);
 int		token_try_light(char *word, t_parser *p);

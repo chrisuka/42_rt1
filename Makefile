@@ -6,7 +6,7 @@
 #    By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/19 01:31:36 by ikarjala          #+#    #+#              #
-#    Updated: 2023/01/12 19:30:19 by ikarjala         ###   ########.fr        #
+#    Updated: 2023/01/21 16:20:43 by ikarjala         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ INC_DIR	:= include/ libft/
 CFUNC	=\
 main error vector color render render_utils \
 raytracer intersect normals light \
-parser parser_tokens parser_error scene \
+parser parser_tokens parser_attr parser_error scene \
 get_next_line
 
 SDL_FLAGS	:= --disable-shared --disable-video-wayland

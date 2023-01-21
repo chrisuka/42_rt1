@@ -6,7 +6,7 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 12:18:05 by ikarjala          #+#    #+#             */
-/*   Updated: 2023/01/20 14:00:32 by ikarjala         ###   ########.fr       */
+/*   Updated: 2023/01/21 17:12:01 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <stdio.h>
 # include <fcntl.h>
 # include <math.h>
+# include <errno.h>
 
 # include "libft.h"
 # include "get_next_line.h"
@@ -81,6 +82,6 @@ t_vec	get_object_normal(t_vec hit_point, t_obj *obj);
 
 /*/ light.c ============================================================| ///*/
 
-double	get_intensity(t_rt rt, t_light light, t_mat m);
+double	get_intensity(t_rt rt, t_light *lights, size_t lcount, t_mat m);
 
 #endif
