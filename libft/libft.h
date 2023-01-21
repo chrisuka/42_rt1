@@ -6,7 +6,7 @@
 /*   By: ikarjala <ikarjala@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/05 17:06:35 by ikarjala          #+#    #+#             */
-/*   Updated: 2023/01/20 17:10:59 by ikarjala         ###   ########.fr       */
+/*   Updated: 2023/01/21 19:24:49 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,6 +146,7 @@ size_t	ft_lstclen(t_list *lst, t_list *target);
 size_t	ft_lstbuflen(t_list *lst);
 t_list	*ft_lstn(t_list *lst, size_t n);
 
+int		ft_lstenque(t_list **lst, void *content, const size_t bs);
 t_list	*ft_lstinit(size_t elemc, size_t size);
 char	*ft_lststr(t_list *lst, size_t len);
 int		ft_lstcut(t_list **alst, size_t start, size_t count,

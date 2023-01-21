@@ -6,7 +6,7 @@
 #    By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/19 01:31:36 by ikarjala          #+#    #+#              #
-#    Updated: 2023/01/20 17:01:43 by ikarjala         ###   ########.fr        #
+#    Updated: 2023/01/21 18:49:47 by ikarjala         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,7 +40,7 @@ islower isupper isspace isxdigit toinverse \
 bool2sign abs log10 pow min max utoa64 \
 strany swap strword wordcount \
 aiter freearray bset64 \
-lstlen lstn lstclen lstinit lstcut lstbuflen lststr
+lstlen lstn lstclen lstinit lstcut lstbuflen lststr lstenque
 CSTAGE	= $(MANDATORY_FILES) $(BONUS_FILES) $(EXTRA_FILES)
 CFUNC	= $(CSTAGE:%=ft_%)
 
