@@ -1,8 +1,8 @@
 cam pos 0 50 -100 rot 10 0 0
-ambient 0.15
+ambient 0.05
 
-light		pos -50 20 -20 intensity 0.4
-light		pos 50 20 -20 intensity 0.4
+light		pos -50 20 -20 intensity 25.4
+light		pos 50 20 -20 intensity 25.4
 
 material	color 0.0 0.4 0 specular 0.7 gloss 1
 material	color 0.6 0.3 0

@@ -6,7 +6,7 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/29 18:53:34 by ikarjala          #+#    #+#             */
-/*   Updated: 2023/01/22 17:05:40 by ikarjala         ###   ########.fr       */
+/*   Updated: 2023/01/22 19:39:23 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ double	get_intensity(t_rt rt, t_light *lights, size_t lcount, t_mat m)
 	t_vec	light_rdir;
 	double	light_t;
 	double	angle;
+	double	falloff;
 	double	intensity;
 
 	intensity = 0.0L;
@@ -65,6 +66,7 @@ double	get_intensity(t_rt rt, t_light *lights, size_t lcount, t_mat m)
 	{
 		light_rdir = vec_sub (lights[lcount].pos, rt.hit_point);
 		light_t = vec_len (light_rdir);
+		falloff = lights[lcount].intensity / light_t;
 		light_rdir = vec_scale (light_rdir, 1.0 / light_t);
 		// OCCLUSION / SHADOW CHECK
 		if (find_nearest (rt.ctx, project_ray_from_light (
@@ -73,9 +75,9 @@ double	get_intensity(t_rt rt, t_light *lights, size_t lcount, t_mat m)
 		// ========================
 		angle = vec_dot (light_rdir, rt.hit_normal);
 		if (angle > EPS)
-			intensity += lights[lcount].intensity * angle;
+			intensity += falloff * angle;
 		if (m.specular > 0)
-			intensity += get_specular_hi (rt, lights[lcount].intensity, light_rdir, m);
+			intensity += get_specular_hi (rt, falloff, light_rdir, m);
 	}
 	return (intensity);
 }

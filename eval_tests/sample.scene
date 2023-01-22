@@ -31,5 +31,5 @@ cam	pos: 0 10 -100
 	rot: 0 0 0
 
 ambient 0.15
-light pos (-70 10 -80) intensity = 0.4
-light pos (49 30 70) intensity = 0.4
+light pos (-70 10 -80) intensity = 50.4
+light pos (49 30 70) intensity = 20.4
