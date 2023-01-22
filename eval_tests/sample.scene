@@ -19,7 +19,7 @@ material color 0 1 0
 material color 0 0 1
 
 sphere radius 6 pos 10 25 0 rot 0 0 0 matp 0
-cone radius 1 pos (-400, 20, 800) rot [0 1 0]
+cone radius 0.5 pos (-400, 20, 800) rot [0 1 0]
 plane pos (0, -200, 0)
 cylinder radius 5 (rot 0 0 1) (pos 0 4 0) matp 2
 

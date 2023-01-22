@@ -12,12 +12,14 @@ material	color 1 0 1 specular 0 gloss 0
 plane		pos 0 0 100 rot 0 0 -1 matp 1
 plane		pos 0 0 0 matp 0
 
-cylinder	pos 30 0 60 radius 4 matp -1 #error test
+cylinder	pos 30 0 60 radius 4 matp 3
 cylinder	pos 30 0 0 radius 4 matp 3
 cylinder	pos -30 0 60 radius 4 matp 3
-cylinder	pos -30 0 0 radius 4 matp 9000 #error test 2
+cylinder	pos -30 0 0 radius 4 matp 3
 
 sphere		pos 30 0 60 radius 8 matp 2
 sphere		pos 30 0 0 radius 8 matp 2
 sphere		pos -30 0 60 radius 8 matp 2
 sphere		pos -30 0 0 radius 8 matp 2
+
+cone		pos 0 50 30 radius 0.3
