@@ -1,16 +1,23 @@
-cam pos 0 20 -100 rot 10 0 0
-ambient 0.2
+cam pos 0 50 -100 rot 10 0 0
+ambient 0.15
 
-light		pos -50 20 -20 intensity 0.2
-light		pos 50 20 -20 intensity 0.2
+light		pos -50 20 -20 intensity 0.4
+light		pos 50 20 -20 intensity 0.4
 
-material	color 0.0 0.4 0
+material	color 0.0 0.4 0 specular 0.7 gloss 1
 material	color 0.6 0.3 0
+material	color 0.8 0.15 0.0 specular 1.0 gloss 100
+material	color 1 0 1 specular 0 gloss 0
 
 plane		pos 0 0 100 rot 0 0 -1 matp 1
-plane		pos 0 -30 0 matp 0
+plane		pos 0 0 0 matp 0
 
-cylinder	pos 30 0 60 radius 8
-cylinder	pos 30 0 0 radius 8
-cylinder	pos -30 0 60 radius 8
-cylinder	pos -30 0 0 radius 8
+cylinder	pos 30 0 60 radius 4 matp -1 #error test
+cylinder	pos 30 0 0 radius 4 matp 3
+cylinder	pos -30 0 60 radius 4 matp 3
+cylinder	pos -30 0 0 radius 4 matp 9000 #error test 2
+
+sphere		pos 30 0 60 radius 8 matp 2
+sphere		pos 30 0 0 radius 8 matp 2
+sphere		pos -30 0 60 radius 8 matp 2
+sphere		pos -30 0 0 radius 8 matp 2
