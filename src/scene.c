@@ -6,7 +6,7 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 18:58:14 by ikarjala          #+#    #+#             */
-/*   Updated: 2023/01/21 19:39:27 by ikarjala         ###   ########.fr       */
+/*   Updated: 2023/01/22 16:49:14 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ static void	*lst2array(t_list *lst, const size_t unit_size, size_t count)
 	void	*array;
 	void	*ap;
 
+	if (!unit_size || !count)
+		return (NULL);
 	array = malloc(unit_size * count);
 	if (!array)
 		return (NULL);

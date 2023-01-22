@@ -6,7 +6,7 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 20:39:42 by ikarjala          #+#    #+#             */
-/*   Updated: 2023/01/21 20:11:49 by ikarjala         ###   ########.fr       */
+/*   Updated: 2023/01/22 14:29:54 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ static inline t_scene	scene_init(void)
 		.lights = NULL,	.light_count = 0,
 		.mat = NULL,	.mat_count = 0,
 		.default_mat = (t_mat){
-			//.color = (t_rgbf){0.5L, 0.2L, 0.0L},
 			.color = (t_rgbf){1.0L, 1.0L, 1.0L},
 			.gloss = 100.0L, .specular = 1.0
 		},
@@ -45,7 +44,7 @@ static inline t_parser	parser_init(void)
 		.av = {0},
 
 		//.line_num = 0,
-		.default_matp = NULL,
+		.default_matp = NULL, // WARN: DEPRECATED
 	});
 }
 
@@ -68,7 +67,6 @@ static inline void	pre_process(char *line)
 }
 
 static inline void	process_token(char *word, t_parser *p)
-#if 1
 {
 	if (p->attr.val_req != 0)
 	{
@@ -83,13 +81,11 @@ static inline void	process_token(char *word, t_parser *p)
 		write (1, "material\n", 9);
 	else if (token_try_meta (word, p))
 		write (1, "scene metadata\n", 15);
-	#if 1
 	else if (token_try_attr (word, p))
 	{
 		write (1, "attr: ", 6);
 		ft_putendl (word);
 	}
-	#endif
 	else
 	{
 		write (1, "ayo?! ", 6);
@@ -114,7 +110,7 @@ int	ft_parse(int fd, t_scene *ctx)
 	p.default_matp = &ctx->default_mat;
 	while (get_next_line(fd, &line) != RET_EOF) // TODO: handle gnl error code
 	{
-		pre_process (line); // TODO: error checks
+		pre_process (line);
 		tokens = ft_strsplit (line, ' ');
 		ft_strdel (&line);
 		ap = tokens;

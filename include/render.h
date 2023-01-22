@@ -6,14 +6,20 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 21:15:40 by ikarjala          #+#    #+#             */
-/*   Updated: 2023/01/20 15:42:34 by ikarjala         ###   ########.fr       */
+/*   Updated: 2023/01/22 16:05:03 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef RENDER_H
 # define RENDER_H
 
-# include "scene.h"
+#include "vector.h"
+
+typedef struct s_light
+{
+	t_vec	pos;
+	double	intensity;
+}	t_light;
 
 typedef struct s_rgb_floating
 {
@@ -29,12 +35,13 @@ typedef struct s_ray
 }	t_ray;
 
 typedef struct	s_raytrace_data {
-	struct s_material	*hit_material;
-	t_ray				ray;
-	double				qf_roots[2];
-	double 				min_t;
-	t_vec				hit_point;
-	t_vec				hit_normal;
+	struct s_scene_context	*ctx;
+	struct s_material		*hit_material;
+	t_ray					ray;
+	double					qf_roots[2];
+	double 					min_t;
+	t_vec					hit_point;
+	t_vec					hit_normal;
 }	t_rt;
 
 enum e_sdl_settings {
@@ -43,8 +50,5 @@ enum e_sdl_settings {
 	esdl_winpos = SDL_WINDOWPOS_CENTERED,
 	esdl_winflags = SDL_WINDOW_SHOWN
 };
-
-t_rgbf			cmul(t_rgbf c, double v);
-unsigned int	to_rgb(t_rgbf c);
 
 #endif

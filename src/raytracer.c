@@ -6,13 +6,15 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 21:23:06 by ikarjala          #+#    #+#             */
-/*   Updated: 2023/01/20 16:14:05 by ikarjala         ###   ########.fr       */
+/*   Updated: 2023/01/22 16:51:37 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rtv1.h"
 
-static inline t_ray	project_ray_from_light(t_light light, t_vec hit_point)
+/* Return a ray shot from *hit_point* towards *light*.
+*/
+t_ray	project_ray_from_light(t_light light, t_vec hit_point)
 {
 	return ((t_ray){
 		.orig = hit_point,
@@ -20,7 +22,7 @@ static inline t_ray	project_ray_from_light(t_light light, t_vec hit_point)
 	});
 }
 
-static inline t_obj*	find_nearest(t_scene *ctx, t_ray ray, double *min_t)
+t_obj*	find_nearest(t_scene *ctx, t_ray ray, double *min_t)
 {
 	t_obj	*nearest;
 	size_t	n;
@@ -74,38 +76,25 @@ t_rgbf	raytrace(t_scene *ctx, t_ray ray)
 	t_rt	rt;
 	t_rgbf	c;
 	t_obj	*nearest;
-	double	light_t;
 
+	rt.ctx = ctx;
 	rt.ray = ray;
 	rt.min_t = INFINITY;
 	nearest = find_nearest(ctx, ray, &rt.min_t);
-	if (nearest)
-	{
-		if (nearest->mat < 0)
-			rt.hit_material = &ctx->default_mat;
-		else
-			rt.hit_material = &ctx->mat [nearest->mat];
-	}
-	else
+	if (!nearest)
 		return ((t_rgbf){0, 0, 0});
+	if (nearest->mat < 0)
+		rt.hit_material = &ctx->default_mat;
+	else
+		rt.hit_material = &ctx->mat [nearest->mat];
 	c = rt.hit_material->color;
-
-	rt.hit_point = vec_sum (ray.orig, vec_scale (ray.dir, rt.min_t));
 	if (!ctx->lights)
 		return (c);
-	// FIXME: needs to handle multi lights!
 	rt.hit_point = vec_sum (ray.orig, vec_scale (ray.dir, rt.min_t));
-	light_t = vec_len(vec_sub(ctx->lights->pos, rt.hit_point));
-
-	// LIGHT OCCLUSION / SHADOW CHECK
-	if (find_nearest (ctx, project_ray_from_light (
-			*(ctx->lights), rt.hit_point), &light_t) != NULL)
-		// FIXME: cmul is now inconsistent!
-		return (cmul (c, ctx->ambient)); // TODO: clamp ambient in parsing
 	rt.hit_normal = get_object_normal (rt.hit_point, nearest);
 
 	// TODO: get_intensity should take array of lights instead of one light
 	c = cmul (c, fmin (1.0L, ctx->ambient + get_intensity (
-			rt, *(ctx->lights), *rt.hit_material)));
+			rt, ctx->lights, ctx->light_count, *rt.hit_material)));
 	return (c);
 }

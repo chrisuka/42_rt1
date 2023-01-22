@@ -6,7 +6,7 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 12:18:05 by ikarjala          #+#    #+#             */
-/*   Updated: 2023/01/21 17:12:01 by ikarjala         ###   ########.fr       */
+/*   Updated: 2023/01/22 16:07:49 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@
 # define XC_EXIT	0
 # define XC_ERROR	1
 
+typedef unsigned int t_uint;
 typedef struct s_sdl_data
 {
 	int				ps;
@@ -60,6 +61,7 @@ int		ft_parse(int fd, t_scene *ctx);
 
 /*/ raytracer.c ========================================================| ///*/
 
+t_obj	*find_nearest(t_scene *ctx, t_ray ray, double *min_t);
 t_ray	project_ray_from_camera(int x, int y, t_cam cam);
 t_rgbf	raytrace(t_scene *ctx, t_ray ray);
 
@@ -73,6 +75,8 @@ int		ft_panic(const char *msg, void (*hook)(void));
 
 /*/ render.c ===========================================================| ///*/
 
+t_rgbf	cmul(t_rgbf c, double v);
+t_uint	to_rgb(t_rgbf c);
 void	set_color(t_sdl *sdl, int i, int x, int y);
 void	render(t_sdl *sdl);
 
@@ -82,6 +86,8 @@ t_vec	get_object_normal(t_vec hit_point, t_obj *obj);
 
 /*/ light.c ============================================================| ///*/
 
+t_ray	project_ray_from_light(t_light light, t_vec hit_point);
 double	get_intensity(t_rt rt, t_light *lights, size_t lcount, t_mat m);
+
 
 #endif

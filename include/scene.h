@@ -6,20 +6,14 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 20:57:29 by ikarjala          #+#    #+#             */
-/*   Updated: 2023/01/20 13:56:00 by ikarjala         ###   ########.fr       */
+/*   Updated: 2023/01/22 16:03:22 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SCENE_H
 # define SCENE_H
 
-# include "render.h"
-
-typedef struct s_light
-{
-	t_vec	pos;
-	double	intensity;
-}	t_light;
+#include "render.h"
 
 typedef struct s_material
 {
