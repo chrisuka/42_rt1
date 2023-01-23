@@ -6,7 +6,7 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 11:36:51 by ikarjala          #+#    #+#             */
-/*   Updated: 2023/01/22 19:32:02 by ikarjala         ###   ########.fr       */
+/*   Updated: 2023/01/23 15:42:36 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,31 +19,38 @@
  *
  * For every generic point P on a surface, it needs to satisfy an equation
  * depending on the properties of the shape. We check whether tR satisfies
- * this equation by finding the 0-roots in the quadratic function.
+ * this equation by finding the 0-roots in the quadratic equation.
  *
  * The roots tell us what kind of intersection it was and t represents the
  * distance from the ray origin to the intersection point. We can get the
- * intersection position in Cartesian coordinates by R0 + t(R) where
+ * intersection position in Cartesian coordinates by R0 + tR where
  * R0 = ray origin, R = ray direction.
 */
 
 /* Solve quadratic function and return the more ideal solution to get
  * the closest real intersection t, or -1 if there are no real roots.
- * if	D > 0	there are two intersections
- * if	D = 0	there is one intersection
- * if	D < 0	there are no intersections
+ * D = discriminant
+ *   D > 0: there are two intersections.
+ *   D = 0: there is one intersection.
+ *   D < 0: there are no intersections.
  *
  * t will be used as a scalar representing the distance
  * from ray origin to the closest intersection point.
 */
 
-static inline double	select_root(double a, double b, double d)
+static double	select_root(double a, double b, double d)
 {
-	const double	aa_inv = 1 / (2 * a);
-	const double	disc_root = sqrt(d);
-	const double	t1 = (-b - disc_root) * aa_inv;
-	const double	t2 = (-b + disc_root) * aa_inv;
+	double	aa_inv;
+	double	disc_root;
+	double	t1;
+	double	t2;
 
+	if (d < 0)
+		return (-1);
+	aa_inv = 1 / (2 * a);
+	disc_root = sqrt(d);
+	t1 = (-b - disc_root) * aa_inv;
+	t2 = (-b + disc_root) * aa_inv;
 	if ((t1 <= t2 && t1 >= 0) || (t1 >= 0 && t2 < 0))
 		return (t1);
 	else if ((t2 <= t1 && t2 >= 0) || (t1 < 0 && t2 >= 0))
@@ -100,11 +107,15 @@ static inline double	intersect_cone(t_ray ray, t_obj obj)
 	b = 2 * ((vec_dot(ray.dir, x) - (m * vec_dot(ray.dir, obj.rot)) * vec_dot(x, obj.rot) - vec_dot(ray.dir, obj.rot) * vec_dot(x, obj.rot)));
 	c = vec_dot(x, x) - (m * pow(vec_dot(x, obj.rot), 2)) - pow(vec_dot(x, obj.rot), 2);
 	d = b * b - 4 * a * c;
-	if (d < 0)
-		return (-1);
 	return (select_root (a, b, d));
 }
 
+/* CYLINDER
+ * Generic point P on the surface:
+ * ||P - Q|| = r , equivalent to
+ * (P - Q) . (P - Q) = r^2
+ *
+*/
 static inline double	intersect_cylinder(t_ray ray, t_obj obj)
 {
 	double	a;
@@ -119,12 +130,13 @@ static inline double	intersect_cylinder(t_ray ray, t_obj obj)
 	b = 2 * (vec_dot(ray.dir, x) - (vec_dot(ray.dir, obj.rot) * vec_dot(x, obj.rot)));
 	c = vec_dot(x, x) - pow(vec_dot(x, obj.rot), 2) - pow(obj.r, 2);
 	d = b * b - 4 * a * c;
-	if (d < 0)
-		return (-1);
 	return (select_root (a, b, d));
 }
 
 /* SPHERE:
+ * Generic point P on the surface:
+ * ||P - O|| = r
+ *
  * a =  squared magnitude of *ray*
  * b = 2 * (line direction * (point on the line * sphere center))
  * c = (square of (point on the line * sphere center)) - square of radius
@@ -144,8 +156,6 @@ static inline double	intersect_sphere(t_ray ray, t_obj obj)
 	b = 2 * vec_dot(oc, ray.dir);
 	c = vec_dot(oc, oc) - (obj.r * obj.r);
 	d = b * b - 4 * a * c;
-	if (d < 0)
-		return (-1);
 	return (select_root (a, b, d));
 }
 
@@ -159,6 +169,6 @@ double	intersect(t_ray ray, t_obj obj)
 		intersect_plane
 	};
 
-	obj.rot = vec_norm(obj.rot);
+	obj.rot = vec_norm(obj.rot); //TODO: this should not be necessary! normalize during parsing!
 	return (jmp [obj.id](ray, obj));
 }

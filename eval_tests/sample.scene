@@ -15,7 +15,7 @@
 # material color = 1 0 0, gloss = 100, specular=1
 
 material color 1 0 0 gloss 100 specular 1
-material color 0 1 0
+material color 0 1 0 gloss 40 specular 0.3
 material color 0 0 1
 
 sphere radius 6 pos 10 25 0 rot 0 0 0 matp 0
@@ -31,5 +31,6 @@ cam	pos: 0 10 -100
 	rot: 0 0 0
 
 ambient 0.15
-light pos (-70 10 -80) intensity = 50.4
-light pos (49 30 70) intensity = 20.4
+light pos (-70 10 -80) intensity = 5000.4
+light pos (49 35 65) intensity = 40.4
+light pos (0 30 -50) intensity = 200.4

@@ -6,7 +6,7 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 12:18:05 by ikarjala          #+#    #+#             */
-/*   Updated: 2023/01/22 16:07:49 by ikarjala         ###   ########.fr       */
+/*   Updated: 2023/01/23 14:38:46 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,6 @@ t_vec	get_object_normal(t_vec hit_point, t_obj *obj);
 
 /*/ light.c ============================================================| ///*/
 
-t_ray	project_ray_from_light(t_light light, t_vec hit_point);
 double	get_intensity(t_rt rt, t_light *lights, size_t lcount, t_mat m);
-
 
 #endif

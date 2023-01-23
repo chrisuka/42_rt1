@@ -6,22 +6,16 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 21:23:06 by ikarjala          #+#    #+#             */
-/*   Updated: 2023/01/22 16:51:37 by ikarjala         ###   ########.fr       */
+/*   Updated: 2023/01/23 14:51:04 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rtv1.h"
 
-/* Return a ray shot from *hit_point* towards *light*.
+/* Return the closest intersection along *ray*.
+ * Ignore intersections very close to the ray origin point (Epsilon distance).
+ * Use the initial value of *min_t* as the maximum distance for the check.
 */
-t_ray	project_ray_from_light(t_light light, t_vec hit_point)
-{
-	return ((t_ray){
-		.orig = hit_point,
-		.dir = vec_norm(vec_sub(light.pos, hit_point))
-	});
-}
-
 t_obj*	find_nearest(t_scene *ctx, t_ray ray, double *min_t)
 {
 	t_obj	*nearest;
@@ -70,6 +64,9 @@ t_ray	project_ray_from_camera(int x, int y, t_cam cam)
  * More specifically, test all objects for intersection with ray
  * and mix the object diffuse colors together multiplied by the
  * combined intensities of all affecting light sources.
+ *
+ * NOTE: in our simplified case there is no reflection bounce and
+ * all of our light sources emit white light only.
 */
 t_rgbf	raytrace(t_scene *ctx, t_ray ray)
 {
