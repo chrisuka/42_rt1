@@ -6,7 +6,7 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 11:36:51 by ikarjala          #+#    #+#             */
-/*   Updated: 2023/01/23 15:42:36 by ikarjala         ###   ########.fr       */
+/*   Updated: 2023/01/24 15:05:14 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,9 @@
 
 /* Solve quadratic function and return the more ideal solution to get
  * the closest real intersection t, or -1 if there are no real roots.
+ *
  * D = discriminant
+ * D = b*b - 4ac
  *   D > 0: there are two intersections.
  *   D = 0: there is one intersection.
  *   D < 0: there are no intersections.
@@ -38,19 +40,20 @@
  * from ray origin to the closest intersection point.
 */
 
-static double	select_root(double a, double b, double d)
+static double	select_root(double a, double b, double c)
 {
-	double	aa_inv;
-	double	disc_root;
-	double	t1;
-	double	t2;
+	const double	d = b * b - 4 * a * c;
+	double			d_root;
+	double			aa_inv;
+	double			t1;
+	double			t2;
 
 	if (d < 0)
 		return (-1);
 	aa_inv = 1 / (2 * a);
-	disc_root = sqrt(d);
-	t1 = (-b - disc_root) * aa_inv;
-	t2 = (-b + disc_root) * aa_inv;
+	d_root = sqrt(d);
+	t1 = (-b - d_root) * aa_inv;
+	t2 = (-b + d_root) * aa_inv;
 	if ((t1 <= t2 && t1 >= 0) || (t1 >= 0 && t2 < 0))
 		return (t1);
 	else if ((t2 <= t1 && t2 >= 0) || (t1 < 0 && t2 >= 0))
@@ -84,20 +87,21 @@ static inline double	intersect_plane(t_ray ray, t_obj obj)
  * H = cone peak position, C + height
  * Q = nearest point on h from (L0 + tv)
  *
- * m = constant representing ratio of ||r|| to ||H - C||
+ * m = constant representing ratio of r / ||H - C||
+ *   = r^2 / (||H - C|| . ||H - C||)
  * 
  * Generic point P on the surface:
  * P . Q = m((P - H) . h)^2
  *
- * TODO: clean this up and fix the math! This is not accurate!
+ * TODO: figure out if m is just an angle for how steep the cone is
+ * TODO: clean this up and fix the math! This is not acceptable!
 */
 static inline double	intersect_cone(t_ray ray, t_obj obj)
 {
+	t_vec	x;
 	double	a;
 	double	b;
 	double	c;
-	double	d;
-	t_vec	x;
 	double	m;
 
 	obj.rot = vec_norm (obj.rot);
@@ -106,8 +110,7 @@ static inline double	intersect_cone(t_ray ray, t_obj obj)
 	a = vec_dot(ray.dir, ray.dir) - m * pow(vec_dot(ray.dir, obj.rot), 2) - pow(vec_dot(ray.dir, obj.rot), 2);
 	b = 2 * ((vec_dot(ray.dir, x) - (m * vec_dot(ray.dir, obj.rot)) * vec_dot(x, obj.rot) - vec_dot(ray.dir, obj.rot) * vec_dot(x, obj.rot)));
 	c = vec_dot(x, x) - (m * pow(vec_dot(x, obj.rot), 2)) - pow(vec_dot(x, obj.rot), 2);
-	d = b * b - 4 * a * c;
-	return (select_root (a, b, d));
+	return (select_root (a, b, c));
 }
 
 /* CYLINDER
@@ -118,45 +121,40 @@ static inline double	intersect_cone(t_ray ray, t_obj obj)
 */
 static inline double	intersect_cylinder(t_ray ray, t_obj obj)
 {
+	t_vec	x;
 	double	a;
 	double	b;
 	double	c;
-	double	d;
-	t_vec	x;
 
-	obj.rot = vec_norm(obj.rot);
+	obj.rot = vec_norm(obj.rot); // TODO: remove unnecessary normalization
 	x = vec_sub(ray.orig, obj.pos);
 	a = vec_dot(ray.dir, ray.dir) - pow(vec_dot(ray.dir, obj.rot), 2);
 	b = 2 * (vec_dot(ray.dir, x) - (vec_dot(ray.dir, obj.rot) * vec_dot(x, obj.rot)));
 	c = vec_dot(x, x) - pow(vec_dot(x, obj.rot), 2) - pow(obj.r, 2);
-	d = b * b - 4 * a * c;
-	return (select_root (a, b, d));
+	return (select_root (a, b, c));
 }
 
 /* SPHERE:
  * Generic point P on the surface:
  * ||P - O|| = r
  *
- * a =  squared magnitude of *ray*
- * b = 2 * (line direction * (point on the line * sphere center))
- * c = (square of (point on the line * sphere center)) - square of radius
- *
- * D = b*b - 4ac
+ * x = R0 - C
+ * a = sqr magnitude of R
+ * b = ??
+ * c = ??
 */
 static inline double	intersect_sphere(t_ray ray, t_obj obj)
 {
+	t_vec	x;
 	double	a;
 	double	b;
 	double	c;
-	double	d;
-	t_vec	oc;
 
-	oc = vec_sub(ray.orig, obj.pos);
+	x = vec_sub(ray.orig, obj.pos);
 	a = vec_dot(ray.dir, ray.dir);
-	b = 2 * vec_dot(oc, ray.dir);
-	c = vec_dot(oc, oc) - (obj.r * obj.r);
-	d = b * b - 4 * a * c;
-	return (select_root (a, b, d));
+	b = 2 * vec_dot(x, ray.dir);
+	c = vec_dot(x, x) - (obj.r * obj.r);
+	return (select_root (a, b, c));
 }
 
 double	intersect(t_ray ray, t_obj obj)
