@@ -6,7 +6,7 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 21:15:40 by ikarjala          #+#    #+#             */
-/*   Updated: 2023/01/22 16:05:03 by ikarjala         ###   ########.fr       */
+/*   Updated: 2023/01/25 14:45:08 by ekantane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,13 @@
 # define RENDER_H
 
 #include "vector.h"
+
+typedef struct s_quad
+{
+	double	a;
+	double	b;
+	double	c;
+}	t_quad;
 
 typedef struct s_light
 {
