@@ -6,22 +6,22 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 15:12:33 by ikarjala          #+#    #+#             */
-/*   Updated: 2023/01/22 15:53:55 by ikarjala         ###   ########.fr       */
+/*   Updated: 2023/01/25 20:51:42 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSER_H
 # define PARSER_H
 
-# define EPARSE_OK				0
-# define EPARSE_INTERNAL		1
-# define EPARSE_TOKEN_INVALID	2
-# define EPARSE_TOKEN_UNKNOWN	3
-# define EPARSE_TOKEN_NAN		4
-# define EPARSE_FILE_ERROR		10
-# define EPARSE_MATERIAL_INDEX	11
-
-# define MPRE_PARSE	"parser_exception "
+# define EM_DEL				" :: "
+# define EM_INTERNAL		"an internal error occurred"
+# define EM_PARSER			"parser exception"
+# define EM_FILE_ERROR		"could not open file"
+# define MEPARSE_NAN		"expected numeric value"
+# define MEPARSE_NOEXIST	"unrecognized token"
+# define MEPARSE_VAL_RANGE	"value out of range"
+# define MEPARSE_MATP		"material not instantiated"
+# define MEPARSE_BADCONTEXT	"argument not in valid context"
 
 # define ATTRIX_POSITION	0
 # define ATTRIX_ROTATION	1
@@ -64,6 +64,7 @@ typedef struct s_parser_data {
 	double	av[3];
 	int		active_type;
 	int		errorid;
+	size_t	line_num;
 	t_mat	*default_matp;
 }	t_parser;
 
@@ -77,8 +78,7 @@ int		token_try_meta(char *word, t_parser *p);
 
 int		set_attr(char *word, t_parser *p);
 
-int		parser_error_fatal(int ecode);
-int		parser_exception(int ecode);
+int		parser_exception(t_parser *p, char *word, const char *msg);
 
 void	scene_apply(t_scene *ctx, t_parser *p);
 

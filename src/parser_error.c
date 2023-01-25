@@ -6,30 +6,39 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 13:36:36 by ikarjala          #+#    #+#             */
-/*   Updated: 2023/01/21 17:11:35 by ikarjala         ###   ########.fr       */
+/*   Updated: 2023/01/25 20:47:55 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rtv1.h"
 #include "parser.h"
 
-int	parser_error_fatal(int ecode)
+void	ft_abort(void)
 {
-	const char	msg[] = CRED MPRE_PARSE "fatal error :: " CNIL;
-	const char	fallback[] = "An internal fatal error occurred, aborting...";
-
-	write (2, msg, sizeof(msg) - 1);
-	if (ecode == EPARSE_INTERNAL)
-		ft_putendl (strerror (errno));
-	else
-		ft_putendl (fallback);
-	return (ecode);
+	exit (1);
 }
 
-int	parser_exception(int ecode)
+#if 0
+static int	print_allowed_tokens(void)
 {
-	const char	msg[] = CRED MPRE_PARSE ":: " CNIL "unexpected token." "\n";
+	const char	m1[] = "allowed parameters: ";
+	const char	mobj[] = "sphere | cylinder | cone | plane";
+	const char	moth[] = "light | material | cam | ambient";
+	const char	moat[] = "pos | rot | radius | mat";
+	const char	mmat[] = "color | specular | gloss";
 
-	write (2, msg, sizeof(msg) - 1);
-	return (ecode);
+	return (0);
+}
+#endif
+
+int	parser_exception(t_parser *p, char *word, const char *msg)
+{
+	const char	pre[] = EM_DEL CRED EM_PARSER EM_DEL CNIL;
+
+	ft_putnbr_fd ((int)(p->line_num), 2);
+	write (2, " $ ", 3);
+	ft_putstr_fd (word, 2);
+	write (2, pre, sizeof(pre) - 1);
+	ft_panic (msg, &ft_abort);
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 15:25:48 by ikarjala          #+#    #+#             */
-/*   Updated: 2023/01/21 20:02:55 by ikarjala         ###   ########.fr       */
+/*   Updated: 2023/01/25 20:45:13 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	token_try_attr(char *word, t_parser *p)
 			|| p->active_type == tmaterial
 			|| p->active_type == tmeta)
 		|| p->attr.val_req != 0)
-		return (parser_exception (EPARSE_TOKEN_INVALID));
+		return (parser_exception (p, word, MEPARSE_BADCONTEXT));
 	p->attr = (t_attr){.type = n, .val_req = valreqs[n]};
 	ft_bzero ((void *)(p->av), sizeof(p->av));
 	return (1);
@@ -68,14 +68,8 @@ int	token_try_light(char *word, t_parser *p)
 	if (!ft_strequ (word, "light"))
 		return (0);
 	light = (t_light *)malloc(sizeof(t_light));
-	if (!light)
-		return (0);
-	if (!ft_lstenque (&p->lights, light, sizeof(t_light)))
-	{
-		ft_putendl (CRED "LIGHT: lstenque failed" CNIL);
-		ft_memdel ((void **)(&light));
-		return (parser_error_fatal (EPARSE_INTERNAL));
-	}
+	if (!light || !ft_lstenque (&p->lights, light, sizeof(t_light)))
+		return (parser_exception (p, word, EM_INTERNAL));
 	p->light_count ++;
 	p->active_type = tlight;
 	return (1);
@@ -88,14 +82,8 @@ int	token_try_material(char *word, t_parser *p)
 	if (!ft_strequ (word, "material"))
 		return (0);
 	mat = (t_mat *)malloc(sizeof(t_mat));
-	if (!mat)
-		return (0);
-	if (!ft_lstenque (&p->mat, mat, sizeof(t_mat)))
-	{
-		ft_putendl (CRED "MATERIAL: lstenque failed" CNIL);
-		ft_memdel ((void **)(&mat));
-		return (parser_error_fatal (EPARSE_INTERNAL));
-	}
+	if (!mat || !ft_lstenque (&p->mat, mat, sizeof(t_mat)))
+		return (parser_exception (p, word, EM_INTERNAL));
 	p->mat_count ++;
 	p->active_type = tmaterial;
 	*mat = (t_mat){
@@ -113,14 +101,8 @@ int	token_try_obj(char *word, t_parser *p)
 	if (type == -1)
 		return (0);
 	obj = (t_obj *)malloc(sizeof(t_obj));
-	if (!obj)
-		return (0);
-	if (!ft_lstenque (&p->obj, obj, sizeof(t_obj)))
-	{
-		ft_putendl (CRED "OBJ: lstenque failed" CNIL);
-		ft_memdel ((void **)(&obj));
-		return (parser_error_fatal (EPARSE_INTERNAL));
-	}
+	if (!obj || !ft_lstenque (&p->obj, obj, sizeof(t_obj)))
+		return (parser_exception (p, word, EM_INTERNAL));
 	p->obj_count ++;
 	p->active_type = tobj;
 	*obj = (t_obj){

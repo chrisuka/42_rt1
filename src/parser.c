@@ -6,7 +6,7 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 20:39:42 by ikarjala          #+#    #+#             */
-/*   Updated: 2023/01/22 14:29:54 by ikarjala         ###   ########.fr       */
+/*   Updated: 2023/01/25 20:53:20 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static inline t_parser	parser_init(void)
 		.attr = (t_attr){.type = tnull, .val_req = 0},
 		.av = {0},
 
-		//.line_num = 0,
+		.line_num = 0,
 		.default_matp = NULL, // WARN: DEPRECATED
 	});
 }
@@ -69,29 +69,14 @@ static inline void	pre_process(char *line)
 static inline void	process_token(char *word, t_parser *p)
 {
 	if (p->attr.val_req != 0)
-	{
 		set_attr (word, p);
-		//parser_exception (EPARSE_INTERNAL);
-	}
-	else if (token_try_obj (word, p))
-		write (1, "obj\n", 4);
-	else if (token_try_light (word, p))
-		write (1, "light\n", 6);
-	else if (token_try_material (word, p))
-		write (1, "material\n", 9);
-	else if (token_try_meta (word, p))
-		write (1, "scene metadata\n", 15);
-	else if (token_try_attr (word, p))
-	{
-		write (1, "attr: ", 6);
-		ft_putendl (word);
-	}
-	else
-	{
-		write (1, "ayo?! ", 6);
-		ft_putendl (word);
-		parser_exception (EPARSE_TOKEN_UNKNOWN);
-	}
+	else if (!(
+		token_try_obj (word, p)
+		|| token_try_light (word, p)
+		|| token_try_material (word, p)
+		|| token_try_meta (word, p)
+		|| token_try_attr (word, p)))
+		parser_exception (p, word, MEPARSE_NOEXIST);
 	free (word);
 }
 
@@ -104,12 +89,13 @@ int	ft_parse(int fd, t_scene *ctx)
 
 	line = NULL;
 	if (fd < 0)
-		exit (parser_error_fatal (EPARSE_FILE_ERROR));
+		return (ft_panic (EM_FILE_ERROR, NULL));
 	*ctx = scene_init ();
 	p = parser_init ();
 	p.default_matp = &ctx->default_mat;
 	while (get_next_line(fd, &line) != RET_EOF) // TODO: handle gnl error code
 	{
+		p.line_num ++;
 		pre_process (line);
 		tokens = ft_strsplit (line, ' ');
 		ft_strdel (&line);
