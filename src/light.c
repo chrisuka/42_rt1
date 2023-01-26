@@ -6,7 +6,7 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/29 18:53:34 by ikarjala          #+#    #+#             */
-/*   Updated: 2023/01/23 15:14:13 by ikarjala         ###   ########.fr       */
+/*   Updated: 2023/01/25 17:23:45 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,11 +82,9 @@ double	get_intensity(t_rt rt, t_light *lights, size_t lcount, t_mat m)
 		falloff = lights[lcount].intensity / light_t;
 		light_t = sqrt (light_t);
 		light_rdir = vec_scale (light_rdir, 1.0 / light_t);
-		// OCCLUSION / SHADOW CHECK
 		if (find_nearest (rt.ctx, ray_init (
 					rt.hit_point, light_rdir), &light_t) != NULL)
 			continue ;
-		// ========================
 		angle_mul = vec_dot (light_rdir, rt.hit_normal);
 		if (angle_mul > EPS)
 			intensity += falloff * angle_mul;

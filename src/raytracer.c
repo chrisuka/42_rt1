@@ -6,11 +6,20 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 21:23:06 by ikarjala          #+#    #+#             */
-/*   Updated: 2023/01/23 14:51:04 by ikarjala         ###   ########.fr       */
+/*   Updated: 2023/01/25 16:59:34 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rtv1.h"
+
+static inline t_rgbf	color_bg(void)
+{
+	return ((t_rgbf){
+		.r = 0.0L,
+		.g = 0.0L,
+		.b = 0.0L
+	});
+}
 
 /* Return the closest intersection along *ray*.
  * Ignore intersections very close to the ray origin point (Epsilon distance).
@@ -79,7 +88,7 @@ t_rgbf	raytrace(t_scene *ctx, t_ray ray)
 	rt.min_t = INFINITY;
 	nearest = find_nearest(ctx, ray, &rt.min_t);
 	if (!nearest)
-		return ((t_rgbf){0, 0, 0});
+		return (color_bg());
 	if (nearest->mat < 0)
 		rt.hit_material = &ctx->default_mat;
 	else
@@ -89,8 +98,6 @@ t_rgbf	raytrace(t_scene *ctx, t_ray ray)
 		return (c);
 	rt.hit_point = vec_sum (ray.orig, vec_scale (ray.dir, rt.min_t));
 	rt.hit_normal = get_object_normal (rt.hit_point, nearest);
-
-	// TODO: get_intensity should take array of lights instead of one light
 	c = cmul (c, fmin (1.0L, ctx->ambient + get_intensity (
 			rt, ctx->lights, ctx->light_count, *rt.hit_material)));
 	return (c);

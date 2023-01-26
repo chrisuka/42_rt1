@@ -6,7 +6,7 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 15:12:33 by ikarjala          #+#    #+#             */
-/*   Updated: 2023/01/25 20:51:42 by ikarjala         ###   ########.fr       */
+/*   Updated: 2023/01/25 21:07:11 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # define MEPARSE_VAL_RANGE	"value out of range"
 # define MEPARSE_MATP		"material not instantiated"
 # define MEPARSE_BADCONTEXT	"argument not in valid context"
+# define MEPARSE_ARGC		"invalid amount of arguments"
 
 # define ATTRIX_POSITION	0
 # define ATTRIX_ROTATION	1

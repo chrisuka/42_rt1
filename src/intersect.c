@@ -6,7 +6,7 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 11:36:51 by ikarjala          #+#    #+#             */
-/*   Updated: 2023/01/25 14:48:21 by ekantane         ###   ########.fr       */
+/*   Updated: 2023/01/25 16:36:40 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@
  * from ray origin to the closest intersection point.
 */
 
-static double	select_root(double a, double b, double c)
+static double	solve(double a, double b, double c)
 {
 	const double	d = b * b - 4 * a * c;
 	double			d_root;
@@ -99,33 +99,33 @@ static inline double	intersect_plane(t_ray ray, t_obj obj)
 */
 static inline double	intersect_cone(t_ray ray, t_obj obj)
 {
+	t_quad	q;
 	t_vec	oc;
-	t_quad	quad;
 	double	m;
 	double	n;
 	double	o;
 
-	obj.rot = vec_norm (obj.rot);
+	obj.rot = vec_norm (obj.rot); // WARN: unnecessary
 	oc = vec_sub(ray.orig, obj.pos);
 	m = obj.r * obj.r;
 	n = vec_dot(ray.dir, obj.rot);
 	o = vec_dot(oc, obj.rot);
-	quad.a = vec_dot(ray.dir, ray.dir) - m * pow(n, 2) - pow(n, 2);
-	quad.b = 2 * ((vec_dot(ray.dir, oc) - (m * n) * o - n * o));
-	quad.c = vec_dot(oc, oc) - (m * pow(o, 2)) - pow(o, 2);
-	return (select_root (quad.a, quad.b, quad.c));
+	q.a = vec_dot(ray.dir, ray.dir) - m * pow(n, 2) - pow(n, 2);
+	q.b = 2 * ((vec_dot(ray.dir, oc) - (m * n) * o - n * o));
+	q.c = vec_dot(oc, oc) - (m * pow(o, 2)) - pow(o, 2);
+	return (solve (q.a, q.b, q.c));
 }
 
 /* CYLINDER
  * Generic point P on the surface:
- * ||P - Q|| = r , equivalent to
- * (P - Q) . (P - Q) = r^2
- * oc = object center
+ * ||P - Q|| = r
+ *  = (P - Q) . (P - Q) = r^2
+ * oc = R0 - C
 */
 static inline double	intersect_cylinder(t_ray ray, t_obj obj)
 {
+	t_quad	q;
 	t_vec	oc;
-	t_quad	quad;
 	double	n;
 	double	o;
 
@@ -133,10 +133,10 @@ static inline double	intersect_cylinder(t_ray ray, t_obj obj)
 	oc = vec_sub(ray.orig, obj.pos);
 	n = vec_dot(ray.dir, obj.rot);
 	o = vec_dot(oc, obj.rot);
-	quad.a = vec_dot(ray.dir, ray.dir) - pow(n, 2);
-	quad.b = 2 * (vec_dot(ray.dir, oc) - (n * o));
-	quad.c = vec_dot(oc, oc) - pow(o, 2) - pow(obj.r, 2);
-	return (select_root (quad.a, quad.b, quad.c));
+	q.a = vec_dot(ray.dir, ray.dir) - pow(n, 2);
+	q.b = 2 * (vec_dot(ray.dir, oc) - (n * o));
+	q.c = vec_dot(oc, oc) - pow(o, 2) - pow(obj.r, 2);
+	return (solve (q.a, q.b, q.c));
 }
 
 /* SPHERE:
@@ -150,19 +150,18 @@ static inline double	intersect_cylinder(t_ray ray, t_obj obj)
 */
 static inline double	intersect_sphere(t_ray ray, t_obj obj)
 {
+	t_quad	q;
 	t_vec	oc;
-	t_quad	quad;
 
-	oc = vec_sub(ray.orig, obj.pos);
-	quad.a = vec_dot(ray.dir, ray.dir);
-	quad.b = 2 * vec_dot(oc, ray.dir);
-	quad.c = vec_dot(oc, oc) - (obj.r * obj.r);
-	return (select_root (quad.a, quad.b, quad.c));
+	oc = vec_sub (ray.orig, obj.pos);
+	q.a = vec_dot (ray.dir, ray.dir);
+	q.b = 2 * vec_dot (oc, ray.dir);
+	q.c = vec_dot (oc, oc) - (obj.r * obj.r);
+	return (solve (q.a, q.b, q.c));
 }
 
 double	intersect(t_ray ray, t_obj obj)
 {
-	typedef double (*t_rayfn)(t_ray, t_obj);
 	const t_rayfn	jmp[] = {
 		intersect_sphere,
 		intersect_cylinder,
