@@ -6,7 +6,7 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 20:39:42 by ikarjala          #+#    #+#             */
-/*   Updated: 2023/01/25 20:53:20 by ikarjala         ###   ########.fr       */
+/*   Updated: 2023/01/25 21:08:05 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,8 @@ int	ft_parse(int fd, t_scene *ctx)
 	}
 	ft_strdel (&line);
 	close (fd);
+	if (p.attr.val_req != 0)
+		return (parser_exception (&p, NULL, MEPARSE_ARGC));
 	scene_apply (ctx, &p);
 	return (0);
 }

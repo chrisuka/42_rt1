@@ -6,7 +6,7 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/01 13:02:04 by ikarjala          #+#    #+#             */
-/*   Updated: 2023/01/20 15:00:19 by ikarjala         ###   ########.fr       */
+/*   Updated: 2023/01/26 17:22:51 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,9 @@ static inline t_vec	cylinder_normal(t_vec hit_p, t_obj *obj)
  * N = Normalize(P - O)
  * where P = ray hit point, O = object origin
 */
-
 static inline t_vec	sphere_normal(t_vec hit_p, t_obj *obj)
 {
-	return (vec_norm (vec_sub (hit_p, obj->pos)));
+	return (vec_scale (vec_sub (hit_p, obj->pos), 1.0 / obj->r));
 }
 
 t_vec	get_object_normal(t_vec hit_point, t_obj *obj)

@@ -6,7 +6,7 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 11:36:51 by ikarjala          #+#    #+#             */
-/*   Updated: 2023/01/25 16:36:40 by ikarjala         ###   ########.fr       */
+/*   Updated: 2023/01/26 17:25:58 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,6 @@ static inline double	intersect_cone(t_ray ray, t_obj obj)
 	double	n;
 	double	o;
 
-	obj.rot = vec_norm (obj.rot); // WARN: unnecessary
 	oc = vec_sub(ray.orig, obj.pos);
 	m = obj.r * obj.r;
 	n = vec_dot(ray.dir, obj.rot);
@@ -129,7 +128,6 @@ static inline double	intersect_cylinder(t_ray ray, t_obj obj)
 	double	n;
 	double	o;
 
-	obj.rot = vec_norm(obj.rot); // TODO: remove unnecessary normalization
 	oc = vec_sub(ray.orig, obj.pos);
 	n = vec_dot(ray.dir, obj.rot);
 	o = vec_dot(oc, obj.rot);
@@ -169,6 +167,5 @@ double	intersect(t_ray ray, t_obj obj)
 		intersect_plane
 	};
 
-	obj.rot = vec_norm(obj.rot); //TODO: this should not be necessary! normalize during parsing!
 	return (jmp [obj.id](ray, obj));
 }
