@@ -6,7 +6,7 @@
 /*   By: ikarjala <ikarjala@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 17:46:50 by ikarjala          #+#    #+#             */
-/*   Updated: 2023/01/12 19:49:44 by ikarjala         ###   ########.fr       */
+/*   Updated: 2023/01/27 18:17:33 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 # define BUFF_SIZE 32
 # define FD_MAX 8192
 
-typedef unsigned char t_bool;
+typedef unsigned char	t_bool;
 typedef struct s_buffer
 {
 	t_list	*buf;

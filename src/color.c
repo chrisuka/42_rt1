@@ -6,7 +6,7 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 15:16:12 by ikarjala          #+#    #+#             */
-/*   Updated: 2023/01/20 14:57:06 by ikarjala         ###   ########.fr       */
+/*   Updated: 2023/01/27 18:22:15 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,9 @@ t_rgbf	cmul(t_rgbf c, double v)
 */
 unsigned int	to_rgb(t_rgbf c)
 {
-	return ((
-		(unsigned int)(c.r * 255.0) << (__CHAR_BIT__ * 2) |
-		(unsigned int)(c.g * 255.0) << (__CHAR_BIT__ * 1) |
-		(unsigned int)(c.b * 255.0) << (__CHAR_BIT__ * 0))
+	return (((unsigned int)(c.r * 255.0) << (__CHAR_BIT__ * 2)
+		| (unsigned int)(c.g * 255.0) << (__CHAR_BIT__ * 1)
+		| (unsigned int)(c.b * 255.0) << (__CHAR_BIT__ * 0))
 		& ~(0xFF << (__CHAR_BIT__ * 3))
 	);
 }

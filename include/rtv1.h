@@ -6,7 +6,7 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 12:18:05 by ikarjala          #+#    #+#             */
-/*   Updated: 2023/01/27 16:53:16 by ikarjala         ###   ########.fr       */
+/*   Updated: 2023/01/27 18:41:47 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,9 @@
 # define XC_EXIT	0
 # define XC_ERROR	1
 
-typedef unsigned int t_uint;
+typedef unsigned int	t_uint;
+typedef t_vec			(*t_normalfun)(t_vec, t_obj *);
+typedef void			(*t_hookfun)(void);
 typedef struct s_sdl_data
 {
 	int				ps;

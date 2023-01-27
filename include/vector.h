@@ -6,7 +6,7 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 20:03:10 by ikarjala          #+#    #+#             */
-/*   Updated: 2023/01/20 18:12:54 by ikarjala         ###   ########.fr       */
+/*   Updated: 2023/01/27 18:19:25 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,6 @@ t_vec	vec_sub(t_vec v1, t_vec v2);
 t_vec	vec_norm(t_vec v1);
 t_vec	vec_scale(t_vec v1, double t);
 t_vec	vec_rot(t_vec dir, t_vec rot);
-t_vec vec_cross(t_vec u, t_vec v);
+t_vec	vec_cross(t_vec u, t_vec v);
 
 #endif

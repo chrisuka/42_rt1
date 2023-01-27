@@ -6,7 +6,7 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/01 13:02:04 by ikarjala          #+#    #+#             */
-/*   Updated: 2023/01/27 17:23:44 by ikarjala         ###   ########.fr       */
+/*   Updated: 2023/01/27 18:28:31 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,12 +53,12 @@ static inline t_vec	sphere_normal(t_vec hit_p, t_obj *obj)
 
 t_vec	get_object_normal(t_vec hit_point, t_obj *obj)
 {
-	typedef t_vec (*t_nf)(t_vec, t_obj *);
-	const t_nf	jmp[] = {
+	const t_normalfun	jmp[] = {
 		sphere_normal,
 		cylinder_normal,
 		cone_normal,
 		plane_normal
 	};
+
 	return (jmp [obj->id](hit_point, obj));
 }

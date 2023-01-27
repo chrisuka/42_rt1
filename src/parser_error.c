@@ -6,7 +6,7 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 13:36:36 by ikarjala          #+#    #+#             */
-/*   Updated: 2023/01/25 20:47:55 by ikarjala         ###   ########.fr       */
+/*   Updated: 2023/01/27 18:43:57 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,6 @@ void	ft_abort(void)
 {
 	exit (1);
 }
-
-#if 0
-static int	print_allowed_tokens(void)
-{
-	const char	m1[] = "allowed parameters: ";
-	const char	mobj[] = "sphere | cylinder | cone | plane";
-	const char	moth[] = "light | material | cam | ambient";
-	const char	moat[] = "pos | rot | radius | mat";
-	const char	mmat[] = "color | specular | gloss";
-
-	return (0);
-}
-#endif
 
 int	parser_exception(t_parser *p, char *word, const char *msg)
 {

@@ -6,7 +6,7 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 17:45:23 by ikarjala          #+#    #+#             */
-/*   Updated: 2023/01/27 17:04:38 by ikarjala         ###   ########.fr       */
+/*   Updated: 2023/01/27 18:22:49 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 */
 int	ft_panic(const char *msg, void (*hook)(void))
 {
-	const char post[] = "Aborting ..." "\n";
+	const char	post[] = "Aborting ..." "\n";
 
 	ft_putendl_fd (msg, 2);
 	if (hook)
@@ -31,10 +31,9 @@ int	ft_panic(const char *msg, void (*hook)(void))
 void	*tense_malloc(const size_t bs)
 {
 	void	*p;
-   
+
 	p = malloc (bs);
 	if (!p)
 		ft_panic (CRED "FATAL: malloc fail!" CNIL, NULL);
 	return (p);
 }
-

@@ -6,7 +6,7 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 15:12:33 by ikarjala          #+#    #+#             */
-/*   Updated: 2023/01/25 21:07:11 by ikarjala         ###   ########.fr       */
+/*   Updated: 2023/01/27 18:18:21 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ typedef struct s_parser_data {
 	t_mat	*default_matp;
 }	t_parser;
 
-typedef int (*t_attr_dispatch)(t_parser *, t_tuple);
+typedef int	(*t_attr_dispatch)(t_parser *, t_tuple);
 
 int		token_try_obj(char *word, t_parser *p);
 int		token_try_light(char *word, t_parser *p);

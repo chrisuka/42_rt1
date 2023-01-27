@@ -6,14 +6,14 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 20:57:29 by ikarjala          #+#    #+#             */
-/*   Updated: 2023/01/25 19:26:50 by ikarjala         ###   ########.fr       */
+/*   Updated: 2023/01/27 18:19:00 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SCENE_H
 # define SCENE_H
 
-#include "render.h"
+# include "render.h"
 
 typedef struct s_material
 {
@@ -26,7 +26,7 @@ typedef struct s_object
 {
 	int		id;
 	t_vec	pos;
-	t_vec	rot; // TODO: forward vector
+	t_vec	rot;
 	double	r;
 	int		mat;
 }	t_obj;
