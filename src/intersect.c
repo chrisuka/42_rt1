@@ -6,7 +6,7 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 11:36:51 by ikarjala          #+#    #+#             */
-/*   Updated: 2023/01/26 17:25:58 by ikarjala         ###   ########.fr       */
+/*   Updated: 2023/01/27 18:00:01 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,8 @@ static double	solve(double a, double b, double c)
 
 	if (d < 0)
 		return (-1);
-	aa_inv = 1 / (2 * a);
 	d_root = sqrt(d);
+	aa_inv = 1 / (2 * a);
 	t1 = (-b - d_root) * aa_inv;
 	t2 = (-b + d_root) * aa_inv;
 	if ((t1 <= t2 && t1 >= 0) || (t1 >= 0 && t2 < 0))
@@ -62,11 +62,13 @@ static double	solve(double a, double b, double c)
 }
 
 /*
-PLANE:
-t = -(point on the line - plane center) * rotation) / (line direction * rotation)
-
+ * PLANE:
+ * Generic point P on the surface:
+ * (P - C) . N = 0
+ *
+ *  q.b == 0: ray is along plane
+ *  q.b  > 0: ray is from behind plane
 */
-
 static inline double	intersect_plane(t_ray ray, t_obj obj)
 {
 	t_quad	q;
@@ -75,7 +77,7 @@ static inline double	intersect_plane(t_ray ray, t_obj obj)
 	q.a = vec_dot(vec_sub(ray.orig, obj.pos), obj.rot);
 	q.b = vec_dot(ray.dir, obj.rot);
 	t = -q.a / q.b;
-	if (q.b == 0 || (q.a < 0 && q.b < 0) || (q.a > 0 && q.b > 0) || t <= EPS)
+	if (q.b >= 0 || (q.a < 0 && q.b < 0) || (q.a > 0 && q.b > 0) || t <= EPS)
 		return (-1);
 	return (t);
 }
@@ -89,13 +91,8 @@ static inline double	intersect_plane(t_ray ray, t_obj obj)
  * m = constant representing ratio of r / ||H - C||
  *   = r^2 / (||H - C|| . ||H - C||)
  * 
- *  oc = object center
- * 
  * Generic point P on the surface:
  * P . Q = m((P - H) . h)^2
- *
- * TODO: figure out if m is just an angle for how steep the cone is
- * TODO: clean this up and fix the math! This is not acceptable!
 */
 static inline double	intersect_cone(t_ray ray, t_obj obj)
 {
