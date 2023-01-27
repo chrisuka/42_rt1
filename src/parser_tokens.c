@@ -6,7 +6,7 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 15:25:48 by ikarjala          #+#    #+#             */
-/*   Updated: 2023/01/25 20:45:13 by ikarjala         ###   ########.fr       */
+/*   Updated: 2023/01/27 16:43:30 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int	token_try_light(char *word, t_parser *p)
 
 	if (!ft_strequ (word, "light"))
 		return (0);
-	light = (t_light *)malloc(sizeof(t_light));
+	light = (t_light *)tense_malloc(sizeof(t_light));
 	if (!light || !ft_lstenque (&p->lights, light, sizeof(t_light)))
 		return (parser_exception (p, word, EM_INTERNAL));
 	p->light_count ++;
@@ -81,7 +81,7 @@ int	token_try_material(char *word, t_parser *p)
 
 	if (!ft_strequ (word, "material"))
 		return (0);
-	mat = (t_mat *)malloc(sizeof(t_mat));
+	mat = (t_mat *)tense_malloc(sizeof(t_mat));
 	if (!mat || !ft_lstenque (&p->mat, mat, sizeof(t_mat)))
 		return (parser_exception (p, word, EM_INTERNAL));
 	p->mat_count ++;
@@ -100,7 +100,7 @@ int	token_try_obj(char *word, t_parser *p)
 	type = word_in_list (word, keyws, sizeof(keyws) / sizeof(keyws[0]));
 	if (type == -1)
 		return (0);
-	obj = (t_obj *)malloc(sizeof(t_obj));
+	obj = (t_obj *)tense_malloc(sizeof(t_obj));
 	if (!obj || !ft_lstenque (&p->obj, obj, sizeof(t_obj)))
 		return (parser_exception (p, word, EM_INTERNAL));
 	p->obj_count ++;

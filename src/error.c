@@ -6,7 +6,7 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 17:45:23 by ikarjala          #+#    #+#             */
-/*   Updated: 2023/01/25 20:17:31 by ikarjala         ###   ########.fr       */
+/*   Updated: 2023/01/27 17:04:38 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,3 +27,14 @@ int	ft_panic(const char *msg, void (*hook)(void))
 	exit (-1);
 	return (0);
 }
+
+void	*tense_malloc(const size_t bs)
+{
+	void	*p;
+   
+	p = malloc (bs);
+	if (!p)
+		ft_panic (CRED "FATAL: malloc fail!" CNIL, NULL);
+	return (p);
+}
+

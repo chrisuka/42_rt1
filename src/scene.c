@@ -6,7 +6,7 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 18:58:14 by ikarjala          #+#    #+#             */
-/*   Updated: 2023/01/22 16:49:14 by ikarjala         ###   ########.fr       */
+/*   Updated: 2023/01/27 16:50:28 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static void	*lst2array(t_list *lst, const size_t unit_size, size_t count)
 
 	if (!unit_size || !count)
 		return (NULL);
-	array = malloc(unit_size * count);
+	array = tense_malloc(unit_size * count);
 	if (!array)
 		return (NULL);
 	ap = array + unit_size * count;
@@ -47,6 +47,9 @@ static void	*lst2array(t_list *lst, const size_t unit_size, size_t count)
 	return (array);
 }
 
+/* Transfer parser data to construct the scene context
+ * and unload the parser.
+*/
 void	scene_apply(t_scene *ctx, t_parser *p)
 {
 	ctx->cam = p->cam;

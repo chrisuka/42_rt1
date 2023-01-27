@@ -6,7 +6,7 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 12:18:05 by ikarjala          #+#    #+#             */
-/*   Updated: 2023/01/23 14:38:46 by ikarjala         ###   ########.fr       */
+/*   Updated: 2023/01/27 16:53:16 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ double	intersect(t_ray ray, t_obj obj);
 
 /*/ error.c ============================================================| ///*/
 
+void	*tense_malloc(const size_t bs);
 int		ft_panic(const char *msg, void (*hook)(void));
 
 /*/ render.c ===========================================================| ///*/
