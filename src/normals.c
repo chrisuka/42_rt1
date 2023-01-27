@@ -6,7 +6,7 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/01 13:02:04 by ikarjala          #+#    #+#             */
-/*   Updated: 2023/01/26 17:22:51 by ikarjala         ###   ########.fr       */
+/*   Updated: 2023/01/27 17:23:44 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,28 +20,26 @@ static inline t_vec	plane_normal(t_vec hit_p, t_obj *obj)
 
 static inline t_vec	cone_normal(t_vec hit_p, t_obj *obj)
 {
-	t_vec	n;
+	t_vec	normal;
 	t_vec	hypotenuse;
 
 	hypotenuse = vec_sub(hit_p, obj->pos);
-	n = vec_norm(vec_cross(hypotenuse, vec_cross(hypotenuse, obj->rot)));
+	normal = vec_norm(vec_cross(hypotenuse, vec_cross(hypotenuse, obj->rot)));
 	if (hit_p.y < obj->pos.y)
-		return (vec_scale (n, -1));
-	return (n);
+		return (vec_scale (normal, -1));
+	return (normal);
 }
 
 static inline t_vec	cylinder_normal(t_vec hit_p, t_obj *obj)
 {
 	t_vec	hypotenuse;
-	t_vec	h_hitp; // closest point along h vector
-	t_vec	normal;
+	t_vec	h_hitp;
 	double	h_scalar;
 
 	hypotenuse = vec_sub (hit_p, obj->pos);
 	h_scalar = vec_dot (hypotenuse, obj->rot);
 	h_hitp = vec_sum (obj->pos, vec_scale (obj->rot, h_scalar));
-	normal = vec_norm (vec_sub (hit_p, h_hitp));
-	return (normal);
+	return (vec_norm (vec_sub (hit_p, h_hitp)));
 }
 
 /* Return the normal vector of ray intersection point on an sphere's surface.
