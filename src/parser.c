@@ -6,7 +6,7 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 20:39:42 by ikarjala          #+#    #+#             */
-/*   Updated: 2023/01/27 18:35:13 by ikarjala         ###   ########.fr       */
+/*   Updated: 2023/01/29 16:58:36 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ static inline t_parser	parser_init(void)
 		.active_type = -1,
 		.attr = (t_attr){.type = tnull, .val_req = 0},
 		.av = {0},
-		.line_num = 0
+		.line_num = 0,
+		.word_num = 0
 	});
 }
 
@@ -64,6 +65,7 @@ static inline void	pre_process(char *line)
 
 static inline void	process_token(char *word, t_parser *p)
 {
+	p->word_num ++;
 	if (p->attr.val_req != 0)
 		set_attr (word, p);
 	else if (!(token_try_obj (word, p)
@@ -75,6 +77,20 @@ static inline void	process_token(char *word, t_parser *p)
 	free (word);
 }
 
+static inline int	read_line(int fd, char **line)
+{
+	const char	em[] = CRED "unexpected error reading next line!" CNIL;
+	int			gnl_ex;
+
+	gnl_ex = get_next_line(fd, line);
+	if (gnl_ex == RET_ERROR)
+	{
+		ft_strdel (line);
+		ft_panic (em, NULL);
+	}
+	return (gnl_ex);
+}
+
 int	ft_parse(int fd, t_scene *ctx)
 {
 	t_parser	p;
@@ -82,15 +98,16 @@ int	ft_parse(int fd, t_scene *ctx)
 	char		**tokens;
 	char		**ap;
 
-	line = NULL;
 	if (fd < 0)
-		return (ft_panic (EM_FILE_ERROR, NULL));
+		return (ft_panic (CRED EM_FILE_ERROR CNIL, NULL));
+	line = NULL;
 	*ctx = scene_init ();
 	p = parser_init ();
 	p.default_matp = &ctx->default_mat;
-	while (get_next_line(fd, &line) == RET_READL)
+	while (read_line (fd, &line) != RET_EOF)
 	{
 		p.line_num ++;
+		p.word_num = 0;
 		pre_process (line);
 		tokens = ft_strsplit (line, ' ');
 		ft_strdel (&line);
@@ -99,7 +116,6 @@ int	ft_parse(int fd, t_scene *ctx)
 			process_token (*(ap++), &p);
 		ft_memdel ((void **)(&tokens));
 	}
-	ft_strdel (&line);
 	close (fd);
 	if (p.attr.val_req != 0)
 		return (parser_exception (&p, NULL, MEPARSE_ARGC));

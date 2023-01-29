@@ -6,7 +6,7 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 15:12:33 by ikarjala          #+#    #+#             */
-/*   Updated: 2023/01/27 18:18:21 by ikarjala         ###   ########.fr       */
+/*   Updated: 2023/01/29 16:45:58 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ typedef struct s_parser_data {
 	int		active_type;
 	int		errorid;
 	size_t	line_num;
+	size_t	word_num;
 	t_mat	*default_matp;
 }	t_parser;
 
