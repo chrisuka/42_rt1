@@ -6,26 +6,11 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 11:36:51 by ikarjala          #+#    #+#             */
-/*   Updated: 2023/01/30 14:30:13 by ekantane         ###   ########.fr       */
+/*   Updated: 2023/01/30 15:15:52 by ekantane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rtv1.h"
-
-/* PREFACE:
- * The basic idea of all the ray-primitive intersections is that we can
- * form a triangle from the vectors of the ray, the object position and
- * ray origin, and we can form a quadratic function to determine the scalar t.
- *
- * For every generic point P on a surface, it needs to satisfy an equation
- * depending on the properties of the shape. We check whether tR satisfies
- * this equation by finding the 0-roots in the quadratic equation.
- *
- * The roots tell us what kind of intersection it was and t represents the
- * distance from the ray origin to the intersection point. We can get the
- * intersection position in Cartesian coordinates by R0 + tR where
- * R0 = ray origin, R = ray direction.
-*/
 
 /* Solve quadratic function and return the more ideal solution to get
  * the closest real intersection t, or -1 if there are no real roots.

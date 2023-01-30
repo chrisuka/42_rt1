@@ -6,7 +6,7 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 14:19:38 by ekantane          #+#    #+#             */
-/*   Updated: 2023/01/30 14:20:37 by ekantane         ###   ########.fr       */
+/*   Updated: 2023/01/30 15:18:24 by ekantane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,6 @@ t_vec	vec_rot(t_vec dir, t_vec rot)
 
 	return (vec_rotx (d2r * rot.x,
 			vec_roty (d2r * rot.y,
-			vec_rotz (d2r * rot.z, dir)
+				vec_rotz (d2r * rot.z, dir)
 			)));
 }
