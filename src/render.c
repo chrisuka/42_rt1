@@ -6,7 +6,7 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 21:35:43 by ikarjala          #+#    #+#             */
-/*   Updated: 2023/01/30 13:32:04 by ekantane         ###   ########.fr       */
+/*   Updated: 2023/01/30 15:53:56 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ void	render(t_sdl *sdl)
 		while (++x < WIN_W)
 		{
 			*(px++) = to_rgb (raytrace (
-				&sdl->ctx, project_ray_from_camera (x, y, sdl->ctx.cam)));
+						&sdl->ctx, project_ray_from_camera (
+							x, y, sdl->ctx.cam)));
 		}
 	}
 	SDL_UnlockSurface (sdl->surf);

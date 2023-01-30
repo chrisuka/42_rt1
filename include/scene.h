@@ -6,7 +6,7 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 20:57:29 by ikarjala          #+#    #+#             */
-/*   Updated: 2023/01/27 18:19:00 by ikarjala         ###   ########.fr       */
+/*   Updated: 2023/01/30 15:46:03 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ typedef struct s_cam
 	t_vec	rot;
 }	t_cam;
 
+typedef struct s_parser_data	t_parser;
 typedef struct s_scene_context {
 	t_obj	*obj;
 	t_light	*lights;
@@ -57,5 +58,7 @@ typedef enum e_object_type {
 }	t_eobjtype;
 
 void	scene_unload(t_scene *context);
+t_scene	scene_init(void);
+void	scene_apply(t_scene *ctx, t_parser *p);
 
 #endif

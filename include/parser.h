@@ -6,7 +6,7 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 15:12:33 by ikarjala          #+#    #+#             */
-/*   Updated: 2023/01/29 16:45:58 by ikarjala         ###   ########.fr       */
+/*   Updated: 2023/01/30 15:51:48 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,16 +72,17 @@ typedef struct s_parser_data {
 
 typedef int	(*t_attr_dispatch)(t_parser *, t_tuple);
 
-int		token_try_obj(char *word, t_parser *p);
-int		token_try_light(char *word, t_parser *p);
-int		token_try_attr(char *word, t_parser *p);
-int		token_try_material(char *word, t_parser *p);
-int		token_try_meta(char *word, t_parser *p);
+int	word_in_list(char *word, const char **list, const size_t count);
+int	is_number(char *word);
 
-int		set_attr(char *word, t_parser *p);
+int	token_try_obj(char *word, t_parser *p);
+int	token_try_light(char *word, t_parser *p);
+int	token_try_attr(char *word, t_parser *p);
+int	token_try_material(char *word, t_parser *p);
+int	token_try_meta(char *word, t_parser *p);
 
-int		parser_exception(t_parser *p, char *word, const char *msg);
+int	set_attr(char *word, t_parser *p);
 
-void	scene_apply(t_scene *ctx, t_parser *p);
+int	parser_exception(t_parser *p, char *word, const char *msg);
 
 #endif
