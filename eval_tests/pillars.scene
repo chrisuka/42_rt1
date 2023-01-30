@@ -4,10 +4,10 @@ ambient 0.05
 light		pos -50 20 -20 intensity 2000.4
 light		pos 50 20 -20 intensity 2000.4
 
-material	color 0.0 0.4 0 specular 0.7 gloss 1
+material	color 0.0 0.4 0
 material	color 0.6 0.3 0
-material	color 0.8 0.15 0.0 specular 1.0 gloss 100
-material	color 1 0 1 specular 0 gloss 0
+material	color 0.8 0.15 0.0
+material	color 1 0 1
 
 plane		pos 0 0 100 rot -90 0 0 matp 1
 plane		pos 0 0 0 matp 0
