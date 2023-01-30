@@ -6,11 +6,26 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 18:58:14 by ikarjala          #+#    #+#             */
-/*   Updated: 2023/01/30 13:31:24 by ekantane         ###   ########.fr       */
+/*   Updated: 2023/01/30 15:40:56 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rtv1.h"
+
+t_scene	scene_init(void)
+{
+	return ((t_scene){
+		.obj = NULL, .obj_count = 0,
+		.lights = NULL, .light_count = 0,
+		.mat = NULL, .mat_count = 0,
+		.default_mat = (t_mat){
+		.color = (t_rgbf){1.0L, 1.0L, 1.0L},
+		.gloss = 100.0L, .specular = 1.0
+		},
+		.cam = (t_cam){.pos = (t_vec){0, 0, -10}, .rot = (t_vec){0, 0, 0}},
+		.ambient = 0.1L
+	});
+}
 
 void	scene_unload(t_scene *ctx)
 {
@@ -58,7 +73,7 @@ void	scene_apply(t_scene *ctx, t_parser *p)
 	ctx->obj = (t_obj *)lst2array(p->obj, sizeof(t_obj), p->obj_count);
 	ctx->light_count = p->light_count;
 	ctx->lights = (t_light *)lst2array(
-		p->lights, sizeof(t_light), p->light_count);
+			p->lights, sizeof(t_light), p->light_count);
 	ctx->mat_count = p->mat_count;
 	ctx->mat = (t_mat *)lst2array(p->mat, sizeof(t_mat), p->mat_count);
 	ft_lstdel (&p->obj, &ft_memclr);

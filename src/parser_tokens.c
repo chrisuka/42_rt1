@@ -6,24 +6,11 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 15:25:48 by ikarjala          #+#    #+#             */
-/*   Updated: 2023/01/27 16:43:30 by ikarjala         ###   ########.fr       */
+/*   Updated: 2023/01/30 15:49:57 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rtv1.h"
-
-static int	word_in_list(char *word, const char **list, const size_t count)
-{
-	int	n;
-
-	n = -1;
-	while (++n < (int)(count))
-	{
-		if (ft_strequ (word, (char *)(list[n])))
-			return (n);
-	}
-	return (-1);
-}
 
 int	token_try_attr(char *word, t_parser *p)
 {

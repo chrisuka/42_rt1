@@ -6,34 +6,11 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 13:01:44 by ikarjala          #+#    #+#             */
-/*   Updated: 2023/01/27 18:43:35 by ikarjala         ###   ########.fr       */
+/*   Updated: 2023/01/30 15:48:45 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rtv1.h"
-
-/* Check whether word represents a numeric value either as
- * an integer or as a floating-point decimal number.
-*/
-static inline int	is_number(char *word)
-{
-	const int	neg = word[0] == '-';
-	int			dec;
-
-	dec = 0;
-	word += neg;
-	while (*word)
-	{
-		if (ft_isdigit (*word))
-			;
-		else if (*word == '.' && !dec)
-			dec = 1;
-		else
-			return (0);
-		word ++;
-	}
-	return (1);
-}
 
 static inline int	set_attr_meta(t_parser *p, t_tuple av3)
 {
@@ -113,6 +90,7 @@ int	set_attr(char *word, t_parser *p)
 		set_attr_material,
 		set_attr_meta
 	};
+	const int				jsize = (int)(sizeof(jmp) / sizeof(jmp[0]));
 
 	p->attr.val_req --;
 	if (!is_number (word))
@@ -121,7 +99,7 @@ int	set_attr(char *word, t_parser *p)
 	if (p->attr.val_req != 0)
 		return (1);
 	av3.v3 = (t_vec){.x = p->av[2], .y = p->av[1], .z = p->av[0]};
-	if (p->active_type < 0 || p->active_type >= (int)(sizeof(jmp) / sizeof(jmp[0])))
+	if (p->active_type < 0 || p->active_type >= jsize)
 		return (parser_exception (p, word, MEPARSE_BADCONTEXT));
 	jmp [p->active_type](p, av3);
 	return (1);

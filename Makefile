@@ -6,7 +6,7 @@
 #    By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/19 01:31:36 by ikarjala          #+#    #+#              #
-#    Updated: 2023/01/30 15:20:42 by ekantane         ###   ########.fr        #
+#    Updated: 2023/01/30 15:46:32 by ikarjala         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ INC_DIR	:= include/ libft/
 CFUNC	=\
 main error vector_basic vector_advanced vector_rotation color \
 render render_utils raytracer intersect intersect_solve normals \
-light parser parser_tokens parser_attr parser_error scene \
+light parser parser_utils parser_tokens parser_attr parser_error scene \
 get_next_line
 
 SDL_FLAGS	:= --disable-shared --disable-video-wayland
