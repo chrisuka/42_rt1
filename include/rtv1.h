@@ -6,7 +6,7 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 12:18:05 by ikarjala          #+#    #+#             */
-/*   Updated: 2023/01/27 18:41:47 by ikarjala         ###   ########.fr       */
+/*   Updated: 2023/01/30 14:30:59 by ekantane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,10 @@ t_rgbf	raytrace(t_scene *ctx, t_ray ray);
 /*/ intersect.c ========================================================| ///*/
 
 double	intersect(t_ray ray, t_obj obj);
+
+/*/ intersect_solve.c ==================================================| ///*/
+
+double	solve(double a, double b, double c);
 
 /*/ error.c ============================================================| ///*/
 
