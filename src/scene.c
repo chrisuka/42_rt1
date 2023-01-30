@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   scene.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 18:58:14 by ikarjala          #+#    #+#             */
-/*   Updated: 2023/01/27 16:50:28 by ikarjala         ###   ########.fr       */
+/*   Updated: 2023/01/30 13:31:24 by ekantane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,16 +56,12 @@ void	scene_apply(t_scene *ctx, t_parser *p)
 	ctx->ambient = p->ambient;
 	ctx->obj_count = p->obj_count;
 	ctx->obj = (t_obj *)lst2array(p->obj, sizeof(t_obj), p->obj_count);
-
 	ctx->light_count = p->light_count;
 	ctx->lights = (t_light *)lst2array(
 		p->lights, sizeof(t_light), p->light_count);
-
 	ctx->mat_count = p->mat_count;
 	ctx->mat = (t_mat *)lst2array(p->mat, sizeof(t_mat), p->mat_count);
-
 	ft_lstdel (&p->obj, &ft_memclr);
 	ft_lstdel (&p->lights, &ft_memclr);
 	ft_lstdel (&p->mat, &ft_memclr);
 }
-

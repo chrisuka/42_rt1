@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 21:35:43 by ikarjala          #+#    #+#             */
-/*   Updated: 2023/01/19 11:46:20 by ikarjala         ###   ########.fr       */
+/*   Updated: 2023/01/30 13:32:04 by ekantane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,6 @@ void	render(t_sdl *sdl)
 				&sdl->ctx, project_ray_from_camera (x, y, sdl->ctx.cam)));
 		}
 	}
-	SDL_UnlockSurface (sdl->surf); 
+	SDL_UnlockSurface (sdl->surf);
 	SDL_UpdateWindowSurface (sdl->win);
 }

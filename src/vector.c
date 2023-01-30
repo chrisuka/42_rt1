@@ -6,7 +6,7 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 14:19:38 by ekantane          #+#    #+#             */
-/*   Updated: 2023/01/20 18:30:26 by ikarjala         ###   ########.fr       */
+/*   Updated: 2023/01/30 13:30:18 by ekantane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ t_vec	vec_rot(t_vec dir, t_vec rot)
 
 /* Return the cross prduct of two vectors.
 */
-t_vec vec_cross(t_vec u, t_vec v)
+t_vec	vec_cross(t_vec u, t_vec v)
 {
 	return ((t_vec){
 		.x = u.y * v.z - u.z * v.y,
