@@ -6,7 +6,7 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 21:23:06 by ikarjala          #+#    #+#             */
-/*   Updated: 2023/01/27 18:44:53 by ikarjala         ###   ########.fr       */
+/*   Updated: 2023/01/30 16:23:22 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ t_rgbf	raytrace(t_scene *ctx, t_ray ray)
 		return (c);
 	rt.hit_point = vec_sum (ray.orig, vec_scale (ray.dir, rt.min_t));
 	rt.hit_normal = get_object_normal (rt.hit_point, nearest);
-	c = cmul (c, fmin (1.0L, ctx->ambient + get_intensity (
-					rt, ctx->lights, ctx->light_count, *rt.hit_material)));
+	c = cmul (c, fmax (0.0L, fmin (1.0L, ctx->ambient + get_intensity (
+						rt, ctx->lights, ctx->light_count, *rt.hit_material))));
 	return (c);
 }
