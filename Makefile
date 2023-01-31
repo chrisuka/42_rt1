@@ -6,7 +6,7 @@
 #    By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/19 01:31:36 by ikarjala          #+#    #+#              #
-#    Updated: 2023/01/31 14:45:49 by ekantane         ###   ########.fr        #
+#    Updated: 2023/01/31 19:37:34 by ikarjala         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -53,9 +53,10 @@ $(OBJ): $(OBJ_DIR)%.o:$(SRC_DIR)%.c | $(OBJ_DIR)
 	@$(ECHO) " $(GREEN)$(<)$(CNIL)"
 
 $(LIB_SDL): $(BUILD_DIR)
-	@cd libsdl2\
-	&& ./configure --prefix=$(abspath $(BUILD_DIR)) $(SDL_FLAGS)\
-	&& make && make install
+	@CC=libsdl2/build-scripts/clang-fat.sh \
+		cd libsdl2 \
+		&& ./configure --prefix=$(abspath $(BUILD_DIR)) $(SDL_FLAGS)
+	@$(MAKE) --directory=libsdl2 install
 
 $(OBJ_DIR) $(BUILD_DIR):
 	@$(MKDIR) $(@)
