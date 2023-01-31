@@ -6,7 +6,7 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 11:36:51 by ikarjala          #+#    #+#             */
-/*   Updated: 2023/01/30 16:53:59 by ikarjala         ###   ########.fr       */
+/*   Updated: 2023/01/31 19:53:11 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,14 @@
 /* PREFACE:
  * The basic idea of all the ray-primitive intersections is that each shape
  * has a certain geometric definition and from its properties we can get
- * coefficients to form a quadratic function to determine the scalar t.
+ * coefficients to form a quadratic equation to determine the scalar t.
  *
  * For every generic point P on a surface, it needs to satisfy an equation
  * depending on the properties of the shape. We check whether tR satisfies
- * this equation by finding the 0-roots in the quadratic equation.
+ * this equation by solving the 0-roots in the quadratic equation.
  *
- * The roots tell us what kind of intersection it was and t represents the
+ * The roots represent the intersection points through the shape, there can be
+ * 0, 1 or 2.
  * distance from the ray origin to the intersection point. We can get the
  * intersection position in Cartesian coordinates by R0 + tR where
  * R0 = ray origin, R = ray direction.
@@ -29,11 +30,14 @@
 
 /*
  * PLANE:
+ * C = plane center
+ * N = plane normal vector
+ *
  * Generic point P on the surface:
  * (P - C) . N = 0
  *
- *  q.b == 0: ray is along plane
- *  q.b  > 0: ray is from behind plane
+ *  q.b == 0: ray is tangental to plane surface
+ *  q.b  > 0: ray is from behind plane's "facing" side
 */
 static inline double	intersect_plane(t_ray ray, t_obj obj)
 {
@@ -53,7 +57,6 @@ static inline double	intersect_plane(t_ray ray, t_obj obj)
  * C = base center position
  * H = cone peak position, C + height
  * Q = nearest point on h from (L0 + tv)
- *
  * m = constant representing ratio of r / ||H - C||
  *   = r^2 / (||H - C|| . ||H - C||)
  * 
@@ -81,7 +84,6 @@ static inline double	intersect_cone(t_ray ray, t_obj obj)
 /* CYLINDER
  * Generic point P on the surface:
  * ||P - Q|| = r
- * oc = R0 - C
 */
 static inline double	intersect_cylinder(t_ray ray, t_obj obj)
 {
@@ -102,7 +104,6 @@ static inline double	intersect_cylinder(t_ray ray, t_obj obj)
 /* SPHERE:
  * Generic point P on the surface:
  * ||P - O|| = r
- * oc = R0 - C
 */
 static inline double	intersect_sphere(t_ray ray, t_obj obj)
 {
