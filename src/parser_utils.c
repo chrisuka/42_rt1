@@ -6,11 +6,30 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 15:43:05 by ikarjala          #+#    #+#             */
-/*   Updated: 2023/01/30 15:52:58 by ikarjala         ###   ########.fr       */
+/*   Updated: 2023/02/01 17:05:02 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rtv1.h"
+
+double	parser_clamp(t_parser *p, double min, double max, double val)
+{
+	const char	warn[] = "value outside expected range [";
+
+	if (val < min || val > max)
+	{
+		parser_warning (p, val, warn, sizeof(warn) - 1);
+		ft_putnbr (min);
+		write (2, " - ", 3);
+		ft_putnbr (max);
+		write (2, "].\n", 3);
+		if (val < min)
+			return (min);
+		if (val > max)
+			return (max);
+	}
+	return (val);
+}
 
 /* Check whether word represents a numeric value either as
  * an integer or as a floating-point decimal number.

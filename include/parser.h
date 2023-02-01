@@ -6,12 +6,14 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 15:12:33 by ikarjala          #+#    #+#             */
-/*   Updated: 2023/01/30 15:51:48 by ikarjala         ###   ########.fr       */
+/*   Updated: 2023/02/01 17:17:03 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSER_H
 # define PARSER_H
+
+# define WM_PARSER				"parser warning"
 
 # define EM_DEL				" :: "
 # define EM_INTERNAL		"an internal error occurred"
@@ -23,6 +25,8 @@
 # define MEPARSE_MATP		"material not instantiated"
 # define MEPARSE_BADCONTEXT	"argument not in valid context"
 # define MEPARSE_ARGC		"invalid amount of arguments"
+
+# define FLIMIT				9999.0
 
 # define ATTRIX_POSITION	0
 # define ATTRIX_ROTATION	1
@@ -72,17 +76,20 @@ typedef struct s_parser_data {
 
 typedef int	(*t_attr_dispatch)(t_parser *, t_tuple);
 
-int	word_in_list(char *word, const char **list, const size_t count);
-int	is_number(char *word);
+int		word_in_list(char *word, const char **list, const size_t count);
+int		is_number(char *word);
 
-int	token_try_obj(char *word, t_parser *p);
-int	token_try_light(char *word, t_parser *p);
-int	token_try_attr(char *word, t_parser *p);
-int	token_try_material(char *word, t_parser *p);
-int	token_try_meta(char *word, t_parser *p);
+int		token_try_obj(char *word, t_parser *p);
+int		token_try_light(char *word, t_parser *p);
+int		token_try_attr(char *word, t_parser *p);
+int		token_try_material(char *word, t_parser *p);
+int		token_try_meta(char *word, t_parser *p);
 
-int	set_attr(char *word, t_parser *p);
+int		set_attr(char *word, t_parser *p);
+double	parser_clamp(t_parser *p, double min, double max, double val);
 
-int	parser_exception(t_parser *p, char *word, const char *msg);
+int		parser_exception(t_parser *p, char *word, const char *msg);
+int		parser_warning(t_parser *p, double val, const char *msg,
+			const size_t len);
 
 #endif
