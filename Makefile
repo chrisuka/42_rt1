@@ -6,7 +6,7 @@
 #    By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/19 01:31:36 by ikarjala          #+#    #+#              #
-#    Updated: 2023/01/31 19:37:34 by ikarjala         ###   ########.fr        #
+#    Updated: 2023/02/01 16:54:40 by ikarjala         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,9 +47,8 @@ $(NAME): $(PRE_REQUISITE) $(LIB_NAME) $(LIB_SDL) | $(OBJ)
 	@$(RM) $(DEP)
 	@$(ECHO) $(BMSG_FIN)
 
--include $(DEPENDENCIES)
 $(OBJ): $(OBJ_DIR)%.o:$(SRC_DIR)%.c | $(OBJ_DIR)
-	@$(CC) -c $(CFLAGS) $(DEP_FLAGS) $(INCLUDE) $(SDL_CC) $(<) -o $(@)
+	@$(CC) -c $(CFLAGS) $(INCLUDE) $(SDL_CC) $(<) -o $(@)
 	@$(ECHO) " $(GREEN)$(<)$(CNIL)"
 
 $(LIB_SDL): $(BUILD_DIR)
