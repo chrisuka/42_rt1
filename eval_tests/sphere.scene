@@ -1,0 +1,8 @@
+cam pos 0 0 -100 rot 0 0 0
+ambient 0.05
+
+light		pos -50 20 -40 intensity 2000
+
+material	color 1 0 0
+
+sphere		pos 0 0 0 radius 12 matp 0

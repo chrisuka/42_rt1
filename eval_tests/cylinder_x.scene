@@ -1,0 +1,8 @@
+cam pos 0 11 0 rot 0 0 0
+ambient 0.2
+
+light		pos -40 20 0 intensity 2000
+
+material	color 1 0 1
+
+cylinder		pos 0 0 0 rot 90 0 0 radius 10 matp 0
