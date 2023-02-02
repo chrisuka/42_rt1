@@ -6,14 +6,14 @@
 /*   By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 12:18:05 by ikarjala          #+#    #+#             */
-/*   Updated: 2023/01/30 14:30:59 by ekantane         ###   ########.fr       */
+/*   Updated: 2023/02/02 17:49:10 by ekantane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef RTV1_H
 # define RTV1_H
 
-# include <SDL.h>
+# include <SDL2/SDL.h>
 # include <stdio.h>
 # include <fcntl.h>
 # include <math.h>

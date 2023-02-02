@@ -6,7 +6,7 @@
 #    By: ekantane <ekantane@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/19 01:31:36 by ikarjala          #+#    #+#              #
-#    Updated: 2023/02/01 16:54:40 by ikarjala         ###   ########.fr        #
+#    Updated: 2023/02/02 17:53:51 by ekantane         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,18 +23,10 @@ render raytracer intersect intersect_solve normals light parser \
 parser_utils parser_tokens parser_attr parser_error scene \
 get_next_line
 
-SDL_FLAGS	:= --disable-shared --disable-video-wayland
-BUILD_DIR	:= build/
-SDL_CC		= $(shell $(BUILD_DIR)bin/sdl2-config --cflags)
-SDL_LD		= $(shell $(BUILD_DIR)bin/sdl2-config --libs)
-LIB_SDL		= $(BUILD_DIR)lib/libSDL2.a
-
 LIB_NAME	= libft/libft.a
-LIBRARIES	= $(LIB_NAME) $(SDL_LD)
+LIBRARIES	= $(LIB_NAME)
 
-DEPENDENCIES	= $(OBJ:.o=.dep)
-
-SUBMAKES = config.mk
+SUBMAKES = config.mk sdl.mk
 include $(SUBMAKES)
 #=== SPECIAL ==================================================================#
 .DEFAULT_GOAL	:= all
@@ -43,21 +35,15 @@ include $(SUBMAKES)
 all: $(NAME)
 $(NAME): $(PRE_REQUISITE) $(LIB_NAME) $(LIB_SDL) | $(OBJ)
 	@$(ECHO) $(BMSG_LD)
-	@$(LD) -o $(@) $(LDFLAGS) $(LIBRARIES) $(OBJ)
+	@$(LD) -o $(@) $(LDFLAGS) $(FRAMEWORKS) $(LIBRARIES) $(OBJ)
 	@$(RM) $(DEP)
 	@$(ECHO) $(BMSG_FIN)
 
 $(OBJ): $(OBJ_DIR)%.o:$(SRC_DIR)%.c | $(OBJ_DIR)
-	@$(CC) -c $(CFLAGS) $(INCLUDE) $(SDL_CC) $(<) -o $(@)
+	@$(CC) -c $(CFLAGS) $(INCLUDE) $(SDL_INCLUDE) $(SDL_FLAGS) $(<) -o $(@)
 	@$(ECHO) " $(GREEN)$(<)$(CNIL)"
 
-$(LIB_SDL): $(BUILD_DIR)
-	@CC=libsdl2/build-scripts/clang-fat.sh \
-		cd libsdl2 \
-		&& ./configure --prefix=$(abspath $(BUILD_DIR)) $(SDL_FLAGS)
-	@$(MAKE) --directory=libsdl2 install
-
-$(OBJ_DIR) $(BUILD_DIR):
+$(OBJ_DIR):
 	@$(MKDIR) $(@)
 	
 $(LIB_NAME):

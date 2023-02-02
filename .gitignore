@@ -4,6 +4,7 @@
 !author
 !Makefile
 !config.mk
+!sdl.mk
 
 !eval_tests/
 !eval_tests/*.scene
@@ -19,3 +20,6 @@
 !libft/config.mk
 !libft/libft.h
 !libft/src/*.c
+
+!frameworks/
+!frameworks/**
