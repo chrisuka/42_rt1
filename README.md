@@ -15,7 +15,7 @@ Written in C on top of SDL2. Uses ickarjala's [libft](https://github.com/ickarja
 
 ## Installation
 Note: currently only supports MacOS!
-Prerequisites are `clang`, `make` and `cmake`. SDL2 is provided within the repo.
+Prerequisites are `clang` and `make`. SDL2 is provided as a framework package within the repo.
 
 `cd` to the root of the repository and run `make`. The default rules are -Wall -Wextra -Werror. For convenience there are also:
 * `make W` for stricter rules (-Wimplicit -Wunused -Wconversion)
