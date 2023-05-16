@@ -8,7 +8,7 @@ Written in C on top of SDL2. Uses ickarjala's [libft](https://github.com/ickarja
 ## Features
 * Sphere, cylinder (infinite), cone (infinite), plane (infinite)
 * Ambient light
-* Point light with falloff
+* Multiple point lights with falloff
 * Material colors
 * Gloss / Specular
 * Custom scene file type / parser
