@@ -23,3 +23,8 @@
 
 !frameworks/
 !frameworks/**
+
+!README.md
+!resources/
+!resources/images/
+!resources/images/*.png
