@@ -1,6 +1,6 @@
 # RTv1
-**RTv1** is a simple CPU-based [raytracer](https://en.wikipedia.org/wiki/Ray_tracing_(graphics)) school project for [Hive](https://www.hive.fi/en/) by [ekantane](https://github.com/EmmaKantanen) and [ikarjala](https://github.com/qriskap).\
-Written in C on top of SDL2. Uses ickarjala's [libft](https://github.com/ickarjala/42-Libft).
+**RTv1** is a simple CPU-based [raytracer](https://en.wikipedia.org/wiki/Ray_tracing_(graphics)) school project for [Hive](https://www.hive.fi/en/) by [ekantane](https://github.com/EmmaKantanen) and [ikarjala](https://github.com/chrisuka).\
+Written in C on top of SDL2. Uses ikarjala's [libft](https://github.com/chrisuka/42_libft).
 
 ![Preview Scene](/resources/images/pillars.png)
 
